@@ -1,0 +1,33 @@
+export { api2 } from "./server-api/server-base";
+export {
+  crops,
+  brands,
+  categories,
+  deliveryPartners,
+  deliveryRetailer,
+  farmers,
+  retailer,
+  shopAreas,
+  shopOrderDetails,
+  shopOrders,
+  shopPackages,
+  shopProductImages,
+  shopProductWeightPrice,
+  shopProducts,
+  shopUnits,
+  subCategories,
+  warehouse,
+  shopDeliveryAgent,
+  shopAssignRetailerProducts,
+  shopRetailerProductPrice,
+  shopBanner,
+  shopDeliveryCharge,
+  shopRetailerArea,
+  shopReason,
+  shopPartnerArea,
+  shopImgDownLoad,
+  shopLanguages,
+  shopProductDetails,
+  shopRetailerCategories
+} from "./server-api/server-apis";
+export { auth0Users } from "./auth0-api/auth0-apis-endPoints";
