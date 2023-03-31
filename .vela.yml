@@ -1,0 +1,48 @@
+version: "1"
+steps:
+  - name: install-n-build
+    image: node:12.13.1-alpine
+    pull: always
+    ruleset:
+      if:
+        branch: [dev, stage, prod]
+        event: [push, pull_request]
+    parameters:
+      repo: digitalsaathi-base
+      skip_existing: true
+    commands:
+      - npm install
+      - npm run build
+  - name: captain-deploy-dev
+    image: docker-utilities.binrepo.cglcloud.in/captain:1-stable
+    ruleset:
+      if:
+        branch: [dev]
+        event: [push, pull_request]
+    parameters:
+      env: dev
+      run_apply: true
+      version: "${VELA_BUILD_COMMIT:0:7}"
+      csp_header: false
+  - name: captain-deploy-stage
+    image: docker-utilities.binrepo.cglcloud.in/captain:1-stable
+    ruleset:
+      if:
+        branch: [stage]
+        event: [push, pull_request]
+    parameters:
+      env: stage
+      run_apply: true
+      version: "${VELA_BUILD_COMMIT:0:7}"
+      csp_header: false
+  - name: captain-deploy-prod
+    image: docker-utilities.binrepo.cglcloud.in/captain:1-stable
+    ruleset:
+      if:
+        branch: [prod]
+        event: [push]
+    parameters:
+      env: prod
+      run_apply: true
+      version: "${VELA_BUILD_COMMIT:0:7}"
+      csp_header: false

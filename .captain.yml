@@ -1,0 +1,11 @@
+kind: static-website
+app: adminapp 
+team: digitalsaathi
+internal: false
+package:
+  build_dir: build/
+  index_document: index.html
+dns: 
+  zone: cglcloud
+  name: digitalsaathi-admin
+
