@@ -41,7 +41,7 @@ export default function DeliverChargeDialog(props: {
             close();
             reload();
             setTimeout(() => {
-              enqueueSnackbar("Delivery Charge Update successfully!", {
+              enqueueSnackbar("Delivery Charge Updated successfully!", {
                 variant: "success",
               });
             }, 200);

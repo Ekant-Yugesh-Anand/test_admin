@@ -16,6 +16,9 @@ export const unitSchema = Yup.object({
 export const packageSchema = Yup.object({
   package: Yup.string().required(emptyText("package name")),
 });
+export const materialSchema = Yup.object({
+  material: Yup.string().required(emptyText("material name")),
+});
 
 export const reasonSchema = Yup.object({
   reason_name: Yup.string().required(emptyText("reason name")),
@@ -37,7 +40,10 @@ export const couponSchema = Yup.object({
     is: "static",
     then: Yup.number().required(emptyText("No of Coupon")),
   }),
-  user_qty: Yup.number().required(emptyText("usages allowed")),
+  user_qty: Yup.number().when("coupon_type", {
+    is: "dynamic",
+    then: Yup.number().required(emptyText("usages allowed"))
+  }),
   order_value: Yup.number().required(emptyText("Order value")),
   description: Yup.string().required(emptyText("Description")),
 });

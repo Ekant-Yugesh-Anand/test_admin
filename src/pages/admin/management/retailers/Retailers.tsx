@@ -53,7 +53,7 @@ export default function Retailers() {
   return (
     <MainContainer>
       <CommonToolbar
-        title="Retailer"
+        title="Retailers"
         onSearch={searchHandler}
         onAddProps={{
           title: "Add Retailer",

@@ -44,7 +44,7 @@ export default function ActiveDeactive(props: {
 
         if (res.status === 200) {
           enqueueSnackbar(
-            (active === 1 ? "active" : "deactive") + " successfully 😊",
+            (active === 1 ? "Activated" : "Deactivated") + " successfully 😊",
             {
               variant: "success",
             }

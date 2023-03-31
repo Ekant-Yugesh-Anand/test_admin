@@ -13,6 +13,7 @@ import { useSearchParams } from "react-router-dom"
 import { UpdateToken } from "./redux/slices/acessTokenSlice"
 import jwt_decode from "jwt-decode";
 import { shopRefreshToken } from "./http/server-api/server-apis";
+import { setPageLoading } from "./redux/slices/admin-slice";
 
 export default function App() {
   const dispatch = useDispatch()
@@ -28,6 +29,10 @@ export default function App() {
       dispatch(UpdateToken({ token: `Bearer ${token}`, refreshToken: `${refreshToken}`, expiry: decoded?.exp }))
     }
   }, [token, refreshToken])
+
+  React.useEffect(() => {
+    dispatch(setPageLoading(false))
+  }, [])
 
 
   const {

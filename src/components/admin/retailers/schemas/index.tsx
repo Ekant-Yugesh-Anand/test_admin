@@ -27,9 +27,15 @@ export const retailerSchema = Yup.object({
 export const categorySchema = Yup.object({
   category_id: Yup.string().required(emptyText("category")),
   subcategory_id: Yup.string().required(emptyText("subcategory")),
-  margin:Yup.number().required(emptyText("margin"))
+  margin:Yup.string().required(emptyText("margin"))
 })
 
 export const marginSchema = Yup.object({
   margin:Yup.string().required(emptyText("margin"))
+})
+
+export const retailerMaterialSchema = Yup.object({
+  material_id: Yup.string().required(emptyText("material_id")),
+  quantity: Yup.number().required(emptyText("quantity")),
+  remark:Yup.string()
 })

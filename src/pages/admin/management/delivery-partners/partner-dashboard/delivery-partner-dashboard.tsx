@@ -27,7 +27,7 @@ export default function DeliveryPartnerDashboard() {
   const layerTwo = React.useMemo(
     () => [
       {
-        Title: "Orders",
+        Title: "All Orders",
         Icon: <FaShoppingBasket />,
         url: "partner-orders",
         color: "#dc2626",

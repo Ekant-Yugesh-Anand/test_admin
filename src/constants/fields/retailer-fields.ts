@@ -46,7 +46,7 @@ export const retailerSKUPricingFields = [
   { label: "SGST", key: "sgst" },
   { label: "sale_price", key: "sale_price" },
   { label: "weight", key: "weight" },
-  { label: "dimension", key: "dimension" },
+  { label: "Volume", key: "dimension" },
   { label: "units_per_case", key: "units_per_case" },
   { label: "package", key: "package" },
   { label: "margin", key: "margin" },

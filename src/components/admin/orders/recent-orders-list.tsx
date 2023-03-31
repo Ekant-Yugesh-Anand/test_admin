@@ -110,10 +110,15 @@ export default function RecentOrdersList(props: {
       },
       {
         Header: "Delivery Address",
-        accessor:
-          variant === "retailer" ? "partner_address" : "partner_address",
+        accessor:"shipping_village",
+        width:"15%",
         Cell: (cell: any) => (
+          <>
           <TextCenter fontSize="small">{cell.value}</TextCenter>
+          <TextCenter fontSize="small">{cell.row.original?.shipping_sub_district}</TextCenter>
+          <TextCenter fontSize="small">{cell.row.original?.shipping_district}</TextCenter>
+          <TextCenter fontSize="small">{cell.row.original?.shipping_district}</TextCenter>          
+          </>
         ),
       },
       {

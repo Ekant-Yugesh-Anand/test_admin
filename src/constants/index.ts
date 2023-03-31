@@ -13,3 +13,4 @@ export { productFields } from "./fields/product-fields";
 export { deliveryAgentFields } from "./fields/delivery-agent-fields";
 export { areasFields, categoryFields, subCategoryFields,packageFields } from "./fields/master-fields";
 export {cropFields} from "./fields/crops-fields"
+export {gstFields} from  "./fields/gst-fields"

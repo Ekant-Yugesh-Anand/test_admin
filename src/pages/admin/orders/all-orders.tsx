@@ -23,7 +23,7 @@ import {
   queryToStr,
   removeEsc,
 } from "../../../components/admin/utils";
-import { allOrdersFields } from "../../../constants";
+import { allOrdersFields, gstFields } from "../../../constants";
 import useStateWithCallback from "../../../hooks/useStateWithCallback";
 
 export default function AllOrders() {
@@ -32,6 +32,7 @@ export default function AllOrders() {
     Array<Record<string, any>>
   >([]);
   const ref = React.useRef<any>(null);
+  const gstRef = React.useRef<any>(null);
   const dispatch = useDispatch();
 
   const searchHandler = (value: string, dates: DatesType) => {
@@ -49,7 +50,7 @@ export default function AllOrders() {
     }
   };
 
-  const exportHandle = async () => {
+  const exportHandle = async (gst?:boolean) => {
     try {
       dispatch(setPageLoading(true));
       const res = await shopOrders("get", {
@@ -58,6 +59,7 @@ export default function AllOrders() {
       });
       if (res?.status === 200) {
         let csvData = (res.data.orders as Array<Record<string, any>>) || [];
+
         // indexing
         csvData = addSno(csvData);
         // for order date
@@ -110,8 +112,8 @@ export default function AllOrders() {
 
         csvData = addComma(csvData);
 
-        //get fragile 
-        csvData = getFragile(csvData)
+        //get fragile
+        csvData = getFragile(csvData);
 
         // convert date
         csvData = formatDate(csvData);
@@ -123,16 +125,23 @@ export default function AllOrders() {
         // remove esc
         csvData = removeEsc(csvData);
 
-        setCsvData(csvData, () => {
-          ref.current.link.click();
-          dispatch(setPageLoading(false));
-        });
+        gst == true
+          ? setCsvData(csvData, () => {
+              gstRef.current.link.click();
+              dispatch(setPageLoading(false));
+            })
+          : setCsvData(csvData, () => {
+              ref.current.link.click();
+              dispatch(setPageLoading(false));
+            });
       }
     } catch (error) {
       console.log(error);
       dispatch(setPageLoading(false));
     }
   };
+
+ 
 
   return (
     <MainContainer>
@@ -144,6 +153,13 @@ export default function AllOrders() {
           headers: allOrdersFields,
           filename: `all-orders-csv`,
           onClick: exportHandle,
+        }}
+        gstProps={{
+          ref: gstRef,
+          data: csvData,
+          headers: gstFields,
+          filename: `Delivery Gst report`,
+          onClick: ()=>exportHandle(true),
         }}
       >
         All Orders

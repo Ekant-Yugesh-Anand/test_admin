@@ -32,7 +32,7 @@ const TableRowWithColSpan = (props: {
         }}
       ></TableCell>
       <TableCell
-        colSpan={7}
+        colSpan={8}
         sx={{
           padding: 1.2,
           border: "1px solid",
@@ -113,6 +113,7 @@ export default function InvoiceBody(props: {
           </Typography>
         ),
       },
+   
       {
         Header: "Weight",
         accessor: "weight",
@@ -120,9 +121,15 @@ export default function InvoiceBody(props: {
         Cell: (cell: any) => <TextCenter>{cell.value}</TextCenter>,
       },
       {
+        Header: "Volume",
+        accessor: "dimension",
+        width: "5%",
+        Cell: (cell: any) => <TextCenter>{cell.value ? cell.value +"cm³":""}</TextCenter>,
+      },
+      {
         Header: "Price (Incl.GST)",
         accessor: "price",
-        width: "5%",
+        width: "8%",
         Cell: (cell: any) => (
           <NumericFormat
             value={round2(cell.value)}
@@ -284,7 +291,7 @@ export default function InvoiceBody(props: {
           />
           <TableRow>
             <TableCell
-              colSpan={9}
+              colSpan={10}
               sx={{
                 padding: 1.2,
                 border: "1px solid",

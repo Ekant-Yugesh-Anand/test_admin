@@ -21,7 +21,7 @@ function RetailerSkuListResults(props: {
   const postfix = React.useMemo(() => {
     const x = queryToStr({ page, size, retailer_id: retailerId });
     return searchText ? `${searchText}&${x}` : "?".concat(x);
-  }, [searchText, page, size , variant]);
+  }, [searchText, page, size, variant]);
 
   const { isLoading, refetch, data } = useQuery(
     [`retailer-sku-unit-${variant}`, postfix, variant],
@@ -57,14 +57,20 @@ function RetailerSkuListResults(props: {
         console.log(error);
       }
     } else {
-      const { sku_id, price_id, price: sale_price } = sku;
+      const { sku_id, price_id, price: sale_price, margin } = sku;
       try {
+        let getMargin = () => {
+          return (+sale_price * +margin?.split("%")[0]) / 100;
+        };
+
         const res = await shopAssignRetailerProducts("post", {
           data: JSON.stringify({
             sku_id,
             price_id,
             sale_price,
             retailer_id: retailerId,
+            margin,
+            margin_amount: `${getMargin()}`,
           }),
         });
         if (res?.status === 200) {
@@ -97,7 +103,13 @@ function RetailerSkuListResults(props: {
         {isLoading ? (
           <CircularProgress color="secondary" sx={{ alignSelf: "center" }} />
         ) : getData.totalItems === 0 ? (
-          <RawDataNotFound message= {variant =="assign" ? "Please ensure that this product is already assigned!":"Please ensure that this product is not assigned!"}/>
+          <RawDataNotFound
+            message={
+              variant == "assign"
+                ? "Please ensure that this product is already assigned!"
+                : "Please ensure that this product is not assigned!"
+            }
+          />
         ) : (
           getData.products.map(
             (

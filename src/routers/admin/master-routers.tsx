@@ -9,6 +9,7 @@ import Languages from "../../pages/admin/master/Language";
 import Notification from "../../pages/admin/master/notification";
 import Coupon from "../../pages/admin/master/Coupon/Coupon";
 import CouponLanguage from "../../pages/admin/master/Coupon/CouponLanguage";
+import PackageingMaterial from "../../pages/admin/master/packaging-material";
 
 export default {
   path: "/masters",
@@ -76,6 +77,10 @@ export default {
     {
       path: "notification",
       element: < Notification/>,
+    },
+    {
+      path: "packaging-material",
+      element: <PackageingMaterial/>,
     },
   ],
 };

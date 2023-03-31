@@ -29,7 +29,7 @@ export default function InvoiceHead(props: { order: Record<any, string> }) {
       <Grid item xs={4}>
         <Box>
           <Typography variant="body2" color="text.primary">
-            <b>Invoice Number</b>&nbsp;&nbsp;&nbsp;&nbsp;: {order?.suborder_no}
+            <b>Invoice Number</b>&nbsp;&nbsp;&nbsp;&nbsp;: {order?.invoice_no}
           </Typography>
           <Typography variant="body2" color="text.primary">
             <b>Invoice Date </b>

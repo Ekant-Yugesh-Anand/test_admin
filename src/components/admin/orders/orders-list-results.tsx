@@ -104,7 +104,7 @@ export default function OrdersListResults(props: {
       {
         Header: "Order Date",
         accessor: "order_date",
-        width: "15%",
+        width: "10%",
         Cell: (cell: any) => (
           <>
             {" "}
@@ -124,6 +124,16 @@ export default function OrdersListResults(props: {
         Cell: (cell: any) => (
           <Typography fontWeight={"600"} textAlign="center">
             ₹ {cell.value}
+          </Typography>
+        ),
+      },
+      {
+        Header: "Total Cargill Margin",
+        accessor: "grand_cargill_margin_amount",
+        width: "8%",
+        Cell: (cell: any) => (
+          <Typography  textAlign="center">
+             {cell.value ? `₹${cell.value}` : ''}
           </Typography>
         ),
       },
@@ -199,6 +209,7 @@ export default function OrdersListResults(props: {
       {
         Header: "Retailer Name",
         accessor: "retailer_name",
+        width: "15%",
         Cell: (cell: any) => (
           <Typography fontWeight={"600"} fontSize="small" textAlign="center">
             {cell.row.original.retailer_company_name} ( {cell.value} )

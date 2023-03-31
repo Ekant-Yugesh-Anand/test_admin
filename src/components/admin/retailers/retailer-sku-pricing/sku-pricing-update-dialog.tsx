@@ -43,6 +43,8 @@ export default function SkuPricingUpdateDialog(props: {
               price_id: skuPrice.price_id,
               used_quantity: values.used_quantity,
               quantity: values.quantity,
+              margin: values.margin.includes("%") ? values.margin : values.margin+"%",
+              margin_amount: `${(+values.sale_price * +values.margin?.split("%")[0]) / 100}`
             }),
           });
           if (res?.status === 200) {
@@ -96,7 +98,11 @@ export default function SkuPricingUpdateDialog(props: {
             value={values.margin}
             label="Margin (%)"
             name="margin"
-            disabled={true}
+            onChange={handleChange}
+            error={errors.margin && touched.margin ? true : false}
+            helperText={touched.margin ? (errors.margin as string) : ""}
+            onBlur={handleBlur}
+           
           />
           <NumericFormat
             value={
@@ -104,10 +110,15 @@ export default function SkuPricingUpdateDialog(props: {
                 ? (+values.sale_price * +values.margin.split("%")[0]) / 100
                 : 0
             }
+            
             customInput={TextInput}
             label="Margin Amount"
             name="margin_amount"
-            disabled={true}
+            onChange={handleChange}
+            error={errors.margin_amount && touched.margin_amount ? true : false}
+            helperText={touched.margin_amount ? (errors.margin_amount as string) : ""}
+            onBlur={handleBlur}
+       
           />
           <NumericFormat
             value={values.quantity}

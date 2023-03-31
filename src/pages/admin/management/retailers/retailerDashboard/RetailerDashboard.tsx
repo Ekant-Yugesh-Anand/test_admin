@@ -17,7 +17,7 @@ import { retailer } from "../../../../../http";
 import InnerDashboardCards from "../../../../../components/admin/inner-deshboard-two-cards";
 import RecentOrdersList from "../../../../../components/admin/orders/recent-orders-list";
 import { queryToStr } from "../../../../../components/admin/utils";
-import { MdOutlineAccountTree } from "react-icons/md";
+import { MdOutlineAccountTree, MdOutlineCardGiftcard } from "react-icons/md";
 
 export default function RetailerDashboard() {
   const { retailer_id } = useParams();
@@ -28,13 +28,14 @@ export default function RetailerDashboard() {
 
   const layerTwo = React.useMemo(
     () => [
-         {
+      {
         Title: "Category",
-        Icon: < MdOutlineAccountTree /> ,
+        Icon: <MdOutlineAccountTree />,
         url: "category",
         color: "#0284c7",
-      }, {
-        Title: "Orders",
+      },
+      {
+        Title: "All Orders",
         Icon: <FaShoppingBasket />,
         url: "retailer-orders",
         color: "#dc2626",
@@ -63,7 +64,13 @@ export default function RetailerDashboard() {
         url: "retailer-sku-pricing",
         color: "#059669",
       },
-    
+      {
+        Title: "Packaging Material",
+        Icon: <MdOutlineCardGiftcard />,
+        url: "packaging-material",
+        color: "#6b21a8",
+      },
+
       // {
       //   Title: "Target vs Achievement",
       //   Icon: <FaRegChartBar />,

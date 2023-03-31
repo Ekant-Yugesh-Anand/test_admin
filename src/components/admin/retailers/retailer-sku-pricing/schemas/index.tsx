@@ -6,4 +6,7 @@ export const skuPricingSchema = Yup.object({
   sale_price: Yup.number().required(emptyText("sale price")).max(Yup.ref("mrp")),
   quantity: Yup.number().required(emptyText("quantity")),
   used_quantity: Yup.number().required(emptyText("used quantitydsa")).max(Yup.ref("quantity")),
+  margin: Yup.string().required(emptyText("margin")),
+  margin_amount: Yup.string().required(emptyText("margin_amount")),
+
 });

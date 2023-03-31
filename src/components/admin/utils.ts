@@ -279,11 +279,11 @@ export const formatWeight = (data: Array<Record<string, any>>) =>
     const newRow: typeof row = {};
     for (const key in row) {
       if (Object.prototype.hasOwnProperty.call(row, key)) {
-        newRow["grand_weight"] =
-          row["grand_weight"] > 0
-            ? row["grand_weight"] < 999
-              ? `${row["grand_weight"]}gm`
-              : `${row["grand_weight"] / 1000}kg`
+        newRow["total_weight"] =
+          row["total_weight"] > 0
+            ? row["total_weight"] < 999
+              ? `${row["total_weight"]}gm`
+              : `${row["total_weight"] / 1000}kg`
             : "";
       }
     }
@@ -295,8 +295,8 @@ export const formatVolume = (data: Array<Record<string, any>>) =>
     const newRow: typeof row = {};
     for (const key in row) {
       if (Object.prototype.hasOwnProperty.call(row, key)) {
-        newRow["grand_dimension"] =
-          row["grand_dimension"] > 0 ? ` ${row["grand_dimension"]}cm³` : "";
+        newRow["dimension"] =
+          row["dimension"] > 0 ? ` ${row["dimension"]}cm³` : "";
       }
     }
     return { ...row, ...newRow };

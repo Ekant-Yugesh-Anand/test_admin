@@ -19,7 +19,6 @@ import dayjs from "dayjs";
 import { shopCoupons } from "../../../../http/server-api/server-apis";
 import { AxiosError } from "axios";
 
-
 export default function CuponDialog(props: {
   open: boolean;
   close: () => void;
@@ -63,8 +62,8 @@ export default function CuponDialog(props: {
       };
 
       if (variant === "edit" && coupon) {
-        values.coupon_type === "static" && delete newFormat.coupon_code
-          
+        values.coupon_type === "static" && delete newFormat.coupon_code;
+
         try {
           const res = await shopCoupons("put", {
             params: "updates",
@@ -72,6 +71,7 @@ export default function CuponDialog(props: {
               ...newFormat,
               batch_name: coupon?.batch_name,
               change_batch_name: values.batch_name,
+              user_qty: values.coupon_type == "static" ? "1" : values.user_qty
             }),
           });
           if (res?.status === 200) {
@@ -201,8 +201,8 @@ export default function CuponDialog(props: {
             label="Usages Allowed"
             name="user_qty"
             placeholder="Usages Allowed"
-            value={values.user_qty}
-            // disabled={variant == "edit" ? true : false}
+            value={values.coupon_type == "static" ? "1" : values.user_qty}
+            disabled={values.coupon_type == "static" ? true : false}
             onChange={handleChange}
             error={errors.user_qty && touched.user_qty ? true : false}
             helperText={touched.user_qty ? (errors.user_qty as string) : ""}

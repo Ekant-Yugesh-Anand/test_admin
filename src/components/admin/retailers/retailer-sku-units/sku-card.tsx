@@ -13,20 +13,6 @@ import ShopAvatar from "../../../Image/shop-avatar";
 import React from "react";
 import AssignDialogBox from "./sku-assign-dialog";
 
-const label1 = [
-  { title: "weight", accessor: "weight" },
-  { title: "MRP₹", accessor: "mrp" },
-];
-
-const label2 = [
-  { title: "SKU ID", accessor: "sku_id" },
-  { title: "category", accessor: "category_name" },
-  { title: "subcategory", accessor: "subcategory_name" },
-  { title: "brand", accessor: "brand_name" },
-  { title: "Margin(%)", accessor: "margin" },
-  { title: "Margin Amount(₹)", accessor: "margin_amount" },
-];
-
 export default function SkuCard(props: {
   sku: { [key: string]: any };
   variant: "assign" | "unassign";
@@ -42,6 +28,24 @@ export default function SkuCard(props: {
     open: false,
   });
 
+  const label1 = [
+    { title: "weight", accessor: "weight" },
+    { title: "MRP₹", accessor: "mrp" },
+    { title: "Total Qty.", accessor: "quantity" },
+    { title: "Qty. in stock", accessor: "quantity" },
+  ];
+
+  const label2 = [
+    { title: "SKU ID", accessor: "sku_id" },
+    { title: "category", accessor: "category_name" },
+    { title: "subcategory", accessor: "subcategory_name" },
+    { title: "brand", accessor: "brand_name" },
+  ];
+  const label3 = [
+    { title: "Cargill Margin(%)", accessor: "margin" },
+    { title: "Cargill Margin Amount(₹)", accessor: "margin_amount" },
+  ];
+
   const assignModalClose = () => setAssignData({ open: false, value: {} });
 
   const { printData: obj1 } = usePrintData({
@@ -50,6 +54,17 @@ export default function SkuCard(props: {
   });
   const { printData: obj2 } = usePrintData({
     labels: label2,
+    data: sku,
+  });
+
+  const { printData: obj3 } = usePrintData({
+    labels: [
+      {
+        title: variant == "assign" ? "Price" : "Sale Price",
+        accessor: variant == "assign" ? "price" : "sale_price",
+      },
+      ...label3,
+    ],
     data: sku,
   });
 
@@ -78,12 +93,16 @@ export default function SkuCard(props: {
             <Grid container>
               {obj2.map((item, index) => (
                 <Grid key={index} item xs={12}>
-                  {item.get("Cell").props.children ? (
+                  
                     <Box sx={{ display: "flex", gap: 1 }}>
                       <LabelText>{item.get("title")}:</LabelText>
-                      <Typography>{item.get("Cell")}</Typography>
+                      <Typography>
+                        {item.get("Cell").props.children
+                          ? item.get("Cell")
+                          : "0"}
+                      </Typography>
                     </Box>
-                  ) : null}
+                  
                 </Grid>
               ))}
             </Grid>
@@ -98,11 +117,42 @@ export default function SkuCard(props: {
                       }}
                     >
                       <LabelText>{item.get("title")}:</LabelText>
-                      <Typography>{item.get("Cell")}</Typography>
+                      <Typography>
+                        {item.get("Cell").props.children
+                          ? item.get("Cell")
+                          : "0"}
+                      </Typography>
                     </Box>
                   </Grid>
                 ))}
               </Grid>
+            </Grid>
+            <Grid container>
+              {obj3.map((item, index) => (
+                <Grid key={index} item xs={12}>
+                  {item.get("title") == "Cargill Margin Amount(₹)" ? (
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      <LabelText>{item.get("title")}:</LabelText>
+                      <Typography>
+                        {item.get("Cell").props.children
+                          ? item.get("Cell")
+                          : variant == "assign"
+                          ? (sku?.price * sku?.margin?.split("%")[0]) / 100
+                          : "0"}
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      <LabelText>{item.get("title")}:</LabelText>
+                      <Typography>
+                        {item.get("Cell").props.children
+                          ? item.get("Cell")
+                          : "0"}
+                      </Typography>
+                    </Box>
+                  )}
+                </Grid>
+              ))}
             </Grid>
           </Grid>
         </Grid>

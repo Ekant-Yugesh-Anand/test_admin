@@ -27,7 +27,7 @@ export default function StatsDialog(props: {
   const orderLabel = [
     { label: "Order ID", accessor: "order_id" },
     { label: "Weight", accessor: "" },
-    { label: "Dimension", accessor: "" },
+    { label: "Volume", accessor: "dimension" },
     { label: "Shipping Area", accessor: "" },
     { label: "Grand Amount", accessor: "amount" },
     { label: "Delivery Charge ", accessor: "delivery_charge" },

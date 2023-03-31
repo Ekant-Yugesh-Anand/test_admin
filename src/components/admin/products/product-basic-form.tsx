@@ -226,7 +226,7 @@ export default function ProductBasicForm(props: {
             <AsyncAutocomplete
               id="category-option"
               loading={categoryLoading}
-              label="Category"
+              label="Categories"
               options={categories || []}
               objFilter={{
                 title: "name",
@@ -251,7 +251,7 @@ export default function ProductBasicForm(props: {
             <AsyncAutocomplete
               id="sub-category-option"
               loading={subcategoryLoading}
-              label="Sub Category"
+              label="Sub Categories"
               options={subCategories || []}
               objFilter={{
                 title: "name",
@@ -275,7 +275,7 @@ export default function ProductBasicForm(props: {
             <AsyncAutocomplete
               id="brand-option"
               loading={brandLoading}
-              label="Brand"
+              label="Brands"
               options={brands}
               objFilter={{
                 title: "brand_name",
@@ -295,7 +295,7 @@ export default function ProductBasicForm(props: {
               id="crop-option"
               multiple={true}
               loading={cropLoading}
-              label="Crop"
+              label="Crops"
               options={cropsData || []}
               objFilter={{
                 title: "crop_name",

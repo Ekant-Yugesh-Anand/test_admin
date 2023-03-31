@@ -19,6 +19,7 @@ import AsyncAutocomplete from "../../form/async-autocomplete";
 import { queryToStr } from "../utils";
 import { categorySchema } from "./schemas";
 import { useParams } from "react-router-dom";
+import { NumericFormat } from "react-number-format";
 
 export default function CategoryForm(porps: {
   CategoryData: Array<{ [key: string]: any }>;
@@ -145,16 +146,17 @@ export default function CategoryForm(porps: {
                 }}
               />
             </Box>
-            <TextInput
-              type="text"
-              label="Margin"
-              name="margin"
-              placeholder="Add margin (%)"
-              value={values.margin || ""}
+         
+            <NumericFormat
+            label="Margin"
+            name="margin"
+              suffix="%"
+              size="small"
               onChange={handleChange}
               error={errors.margin && touched.margin ? true : false}
               helperText={touched.margin ? errors.margin : ""}
               onBlur={handleBlur}
+              customInput={TextInput}
             />
             <Box sx={{ my: 2 }}>
               <Typography

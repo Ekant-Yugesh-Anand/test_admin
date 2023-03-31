@@ -6,7 +6,7 @@ import { LabelText } from "../styled";
 
 const labels = [
   { title: "SKU Name", accessor: "sku_name" },
-  { title: "Dimension", accessor: "dimension" },
+  { title: "Volume", accessor: "dimension" },
   { title: "Qty", accessor: "quantity" },
   { title: "Weight", accessor: "weight" },
   { title: "Unit Price Sub Total", accessor: "total_price" },

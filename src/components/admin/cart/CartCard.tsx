@@ -21,15 +21,19 @@ const label = [
 
 const label1 = [
   { title: "SKU Name", accessor: "sku_name" },
-  { title: "Dimension", accessor: "dimension" },
+  { title: "Volume", accessor: "dimension" },
   { title: "Qty", accessor: "quantity" },
   { title: "Weight", accessor: "weight" },
   { title: "Unit Price Sub Total", accessor: "total_price" },
   { title: "Number of Farmers", accessor: "no_of_customer" },
 ];
 
-function CartCard(props: { data?: { [key: string]: any }; type: string; deleted:string }) {
-  const { data, type , deleted} = props;
+function CartCard(props: {
+  data?: { [key: string]: any };
+  type: string;
+  deleted: string;
+}) {
+  const { data, type, deleted } = props;
 
   const [orderDetailShow, setOderDetailShow] = React.useState(false);
 
@@ -38,14 +42,21 @@ function CartCard(props: { data?: { [key: string]: any }; type: string; deleted:
     data: data,
   });
 
-  useEffect(()=>{
-    setOderDetailShow(false)
-  },[type,deleted])
+  useEffect(() => {
+    setOderDetailShow(false);
+  }, [type, deleted]);
 
   return (
     <Card elevation={4}>
       <CardContent>
-        <Card sx={{ minHeight: "150px" , display:"flex",flexDirection:"row", gap:3}}>
+        <Card
+          sx={{
+            minHeight: "150px",
+            display: "flex",
+            flexDirection: "row",
+            gap: 3,
+          }}
+        >
           {data?.sku_image ? (
             <ShopAvatar
               src={data?.sku_image}
@@ -55,19 +66,15 @@ function CartCard(props: { data?: { [key: string]: any }; type: string; deleted:
               {...props}
             />
           ) : null}
-          <Grid container >
-
-          {obj.map((item, index) => {
-            if (item.get("Cell")?.props?.children)
-              return (
-                <Grid key={index} item lg={12}>
-                  <Box sx={{ display: "flex", gap: 1 }}>
-                    <LabelText>{item.get("title")}:</LabelText>
-                    <Typography>{item.get("Cell")}</Typography>
-                  </Box>
-                </Grid>
-              );
-          })}
+          <Grid container>
+            {obj.map((item, index) => (
+              <Grid key={index} item lg={12}>
+                <Box sx={{ display: "flex", gap: 1 }}>
+                  <LabelText>{item.get("title")}:</LabelText>
+                  <Typography>{item.get("Cell")}</Typography>
+                </Box>
+              </Grid>
+            ))}
           </Grid>
         </Card>
 

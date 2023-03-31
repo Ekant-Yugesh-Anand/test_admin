@@ -51,7 +51,7 @@ const productPriceLabels = [
   { label: "Actual Weight", accessor: "totalweight" },
   { label: "Package", accessor: "package_name" },
   { label: "Units Per Case", accessor: "units_per_case" },
-  { label: "Dimensions", accessor: "dimension" },
+  { label: "Volume", accessor: "dimension" },
 ];
 
 export default function ShopProductDetails() {

@@ -53,7 +53,7 @@ export default function DeliveryPartner() {
   return (
     <MainContainer>
       <CommonToolbar
-        title="Delivery Partner"
+        title="Delivery Partners"
         onSearch={searchHandler}
         onAddProps={{
           title: "Add Delivery Partner",

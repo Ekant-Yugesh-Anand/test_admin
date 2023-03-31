@@ -76,7 +76,7 @@ export default function AddCategory() {
               }, 200)
             : tempdata.push({
                 subcategory_id: data.subcategory_id,
-                margin: data.margin + "%",
+                margin: data.margin.includes("%") ? data.margin : data.margin + "%",
                 change: data.change,
               });
           return {
@@ -105,7 +105,7 @@ export default function AddCategory() {
               subcategories: [
                 {
                   subcategory_id: data.subcategory_id,
-                  margin: data.margin + "%",
+                  margin: data.margin.includes("%") ? data.margin : data.margin + "%",
                   change: data.change,
                 },
               ],
@@ -123,7 +123,7 @@ export default function AddCategory() {
             subcategories: [
               {
                 subcategory_id: data.subcategory_id,
-                margin: data.margin + "%",
+                margin: data.margin.includes("%") ? data.margin : data.margin + "%",
                 change: data.change,
               },
             ],

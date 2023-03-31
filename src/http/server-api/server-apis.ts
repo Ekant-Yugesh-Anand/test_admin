@@ -54,8 +54,13 @@ export const shopIngredients = baseFunc("shop_ingredients")
 export const shopNotification= baseFunc("shop_notifications")
 //list of all the endpoints of notificationLog
 export const shopNotificationLog = baseFunc("shop_notificationlog")
-// list of all shop_retailercategories
+// list of all endpoints of shop_retailercategories
 export const shopRetailerCategories = baseFunc("shop_retailercategories")
+// list of all endpoints of shop_materialpackage
+export const shopMaterialPackage = baseFunc("shop_materialpackage")
+// list of all endpoints of shop_retailermaterialpackage
+export const shopRetailerMaterialPackage = baseFunc("shop_retailermaterialpackage")
+
 
 // Retailer Dashboard api's
 export const shopRetailerProductPrice = baseFunc("shop_retailerproductprice");

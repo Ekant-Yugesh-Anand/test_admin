@@ -19,9 +19,9 @@ import { BsCheck2All } from "react-icons/bs";
 import { BsX } from "react-icons/bs";
 
 const label1 = [
-  { title: "farmer name", accessor: "customer_name" },
+  { title: "Farmer name", accessor: "customer_name" },
   {
-    title: "farmer address",
+    title: "Farmer address",
     accessor: [
       "shipping_village ,",
       "shipping_sub_district ,",
@@ -30,28 +30,28 @@ const label1 = [
       "shipping_pincode",
     ],
   },
-  { title: "partner name", accessor: "partner_name" },
-  { title: "partner address", accessor: "partner_address" },
-  { title: "agent name", accessor: "agent_name" },
-  { title: "vehicle", accessor: "vehicle" },
-  { title: "vehicle number ", accessor: "vehicle_number" },
-  { title: "remark", accessor: "remark" },
+  { title: "Partner name", accessor: "partner_name" },
+  { title: "Partner address", accessor: "partner_address" },
+  { title: "Agent name", accessor: "agent_name" },
+  { title: "Vehicle", accessor: "vehicle" },
+  { title: "Vehicle number ", accessor: "vehicle_number" },
+  { title: "Remark", accessor: "remark" },
 ];
 
 const label2 = [
-  { title: "order no", accessor: "main_order_no" },
-  { title: "suborder no", accessor: "suborder_no" },
+  { title: "Order no", accessor: "main_order_no" },
+  { title: "Suborder no", accessor: "suborder_no" },
 
   {
-    title: "order date",
+    title: "Order date",
     accessor: "order_date",
     Cell: (cell: any) => (
       <Typography>{dayjs(cell.value).format("D-MMM-YYYY")}</Typography>
     ),
   },
-  { title: "order amount", accessor: "grand_total" },
+  { title: "Order amount", accessor: "grand_total" },
   {
-    title: "order weight",
+    title: "Order weight",
     accessor: "grand_weight",
     Cell: (cell: any) => {
       return cell.value > 0 ? (
@@ -64,7 +64,7 @@ const label2 = [
     },
   },
   {
-    title: "order volume",
+    title: "Order volume",
     accessor: "grand_dimension",
     Cell: (cell: any) => {
       return cell.value > 0 ? (
@@ -101,19 +101,22 @@ function OrderCard(props: { order?: { [key: string]: any } }) {
         <Grid container spacing={1}>
           <Grid item sm={12} lg={8}>
             <Grid container spacing={1} justifyContent="space-between">
-              {obj1.map((item, index) => (
-                <Grid key={index} item lg={4}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      gap: 1,
-                    }}
-                  >
-                    <LabelText>{item.get("title")}:</LabelText>
-                    {item.get("Cell")}
-                  </Box>
-                </Grid>
-              ))}
+              {obj1.map((item, index) => {
+                if (item.get("Cell")?.props?.children)
+                  return (
+                    <Grid key={index} item lg={4}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: 1,
+                        }}
+                      >
+                        <LabelText>{item.get("title")}:</LabelText>
+                        {item.get("Cell")}
+                      </Box>
+                    </Grid>
+                  );
+              })}
             </Grid>
             <Grid item>
               <Grid item lg={12}>

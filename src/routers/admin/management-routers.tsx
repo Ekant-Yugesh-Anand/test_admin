@@ -57,6 +57,7 @@ import Ingredients from "../../pages/admin/management/ingredients/ingredients";
 import RetailersCategory from "../../pages/admin/management/retailers/Category";
 import AddCategory from "../../pages/admin/management/retailers/AddCategory";
 import RetailerSubCategory from "../../pages/admin/management/retailers/SubCategory";
+import RetailerPackageingMaterial from "../../pages/admin/management/retailers/retailerDashboard/retailer-packaging-material";
 
 export default {
   path: "/management",
@@ -96,7 +97,6 @@ export default {
               path: "",
               element: <RetrieveUpdateRetailers />,
             },
-          
           ],
         },
         {
@@ -108,24 +108,30 @@ export default {
             },
             {
               path: "category",
-              children:[
+              children: [
                 {
-                  path:"",
+                  path: "",
                   element: <RetailersCategory />,
-
                 },
                 {
-                  path:":category_id",
+                  path: ":category_id",
                   element: <RetailerSubCategory />,
-
                 },
                 {
                   path: "add_category",
                   element: <AddCategory />,
                 },
-
-              ]
-
+              ],
+            },
+            {
+              path: "packaging-material",
+              children: [
+                {
+                  path: "",
+                  element: <RetailerPackageingMaterial />,
+                },
+               
+              ],
             },
             {
               path: "retailer-orders",
@@ -319,7 +325,13 @@ export default {
                 },
                 {
                   path: "partner-orders",
-                  element: <PartnerOrders />,
+                  children: [
+                    { path: "", element: <PartnerOrders /> },
+                    {
+                      path: ":order_id",
+                      element: <OrderDetails />,
+                    },
+                  ],
                 },
                 {
                   path: "partner-input-sale-details",

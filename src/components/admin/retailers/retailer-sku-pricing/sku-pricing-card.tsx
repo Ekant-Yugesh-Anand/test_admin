@@ -21,8 +21,15 @@ import ShopAvatar from "../../../Image/shop-avatar";
 const label1 = [
   { title: "weight", accessor: "weight" },
   { title: "MRP", accessor: "mrp" },
-  { title: "price", accessor: "price" },
   { title: "Sale Price", accessor: "sale_price" },
+  { title: "Total Qty", accessor: "quantity" },
+  {
+    title: "Qty. in stock",
+    accessor: "used_quantity",
+    Cell: (cell: any) => {
+      return <Typography>{+cell.original.quantity - +cell.value}</Typography>;
+    },
+  },
 ];
 
 const label2 = [
@@ -31,10 +38,11 @@ const label2 = [
   { title: "subcategory", accessor: "subcategory_name" },
   { title: "brand", accessor: "brand_name" },
   { title: "sku code", accessor: "sku_code" },
-  {title:"Margin(%)", accessor:"margin"},
-  {title:"Margin Amount(₹)", accessor:"margin_amount"}
 ];
-
+const label3 = [
+  { title: "Cargill Margin(%)", accessor: "margin" },
+  { title: "Cargill Margin Amount(₹)", accessor: "margin_amount" },
+];
 export default function SkuPricingCard(props: {
   sku: { [key: string]: any };
   refetch: Function;
@@ -50,6 +58,10 @@ export default function SkuPricingCard(props: {
   });
   const { printData: obj2 } = usePrintData({
     labels: label2,
+    data: sku,
+  });
+  const { printData: obj3 } = usePrintData({
+    labels: label3,
     data: sku,
   });
 
@@ -102,10 +114,12 @@ export default function SkuPricingCard(props: {
             <Grid container>
               {obj2.map((item, index) => (
                 <Grid key={index} item xs={12}>
-                 {item.get("Cell").props.children ? <Box sx={{ display: "flex", gap: 1 }}>
+                  <Box sx={{ display: "flex", gap: 1 }}>
                     <LabelText>{item.get("title")}:</LabelText>
-                    <Typography>{item.get("Cell")}</Typography>
-                  </Box>:null}
+                    <Typography>
+                      {item.get("Cell").props.children ? item.get("Cell") : "0"}
+                    </Typography>
+                  </Box>
                 </Grid>
               ))}
             </Grid>
@@ -120,11 +134,27 @@ export default function SkuPricingCard(props: {
                       }}
                     >
                       <LabelText>{item.get("title")}:</LabelText>
-                      <Typography>{item.get("Cell")}</Typography>
+                      <Typography>
+                        {item.get("Cell").props.children
+                          ? item.get("Cell")
+                          : "0"}
+                      </Typography>
                     </Box>
                   </Grid>
                 ))}
               </Grid>
+            </Grid>
+            <Grid container>
+              {obj3.map((item, index) => (
+                <Grid key={index} item xs={12}>
+                  <Box sx={{ display: "flex", gap: 1 }}>
+                    <LabelText>{item.get("title")}:</LabelText>
+                    <Typography>
+                      {item.get("Cell").props.children ? item.get("Cell") : "0"}
+                    </Typography>
+                  </Box>
+                </Grid>
+              ))}
             </Grid>
           </Grid>
         </Grid>

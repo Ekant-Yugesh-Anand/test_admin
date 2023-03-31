@@ -10,7 +10,7 @@ const label = [
 ];
 const label1 = [
   { title: "SKU Name", accessor: "sku_name" },
-  { title: "Dimension", accessor: "dimension" },
+  { title: "Volume", accessor: "dimension" },
   { title: "Qty", accessor: "quantity" },
   { title: "Weight", accessor: "weight" },
   { title: "Unit Price Sub Total", accessor: "total_price" },
