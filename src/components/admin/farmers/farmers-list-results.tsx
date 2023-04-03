@@ -105,7 +105,7 @@ export default function FarmersListResults(props: { searchText: string }) {
         width: "20%",
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Tooltip title="Farmer Edit">
+            <Tooltip title="Edit Farmer">
               <IconButton
                 disableRipple={false}
                 size="small"

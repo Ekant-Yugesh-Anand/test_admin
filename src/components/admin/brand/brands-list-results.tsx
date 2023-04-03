@@ -134,7 +134,7 @@ function BrandsListResults(props: {
         width: "15%",
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Tooltip title="Brand Edit">
+            <Tooltip title="Edit Brand">
               <IconButton
                 disableRipple={false}
                 size="small"

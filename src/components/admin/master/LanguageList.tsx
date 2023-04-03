@@ -120,7 +120,7 @@ export default function LanguageList(props: {
                 width: "15%",
                 Cell: (cell: any) => (
                     <Box sx={{ display: "flex", justifyContent: "center" }}>
-                        <Tooltip title="Edit">
+                        <Tooltip title="Edit Language">
                             <IconButton
                                 disableRipple={false}
                                 size="small"

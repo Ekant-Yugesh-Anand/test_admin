@@ -14,10 +14,11 @@ export default function OrderDetailCard(props: {
   });
 
   return (
-    <Card elevation={0} sx={{ height: "100%" }}>
+    <Card elevation={0} sx={{ height: "100%" }} >
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography gutterBottom variant="h6" component="div" className="mb-5">
           {title}
+          <hr />
         </Typography>
         <Grid container>
           {obj.map((item, index) => {
@@ -28,13 +29,17 @@ export default function OrderDetailCard(props: {
                     variant="body2"
                     color="text.secondary"
                     textAlign={"justify"}
-                  >
-                    <strong>{item.get("label")}: </strong>
-                    {item.get("Cell").props.children < 999 ? (
+                  >  <div className="grid grid-cols-2 ">
+
+                    <Typography fontSize="x-small"><strong>{item.get("label")} </strong></Typography>
+                    <Typography fontSize="x-small"> : {item.get("Cell").props.children < 999 ? (
                       <>{item.get("Cell")}gm</>
                     ) : (
                       <>{item.get("Cell").props.children / 1000}Kg</>
-                    )}
+                    )}</Typography>
+                  </div>
+                    
+                   
                   </Typography>
                 </Grid>
               ) : null;
@@ -48,8 +53,13 @@ export default function OrderDetailCard(props: {
                     color="text.secondary"
                     textAlign={"justify"}
                   >
-                    <strong>{item.get("label")}: </strong>
-                    {item.get("Cell")} cm<sup>3</sup>
+                    <div className="grid grid-cols-2 ">
+                      <Typography fontSize="x-small">
+                        <strong>{item.get("label")} </strong>
+                      </Typography>
+                      <Typography fontSize="x-small"> : {item.get("Cell")} cm<sup>3</sup>
+                      </Typography>
+                    </div>
                   </Typography>
                 </Grid>
               ) : null;
@@ -62,8 +72,13 @@ export default function OrderDetailCard(props: {
                   color="text.secondary"
                   textAlign={"justify"}
                 >
-                  <strong>{item.get("label")}: </strong>
-                  {item.get("Cell")}
+                  <div className="grid grid-cols-2 ">
+                    <Typography fontSize="x-small">
+                      {" "}
+                      <strong>{item.get("label")} </strong>
+                    </Typography>
+                    <Typography fontSize="x-small"> : {item.get("Cell")}</Typography>
+                  </div>
                 </Typography>
               </Grid>
             );

@@ -243,7 +243,7 @@ const PriceID = (props :any)=>{
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <LinkRouter to={`${cell.row.original.sku_id}`}>
-              <Tooltip title="Product Edit">
+              <Tooltip title="Edit Product">
                 <IconButton
                   disableRipple={false}
                   size="small"

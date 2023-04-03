@@ -135,7 +135,7 @@ function CropsListResutl(props: {
         width: "15%",
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Tooltip title="Brand Edit">
+            <Tooltip title="Edit Crop">
               <IconButton
                 disableRipple={false}
                 size="small"

@@ -106,7 +106,7 @@ export default function ReasonList(props: {
         width: "15%",
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Tooltip title="Edit">
+            <Tooltip title=" Edit Reason ">
               <IconButton
                 disableRipple={false}
                 size="small"

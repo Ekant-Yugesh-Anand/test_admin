@@ -117,6 +117,17 @@ export default function RetailerListResults(props: { searchText: string }) {
               alignItems: "center",
             }}
           >
+            <LinkRouter to={`${cell.row.original.retailer_id}`}>
+              <Tooltip title="Edit Retailer">
+                <IconButton
+                  disableRipple={false}
+                  size="small"
+                  color="secondary"
+                >
+                  <FaRegEdit />
+                </IconButton>
+              </Tooltip>
+            </LinkRouter>
             <LinkRouter to={`area/${cell.row.original.retailer_id}`}>
               <Tooltip title="Retailer Area">
                 <IconButton
@@ -128,17 +139,7 @@ export default function RetailerListResults(props: { searchText: string }) {
                 </IconButton>
               </Tooltip>
             </LinkRouter>
-            <LinkRouter to={`${cell.row.original.retailer_id}`}>
-              <Tooltip title="Retailer Edit">
-                <IconButton
-                  disableRipple={false}
-                  size="small"
-                  color="secondary"
-                >
-                  <FaRegEdit />
-                </IconButton>
-              </Tooltip>
-            </LinkRouter>
+            
             <LinkRouter
               to={`${cell.row.original.retailer_id}/retailer-dashboard`}
             >

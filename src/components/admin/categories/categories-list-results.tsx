@@ -133,7 +133,7 @@ function CategoriesListResults(props: {
         width: "15%",
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Tooltip title={"Category Edit"}>
+            <Tooltip title={"Edit Category"}>
               <IconButton
                 disableRipple={false}
                 size="small"

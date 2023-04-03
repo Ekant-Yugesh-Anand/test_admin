@@ -61,7 +61,7 @@ export default function DataSkuPricing() {
           headers: dataSkuPriceFields,
         }}
       />
-      <Box sx={{ mt: 3 }}>
+      <Box sx={{ mt: 3 }} >
         <DataSkuPricingList searchText={searchText} />
       </Box>
     </MainContainer>

@@ -141,12 +141,12 @@ const sideBarMainList = [
       },
       {
         href: "/masters/banner",
-        title: "Banner",
+        title: "Banners",
         icon: <BsMailbox />,
       },
       {
         href: "/masters/reason",
-        title: "Reason",
+        title: "Reasons",
         icon: <SiReason />,
       },
       {
@@ -156,17 +156,17 @@ const sideBarMainList = [
       },
       {
         href: "/masters/coupon",
-        title: "Coupon",
+        title: "Coupons",
         icon: <TbDiscount2 />,
       },
       {
         href: "/masters/notification",
-        title: "Notification",
+        title: "Notifications",
         icon: < IoNotificationsSharp/>,
       },
       {
         href: "/masters/packaging-material",
-        title: "Packaging Material",
+        title: "Packaging Materials",
         icon: < MdOutlineCardGiftcard/>,
       },
     ],
@@ -178,17 +178,17 @@ const sideBarMainList = [
      
       {
         href: "/shopping-cart/new",
-        title: "Cart",
+        title: "Carts",
         icon: <MdAddShoppingCart />,
       },
       {
         href: "/shopping-cart/placed",
-        title: "Placed Cart",
+        title: "Placed Carts",
         icon: <MdOutlineShoppingCart />,
       },
       {
         href: "/shopping-cart/removed",
-        title: "Removed Cart",
+        title: "Removed Carts",
         icon: <MdRemoveShoppingCart/>,
       },
       
@@ -211,7 +211,7 @@ const sideBarMainList = [
       },
       {
         href: "/retailer-report/data-sku-unit",
-        title: "Data SKU Unit",
+        title: "Data SKU Units",
         icon: <FaClipboardCheck />,
       },
       {

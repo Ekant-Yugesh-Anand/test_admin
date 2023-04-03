@@ -109,7 +109,7 @@ export default function NotificationList(props: {
         width: "15%",
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Tooltip title="Edit">
+            <Tooltip title="Edit Notification">
               <IconButton
                 disableRipple={false}
                 size="small"

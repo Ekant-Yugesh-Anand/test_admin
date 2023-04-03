@@ -139,7 +139,7 @@ export default function SubCategoriesList(props: {
         width: "15%",
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Tooltip title={"Subcategory Edit"}>
+            <Tooltip title={"Edit Subcategory"}>
               <IconButton
                 disableRipple={false}
                 size="small"

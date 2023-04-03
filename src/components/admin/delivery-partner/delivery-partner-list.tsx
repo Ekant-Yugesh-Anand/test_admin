@@ -112,6 +112,17 @@ export default function DeliveryPartnerList(props: { searchText: string }) {
         width: "20%",
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <LinkRouter to={`${cell.row.original.partner_id}`}>
+              <Tooltip title="Edit Delivery Partners ">
+                <IconButton
+                  disableRipple={false}
+                  size="small"
+                  color="secondary"
+                >
+                  <FaRegEdit />
+                </IconButton>
+              </Tooltip>
+            </LinkRouter>
             <LinkRouter to={`area/${cell.row.original.partner_id}`}>
               <Tooltip title="Delivery Partner Area">
                 <IconButton
@@ -123,17 +134,7 @@ export default function DeliveryPartnerList(props: { searchText: string }) {
                 </IconButton>
               </Tooltip>
             </LinkRouter>
-            <LinkRouter to={`${cell.row.original.partner_id}`}>
-              <Tooltip title="Edit">
-                <IconButton
-                  disableRipple={false}
-                  size="small"
-                  color="secondary"
-                >
-                  <FaRegEdit />
-                </IconButton>
-              </Tooltip>
-            </LinkRouter>
+            
             {/* <LinkRouter to={`${cell.row.original.partner_id}/dp-retailer`}>
               <Tooltip title="Retailer">
                 <IconButton

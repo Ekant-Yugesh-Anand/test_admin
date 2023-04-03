@@ -127,7 +127,7 @@ export default function DeliveryChargesList(props: {
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Tooltip
-              title="Edit"
+              title="Edit Delivery Charge"
               onClick={() =>
                 setEdit({
                   open: true,

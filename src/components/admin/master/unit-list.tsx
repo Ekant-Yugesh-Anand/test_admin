@@ -109,7 +109,7 @@ export default function UnitList(props: {
         width: "15%",
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Tooltip title="Edit">
+            <Tooltip title="Unit Edit">
               <IconButton
                 disableRipple={false}
                 size="small"

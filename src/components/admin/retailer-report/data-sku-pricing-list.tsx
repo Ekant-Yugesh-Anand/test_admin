@@ -38,6 +38,7 @@ export default function DataSkuPricingList(props: { searchText: string }) {
         accessor: (_row: any, i: number) => i + 1,
         Cell: (cell: any) => (
           <SerialNumber cell={cell} page={page} size={size} />
+          
         ),
         width: "5%",
       },

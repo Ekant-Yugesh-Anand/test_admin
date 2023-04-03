@@ -81,7 +81,6 @@ const cancelLabel = [
 const paymentLabel = [
   { label: "Coupon Code", accessor: "boucher_code" },
   { label: "Coupon Amount", accessor: "boucher_amount" },
-
 ];
 
 const collectionLabel = [
@@ -219,7 +218,6 @@ export default function OrderDetails() {
                         : item.labelObj
                     }
                     data={order}
-                  
                   />
                 </Grid>
               ))}

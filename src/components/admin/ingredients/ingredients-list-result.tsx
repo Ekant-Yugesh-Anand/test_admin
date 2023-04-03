@@ -132,7 +132,7 @@ function IngredintsListResult(props: {
         width: "15%",
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Tooltip title="Ingredient Edit">
+            <Tooltip title="Edit Ingredient">
               <IconButton
                 disableRipple={false}
                 size="small"

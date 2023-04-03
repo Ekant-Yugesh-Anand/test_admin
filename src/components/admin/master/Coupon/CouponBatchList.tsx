@@ -112,19 +112,7 @@ export default function CouponBatchList(props: {
         width: "15%",
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-          
-            <LinkRouter to={`${cell.row.original.batch_name}`}>
-              <Tooltip title="Coupons">
-                <IconButton
-                  disableRipple={false}
-                  size="small"
-                  color="secondary"
-                >
-                  <FaArrowRight />
-                </IconButton>
-              </Tooltip>
-            </LinkRouter>
-            <Tooltip title="Edit">
+          <Tooltip title="Edit Coupon Batche">
               <IconButton
                 disableRipple={false}
                 size="small"
@@ -139,6 +127,18 @@ export default function CouponBatchList(props: {
                 <FaRegEdit />
               </IconButton>
             </Tooltip>
+            <LinkRouter to={`${cell.row.original.batch_name}`}>
+              <Tooltip title="Coupons">
+                <IconButton
+                  disableRipple={false}
+                  size="small"
+                  color="secondary"
+                >
+                  <FaArrowRight />
+                </IconButton>
+              </Tooltip>
+            </LinkRouter>
+            
             <LinkRouter to={`${cell.row.original.batch_name}/language`}>
               <Tooltip title="Languages">
                 <IconButton

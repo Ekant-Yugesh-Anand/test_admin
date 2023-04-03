@@ -112,17 +112,7 @@ export default function AreaList(props: {
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <LinkRouter to={`${cell.row.original.area_id}/primary-areas`}>
-              <Tooltip title="Primary Areas">
-                <IconButton
-                  disableRipple={false}
-                  size="small"
-                  color="secondary"
-                >
-                  <FaArrowRight />
-                </IconButton>
-              </Tooltip>
-            </LinkRouter>
-            <Tooltip title="Edit">
+            <Tooltip title="Area Edit">
               <IconButton
                 disableRipple={false}
                 size="small"
@@ -137,6 +127,17 @@ export default function AreaList(props: {
                 <FaRegEdit />
               </IconButton>
             </Tooltip>
+              <Tooltip title="Primary Areas">
+                <IconButton
+                  disableRipple={false}
+                  size="small"
+                  color="secondary"
+                >
+                  <FaArrowRight />
+                </IconButton>
+              </Tooltip>
+            </LinkRouter>
+            
             <Tooltip title="Delete">
               <IconButton
                 disableRipple={false}

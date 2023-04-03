@@ -114,7 +114,7 @@ export default function PackagesList(props: {
         width: "15%",
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Tooltip title="Edit">
+            <Tooltip title="Edit Packages">
               <IconButton
                 disableRipple={false}
                 size="small"

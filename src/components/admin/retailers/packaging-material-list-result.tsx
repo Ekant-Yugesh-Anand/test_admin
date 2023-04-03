@@ -129,7 +129,7 @@ export default function RetailerPackagingMaterialList(props: {
         width: "15%",
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Tooltip title="Edit">
+            <Tooltip title="Edit Packaging Material">
               <IconButton
                 disableRipple={false}
                 size="small"
