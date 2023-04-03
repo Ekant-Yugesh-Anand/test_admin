@@ -47,7 +47,7 @@ export default function AreaFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Area Update  successfully!👍😊", {
+                enqueueSnackbar("Area Updated  successfully!👍😊", {
                   variant: "success",
                 });
               }, 200);
@@ -67,7 +67,7 @@ export default function AreaFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Area Save  successfully!👍😊", {
+                enqueueSnackbar("Area Saved  successfully!👍😊", {
                   variant: "success",
                 });
               }, 200);

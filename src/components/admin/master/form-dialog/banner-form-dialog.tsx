@@ -43,7 +43,7 @@ export default function BannerFormDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar("Banner update successfully!👍😊", {
+            enqueueSnackbar("Banner updated successfully!👍😊", {
               variant: "success",
             }),
           200
@@ -70,7 +70,7 @@ export default function BannerFormDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar("Banner add successfully!👍😊", {
+            enqueueSnackbar("Banner added successfully!👍😊", {
               variant: "success",
             }),
           200

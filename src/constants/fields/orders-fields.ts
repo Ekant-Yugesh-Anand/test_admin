@@ -58,6 +58,10 @@ export const allOrdersFields = [
   { label: "DS margin/Unit", key: "" },
   { label: "Cargill Margin(Amt.)", key: "cargill_margin_amount" },
   { label: "Cargill Margin(%)", key: "cargill_margin" },
+  { label: "Reshedule", key: "reschedule" },
+  { label: "Reshedule Date", key: "reschedule_date" },
+  { label: "Reshedule reason", key: "reschedule_reason" },
+  { label: "Reshedule other reason", key: "reschedule_other_reason" },
   { label: "Payable to Retailer", key: "" },
   { label: "Unique farmer", key: "" },
   { label: "Unique order", key: "" },
@@ -125,6 +129,10 @@ export const inputSaleDetailsFields = [
   { label: "DS margin/Unit", key: "" },
   { label: "Cargill Margin(Amt.)", key: "cargill_margin_amount" },
   { label: "Cargill Margin(%)", key: "cargill_margin" },
+  { label: "Reshedule", key: "reschedule" },
+  { label: "Reshedule Date", key: "reschedule_date" },
+  { label: "Reshedule reason", key: "reschedule_reason" },
+  { label: "Reshedule other reason", key: "reschedule_other_reason" },
   { label: "Payable to Retailer", key: "" },
   { label: "Unique farmer", key: "" },
   { label: "Unique order", key: "" },
@@ -204,7 +212,10 @@ export const ordersFields = (orderStatus: string) => [
   { label: "Repeating Farmers", key: "" },
   { label: "Date updated on", key: "" },
   { label: "Helper Column for Identifying repeating farmers", key: "" },
-
+  { label: "Reshedule", key: "reschedule" },
+  { label: "Reshedule Date", key: "reschedule_date" },
+  { label: "Reshedule reason", key: "reschedule_reason" },
+  { label: "Reshedule other reason", key: "reschedule_other_reason" },
   ...(checkCancelOrderStatus(orderStatus)
     ? [
         { label: "Reason Name", key: "reason_name" },

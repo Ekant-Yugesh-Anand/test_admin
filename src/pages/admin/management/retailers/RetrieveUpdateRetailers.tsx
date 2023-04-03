@@ -49,7 +49,7 @@ export default function CreateRetailers() {
           if (res?.status === 200) {
             navigate(-1);
             setTimeout(() => {
-              enqueueSnackbar("Retailer Update successfully!👍😊", {
+              enqueueSnackbar("Retailer Updated successfully!👍😊", {
                 variant: "success",
               });
             }, 200);

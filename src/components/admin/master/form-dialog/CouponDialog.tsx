@@ -78,7 +78,7 @@ export default function CuponDialog(props: {
             close();
             reload();
             setTimeout(() => {
-              enqueueSnackbar("Coupon Update successfully!", {
+              enqueueSnackbar("Coupon Updated successfully!", {
                 variant: "success",
               });
             }, 200);

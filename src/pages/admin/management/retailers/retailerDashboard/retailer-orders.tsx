@@ -25,6 +25,7 @@ import {
   queryToStr,
   removeEsc,
   setExtraValue,
+  setOrderStatusValue,
 } from "../../../../../components/admin/utils";
 import { setPageLoading } from "../../../../../redux/slices/admin-slice";
 import { ordersFields } from "../../../../../constants";
@@ -146,10 +147,10 @@ export default function RetailerOrders() {
         csvData = formatVolume(csvData);
         // set Order Status
 
-        csvData = setExtraValue(
+        csvData = setOrderStatusValue(
           csvData,
           "order_status",
-          getStrOrderStatus(orderStatus)
+          orderStatus
         );
 
         // remove esc

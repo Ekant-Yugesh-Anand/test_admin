@@ -4,6 +4,10 @@ import RowSearch from "../table/row-search";
 import { FaFileCsv } from "react-icons/fa";
 import { Data, Headers } from "react-csv/components/CommonPropTypes";
 import { CSVLink } from "react-csv";
+import AsyncAutocomplete from "../form/async-autocomplete";
+import { orderLabel } from "./orders/status";
+import { useQuery } from "@tanstack/react-query";
+import { shopRetailerCategories } from "../../http";
 
 export default function CommonToolbar(props: {
   title: string;
@@ -12,7 +16,8 @@ export default function CommonToolbar(props: {
     onClick: () => void;
   };
   onClickSort?: () => void;
-  onSearch?: (value: string) => void;
+  onSearch?: (value: string, filter?: string|number) => void;
+  filter?: boolean;
   placeholder?: string;
   onClickExport?: () => void;
   exportProps?: {
@@ -36,10 +41,12 @@ export default function CommonToolbar(props: {
     placeholder,
     titleVariant,
     onImport,
+    filter,
     uploadComponent,
   } = props;
 
   const [searchText, setSearchText] = React.useState("");
+  const [statusId, setStatusId] = React.useState("");
 
   const onReset = () => {
     setSearchText("");
@@ -63,8 +70,8 @@ export default function CommonToolbar(props: {
             titleVariant === "subtitle"
               ? "subtitle1"
               : titleVariant === "h6"
-                ? "h6"
-                : "h5"
+              ? "h6"
+              : "h5"
           }
         >
           {title}
@@ -134,19 +141,37 @@ export default function CommonToolbar(props: {
                   flexWrap: "wrap",
                 }}
               >
-                <Box sx={{ maxWidth: 250 }}>
+                <Box sx={{ display: "flex", gap: 2 }}>
                   <RowSearch
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
                     placeholder={placeholder ? placeholder : "Search"}
                   />
+
+                  {filter ? (
+                    <Box sx={{ minWidth: 220 }}>
+                      <AsyncAutocomplete
+                        id="status-option"
+                        label="Status"
+                        options={[{ label: "All", id: 0 }, ...orderLabel]}
+                        objFilter={{
+                          title: "label",
+                          value: "id",
+                        }}
+                        value={statusId}
+                        onChangeOption={(value) => {
+                          setStatusId(value);
+                        }}
+                      />
+                    </Box>
+                  ) : null}
                 </Box>
                 <Box sx={{ display: "flex", gap: 3 }}>
                   <Button
                     color="secondary"
                     variant="contained"
                     size="small"
-                    onClick={() => onSearch(searchText)}
+                    onClick={() => onSearch(searchText, statusId)}
                   >
                     Search
                   </Button>

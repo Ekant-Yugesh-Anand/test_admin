@@ -17,7 +17,7 @@ import { retailer } from "../../../../../http";
 import InnerDashboardCards from "../../../../../components/admin/inner-deshboard-two-cards";
 import RecentOrdersList from "../../../../../components/admin/orders/recent-orders-list";
 import { queryToStr } from "../../../../../components/admin/utils";
-import { MdOutlineAccountTree, MdOutlineCardGiftcard } from "react-icons/md";
+import { MdMargin, MdOutlineAccountTree, MdOutlineCardGiftcard, MdOutlineInventory2 } from "react-icons/md";
 
 export default function RetailerDashboard() {
   const { retailer_id } = useParams();
@@ -69,6 +69,18 @@ export default function RetailerDashboard() {
         Icon: <MdOutlineCardGiftcard />,
         url: "packaging-material",
         color: "#6b21a8",
+      },
+        {
+        Title: "Inventory Report",
+        Icon: <MdOutlineInventory2 />,
+        url: "inventory-report",
+        color: "#22d3ee",
+      },
+        {
+        Title: "Margin Report",
+        Icon: <MdMargin />,
+        url: "margin-report",
+        color: "#1d4ed8",
       },
 
       // {

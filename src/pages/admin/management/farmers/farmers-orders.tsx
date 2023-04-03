@@ -80,6 +80,12 @@ export default function FarmersOrders() {
           "delivered_date",
           "delivered_time"
         );
+        // for reshedule date
+        csvData = dateTimeFormatTable(
+          csvData,
+          "reschedule_date",
+          "reschedule_time"
+        );
         // marge two column
         csvData = margeRowTable(
           csvData,

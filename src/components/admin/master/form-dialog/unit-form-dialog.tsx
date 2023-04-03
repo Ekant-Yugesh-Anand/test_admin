@@ -40,7 +40,7 @@ export default function UnitFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Unit Update  successfully!👍😊", {
+                enqueueSnackbar("Unit Updated  successfully!👍😊", {
                   variant: "success",
                 });
               }, 200);
@@ -60,7 +60,7 @@ export default function UnitFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Unit Save  successfully!👍😊", {
+                enqueueSnackbar("Unit Saved  successfully!👍😊", {
                   variant: "success",
                 });
               }, 200);

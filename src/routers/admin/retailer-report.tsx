@@ -4,6 +4,7 @@ import {
   DataSkuUnit,
   InputSaleDetails,
 } from "../../pages/admin/retailer-report";
+import MarginReport from "../../pages/admin/retailer-report/margin-report";
 
 export default {
   path: "/retailer-report",
@@ -23,6 +24,10 @@ export default {
     {
       path: "data-sku-pricing",
       element: <DataSkuPricing />,
+    },
+    {
+      path: "margin-report",
+      element: <MarginReport />,
     },
   ],
 };

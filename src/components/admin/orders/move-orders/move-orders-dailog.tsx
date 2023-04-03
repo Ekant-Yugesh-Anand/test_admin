@@ -26,7 +26,6 @@ export default function MoveOrdersDialog(props: {
 }) {
   const { open, onClose, orderStatus, orders, refetch } = props;
   const [select, setSelect] = React.useState("");
-  console.log(orderStatus);
   const orderStatusList = React.useMemo(() => {
     const defaultList = [
       { title: "New", value: "0" },
@@ -42,38 +41,32 @@ export default function MoveOrdersDialog(props: {
     ];
 
     if (orderStatus === "0") {
-      return [...defaultList, { title: "Accepted", value: "1" }];
+      return [
+        { title: "Accepted", value: "1" },
+        { title: "Cancelled from Farmer", value: "7" },
+      ];
     }
     if (orderStatus === "1") {
       return [
-        ...defaultList,
-        { title: "Accepted", value: "1" },
         { title: "In Process", value: "3" },
         { title: "Cancelled from Farmer", value: "7" },
-        { title: "Re-schedule Order", value: "2" },
+        { title: "Cancelled from Retailer", value: "9" },
       ];
     }
     if (orderStatus === "3") {
       return [
-        ...defaultList,
-        { title: "Accepted", value: "1" },
-        { title: "In Process", value: "3" },
+      
         { title: "Out for Delivery", value: "4" },
         { title: "Cancelled from Farmer", value: "7" },
         { title: "Cancelled from Retailer", value: "9" },
         { title: "Cancelled from Delivery partner", value: "10" },
-        { title: "Re-schedule Order", value: "2" },
+        { title: "Cancelled from Delivery agent", value: "11" },
       ];
     }
     if (orderStatus === "4") {
       return [
-        ...defaultList,
-        { title: "Accepted", value: "1" },
-        { title: "In Process", value: "3" },
-        { title: "Out for Delivery", value: "4" },
         { title: "Delivered", value: "5" },
         { title: "Cancelled from Farmer", value: "7" },
-        { title: "Cancelled from Retailer", value: "9" },
         { title: "Cancelled from Delivery partner", value: "10" },
         { title: "Cancelled from Delivery agent", value: "11" },
         { title: "Re-schedule Order", value: "2" },
@@ -81,33 +74,21 @@ export default function MoveOrdersDialog(props: {
     }
     if (orderStatus === "5") {
       return [
-        ...defaultList,
-        // { title: "Return from Farmer", value: "return-farmer" },
-        { title: "Accepted", value: "1" },
-        { title: "In Process", value: "3" },
-        { title: "Out for Delivery", value: "4" },
-        { title: "Delivered", value: "5" },
-        { title: "Cancelled from Farmer", value: "7" },
-        { title: "Cancelled from Retailer", value: "9" },
-        { title: "Cancelled from Delivery partner", value: "10" },
-        { title: "Cancelled from Delivery agent", value: "11" },
-        { title: "Re-schedule Order", value: "2" },
       ];
     }
-    if (orderStatus !== "0" || "1" || "3" || "4" || "5") {
-      return [
-        ...defaultList,
-        { title: "Accepted", value: "1" },
-        { title: "In Process", value: "3" },
-        { title: "Out for Delivery", value: "4" },
-        { title: "Delivered", value: "5" },
-        { title: "Cancelled from Farmer", value: "7" },
-        { title: "Cancelled from Retailer", value: "9" },
-        { title: "Cancelled from Delivery partner", value: "10" },
-        { title: "Cancelled from Delivery agent", value: "11" },
-        { title: "Re-schedule Order", value: "2" },
-      ];
-    }
+    // if (orderStatus !== "0" || "1" || "3" || "4" || "5") {
+    //   return [
+    //     { title: "Accepted", value: "1" },
+    //     { title: "In Process", value: "3" },
+    //     { title: "Out for Delivery", value: "4" },
+    //     { title: "Delivered", value: "5" },
+    //     { title: "Cancelled from Farmer", value: "7" },
+    //     { title: "Cancelled from Retailer", value: "9" },
+    //     { title: "Cancelled from Delivery partner", value: "10" },
+    //     { title: "Cancelled from Delivery agent", value: "11" },
+    //     { title: "Re-schedule Order", value: "2" },
+    //   ];
+    // }
     return defaultList;
   }, []);
 

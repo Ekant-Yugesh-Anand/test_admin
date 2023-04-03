@@ -128,12 +128,12 @@ export default function OrdersListResults(props: {
         ),
       },
       {
-        Header: "Total Cargill Margin",
+        Header: "Total Cargill Margin Amt.",
         accessor: "grand_cargill_margin_amount",
         width: "8%",
         Cell: (cell: any) => (
-          <Typography  textAlign="center">
-             {cell.value ? `₹${cell.value}` : ''}
+          <Typography fontWeight={"600"} textAlign="center">
+            {cell.value ? `₹${(+cell.value).toFixed(2)}` :""}
           </Typography>
         ),
       },

@@ -64,7 +64,7 @@ export default function ProductPriceDialog(props: {
           if (res?.status === 200) {
             close();
             setTimeout(() => {
-              enqueueSnackbar("Product Price Update  successfully!👍😊", {
+              enqueueSnackbar("Product Price Updated  successfully!👍😊", {
                 variant: "success",
               });
             }, 200);
@@ -104,7 +104,7 @@ export default function ProductPriceDialog(props: {
           if (res?.status === 200) {
             close();
             setTimeout(() => {
-              enqueueSnackbar("Product Price Save  successfully!👍😊", {
+              enqueueSnackbar("Product Price Saved  successfully!👍😊", {
                 variant: "success",
               });
             }, 200);

@@ -40,7 +40,7 @@ export default function PackageFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Package Update  successfully!👍😊", {
+                enqueueSnackbar("Package updated  successfully!👍😊", {
                   variant: "success",
                 });
               }, 200);
@@ -60,7 +60,7 @@ export default function PackageFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Package Save  successfully!👍😊", {
+                enqueueSnackbar("Package Saved  successfully!👍😊", {
                   variant: "success",
                 });
               }, 200);

@@ -3,7 +3,7 @@ import { useSnackbar } from "notistack";
 import { FaRegEdit } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import { RiDeleteBinFill } from "react-icons/ri";
-import { Box, Tooltip, IconButton } from "@mui/material";
+import { Box, Tooltip, IconButton, Typography } from "@mui/material";
 import { queryToStr } from "../utils";
 import SerialNumber from "../serial-number";
 import DataTable from "../../table/data-table";
@@ -13,6 +13,7 @@ import TablePagination from "../../table/table-pagination";
 import DeleteDialogBox from "../../dialog-box/delete-dialog-box";
 import { shopMaterialPackage } from "../../../http/server-api/server-apis";
 import PackagingMaterialFormDialog from "./form-dialog/packaging-material-form-dialog";
+import dayjs from "dayjs";
 
 export default function PackagingMaterialList(props: {
   searchText: string;
@@ -108,6 +109,20 @@ export default function PackagingMaterialList(props: {
       {
         Header: "Material",
         accessor: "material",
+      },
+      {
+        Header: "Issue Date",
+        accessor: "issue_date",
+        Cell: (cell: any) => (
+          <>
+            <Typography textAlign={"center"} fontSize={"small"}>
+              {dayjs(cell.value).format("D-MMM-YYYY")}
+            </Typography>
+            <Typography textAlign={"center"} fontSize={"small"}>
+              {dayjs(cell.value).format("hh:mm a")}
+            </Typography>
+          </>
+        ),
       },
       {
         Header: "Action",

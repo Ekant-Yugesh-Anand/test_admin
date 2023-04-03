@@ -78,6 +78,34 @@ export default function OrderDetailsList(props: {
         Cell: (cell: any) => <TextCenter>{cell.value}</TextCenter>,
       },
       {
+        Header: "Fragile",
+        accessor: "fragile",
+        width: "5%",
+        Cell: (cell: any) => (
+          <TextCenter>{cell.value == 0 ? "No" : "Yes"}</TextCenter>
+        ),
+      },
+      {
+        Header: "Package",
+        accessor: "package",
+        width: "5%",
+        Cell: (cell: any) => (
+          <TextCenter>{cell.value}</TextCenter>
+        ),
+      },
+      {
+        Header: "Cargill Margin",
+        accessor: "cargill_margin",
+        width: "5%",
+        Cell: (cell: any) => <TextCenter>{cell.value}</TextCenter>,
+      },
+      {
+        Header: "Cargill Margin Amt.",
+        accessor: "cargill_margin_amount",
+        width: "5%",
+        Cell: (cell: any) => <TextCenter> {cell.value ? `₹${(+cell.value).toFixed(2)}` :""}</TextCenter>,
+      },
+      {
         Header: "Price",
         accessor: "price",
         width: "10%",
@@ -190,7 +218,7 @@ export default function OrderDetailsList(props: {
           })}
           <TableRow>
             <TableCell
-              colSpan={6}
+              colSpan={10}
               sx={{
                 padding: 1.2,
                 border: "1px solid",

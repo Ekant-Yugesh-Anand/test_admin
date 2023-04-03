@@ -2,7 +2,6 @@ import React from "react";
 import { Box } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { MainContainer } from "../../../components/layout";
-import OrdersListResults from "../../../components/admin/orders/orders-list-results";
 import OrdersToolbar, {
   type DatesType,
 } from "../../../components/admin/orders/orders-toolbar";
@@ -14,21 +13,17 @@ import {
   addTaxNetAmount,
   dateTimeFormatTable,
   formatDate,
-  formatVolume,
-  formatWeight,
-  getFragile,
   margeAsList,
   margeRowTable,
   orderStatusReadable,
   queryToStr,
   removeEsc,
-  setExtraValue,
 } from "../../../components/admin/utils";
 import useStateWithCallback from "../../../hooks/useStateWithCallback";
-import { ordersFields } from "../../../constants";
-import { getStrOrderStatus } from "../../../constants/messages";
+import { marginFields } from "../../../constants";
+import MarginListResults from "../../../components/admin/orders/margin-list-results";
 
-export default function MainOrders(props: {
+export default function MarginReportTable(props: {
   orderStatus: string;
   title: string;
   filename: string;
@@ -134,19 +129,7 @@ export default function MainOrders(props: {
 
         // convert date
         csvData = formatDate(csvData);
-        // convert weight
-        csvData = formatWeight(csvData);
-        // format volume
-        csvData = formatVolume(csvData);
-        //get fragile
-        csvData = getFragile(csvData);
-
-        // set Order Status
-        // csvData = setExtraValue(
-        //   csvData,
-        //   "order_status",
-        //   getStrOrderStatus(orderStatus)
-        // );
+ 
 
         csvData = orderStatusReadable(csvData);
 
@@ -171,7 +154,7 @@ export default function MainOrders(props: {
         exportProps={{
           ref,
           data: csvData,
-          headers: ordersFields(orderStatus),
+          headers: marginFields,
           filename,
           onClick: exportHandler,
         }}
@@ -179,7 +162,7 @@ export default function MainOrders(props: {
         {title}
       </OrdersToolbar>
       <Box sx={{ mt: 3 }}>
-        <OrdersListResults
+        <MarginListResults
           searchText={searchText}
           orderStatus={orderStatus}
           params={params}

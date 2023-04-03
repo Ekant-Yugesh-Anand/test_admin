@@ -250,6 +250,24 @@ export const setExtraValue = (
     [keyName]: setName,
   }));
 
+export const setOrderStatusValue = (
+  data: Array<Record<string, any>>,
+  keyName: string,
+  orderStatus: string
+) =>
+  data.map((row) => {
+    const newRow: typeof row = {};
+    for (const key in row) {
+      if (Object.prototype.hasOwnProperty.call(row, key)) {
+        newRow["order_status"] =
+          orderStatus == "21"
+            ? getStrOrderStatus(row["order_status"])
+            : getStrOrderStatus(orderStatus);
+      }
+    }
+    return { ...row, ...newRow };
+  });
+
 export const removeEsc = (data: Array<Record<string, any>>) =>
   data.map((row) => {
     const newRow: typeof row = {};
@@ -302,13 +320,37 @@ export const formatVolume = (data: Array<Record<string, any>>) =>
     return { ...row, ...newRow };
   });
 
-  export const getFragile = (data: Array<Record<string, any>>) =>
+export const calculateMargin = (data: Array<Record<string, any>>) =>
   data.map((row) => {
     const newRow: typeof row = {};
     for (const key in row) {
       if (Object.prototype.hasOwnProperty.call(row, key)) {
-        newRow["fragile"] =
-          row["fragile"] == 1 ? `Yes` : "No";
+        newRow["margin_amount"] = row["margin"]
+          ? ` ${((+row["price"] * +row["margin"]?.split("%")[0]) / 100).toFixed(2)}`
+          : "0";
+      }
+    }
+    return { ...row, ...newRow };
+  });
+
+export const getQunatityInStock = (data: Array<Record<string, any>>) =>
+  data.map((row) => {
+    const newRow: typeof row = {};
+    for (const key in row) {
+      if (Object.prototype.hasOwnProperty.call(row, key)) {
+        newRow["qty_in_stock"] =
+          row["quantity"] > 0 ? +row["quantity"] - +row["used_quantity"] : "0";
+      }
+    }
+    return { ...row, ...newRow };
+  });
+
+export const getFragile = (data: Array<Record<string, any>>) =>
+  data.map((row) => {
+    const newRow: typeof row = {};
+    for (const key in row) {
+      if (Object.prototype.hasOwnProperty.call(row, key)) {
+        newRow["fragile"] = row["fragile"] == 1 ? `Yes` : "No";
       }
     }
     return { ...row, ...newRow };

@@ -78,7 +78,7 @@ export default function DeliveryPartnerDashboard() {
         postfix={"?".concat(queryToStr({ page: 0, size: 10, partner_id }))}
       />
       <Box sx={{ my: 2 }}>
-        <Typography variant={"h6"}>Retailer Action</Typography>
+        <Typography variant={"h6"}>Partner Action</Typography>
       </Box>
       <Grid container spacing={2} sx={{ mt: 2 }}>
         {layerTwo.map((item, index) => (

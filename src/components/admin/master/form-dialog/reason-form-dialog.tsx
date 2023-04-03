@@ -96,7 +96,7 @@ export default function ReasonFormDialog(props: {
             close();
             reload();
             setTimeout(() => {
-              enqueueSnackbar("Reason Update successfully!👍😊", {
+              enqueueSnackbar("Reason Updated successfully!👍😊", {
                 variant: "success",
               });
             }, 200);
@@ -116,7 +116,7 @@ export default function ReasonFormDialog(props: {
             close();
             reload();
             setTimeout(() => {
-              enqueueSnackbar("Reason Save successfully!👍😊", {
+              enqueueSnackbar("Reason Saved successfully!👍😊", {
                 variant: "success",
               });
             }, 200);

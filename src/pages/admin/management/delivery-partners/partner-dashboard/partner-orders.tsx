@@ -19,12 +19,14 @@ import {
   formatDate,
   formatVolume,
   formatWeight,
+  getFragile,
   margeAsList,
   margeRowTable,
   orderStatusReadable,
   queryToStr,
   removeEsc,
   setExtraValue,
+  setOrderStatusValue,
 } from "../../../../../components/admin/utils";
 import { setPageLoading } from "../../../../../redux/slices/admin-slice";
 import { ordersFields } from "../../../../../constants";
@@ -141,13 +143,17 @@ export default function PartnerOrders() {
         // format volume
         csvData = formatVolume(csvData);
 
+        // convert fragile
+        csvData = getFragile(csvData);
+
         // set Order Status
-        // csvData = setExtraValue(
-        //   csvData,
-        //   "order_status",
-        //   getStrOrderStatus(orderStatus)
-        // );
-        csvData = orderStatusReadable(csvData);
+
+        csvData = setOrderStatusValue(
+          csvData,
+          "order_status",
+          orderStatus
+        );
+        // csvData = orderStatusReadable(csvData);
         // remove esc
         csvData = removeEsc(csvData);
 

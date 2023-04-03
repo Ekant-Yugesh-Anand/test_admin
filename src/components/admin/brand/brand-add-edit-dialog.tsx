@@ -45,7 +45,7 @@ export default function BrandAddEditDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar("Brands update successfully!👍😊", {
+            enqueueSnackbar("Brands updated successfully!👍😊", {
               variant: "success",
             }),
           200
@@ -72,7 +72,7 @@ export default function BrandAddEditDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar("Brands add successfully!👍😊", {
+            enqueueSnackbar("Brands added successfully!👍😊", {
               variant: "success",
             }),
           200

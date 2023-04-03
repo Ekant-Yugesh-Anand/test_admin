@@ -52,7 +52,7 @@ export default function deliveryAgentFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Delivery Agent Update successfully!👍😊", {
+                enqueueSnackbar("Delivery Agent Updated successfully!👍😊", {
                   variant: "success",
                 });
               }, 200);
@@ -83,7 +83,7 @@ export default function deliveryAgentFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Delivery Agent Save successfully!👍😊", {
+                enqueueSnackbar("Delivery Agent Saved successfully!👍😊", {
                   variant: "success",
                 });
               }, 200);

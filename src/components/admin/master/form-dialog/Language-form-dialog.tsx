@@ -48,7 +48,7 @@ export default function LanguageFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Language Update  successfully!👍😊", {
+                enqueueSnackbar("Language Updated  successfully!👍😊", {
                   variant: "success",
                 });
               }, 200);
@@ -68,7 +68,7 @@ export default function LanguageFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Language Save  successfully!👍😊", {
+                enqueueSnackbar("Language Saved  successfully!👍😊", {
                   variant: "success",
                 });
               }, 200);

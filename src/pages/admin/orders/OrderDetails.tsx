@@ -28,6 +28,10 @@ const orderLabel = [
   { label: "Invoice No", accessor: "invoice_no" },
   { label: "Weight", accessor: "grand_weight" },
   { label: "Volume", accessor: "grand_dimension" },
+  {
+    label: "Total cargill margin Amount",
+    accessor: "grand_cargill_margin_amount",
+  },
 ];
 
 const retailerLabel = [
@@ -81,7 +85,22 @@ const cancelLabel = [
 const paymentLabel = [
   { label: "Coupon Code", accessor: "boucher_code" },
   { label: "Coupon Amount", accessor: "boucher_amount" },
-
+];
+const resheduleLable = [
+  { label: "Reshedule", accessor: "reschedule" },
+  {
+    label: "Reshedule Date",
+    accessor: "reschedule_date",
+    Cell: (cell: any) => (
+      <>
+        {cell.value ? (
+        <>  {dayjs(cell.value).format("D-MMM-YYYY")} {dayjs(cell.value).format("hh:mm a")} </>
+        ) : null}
+      </>
+    ),
+  },
+  { label: "Reshedule reason", accessor: "reschedule_reason" },
+  { label: "Reshedule other reason", accessor: "reschedule_other_reason" },
 ];
 
 const collectionLabel = [
@@ -113,6 +132,7 @@ const collectionLabel = [
   { title: "Billing", labelObj: billingLabel },
   { title: "Shipping", labelObj: shippingLabel },
   { title: "Coupon", labelObj: paymentLabel },
+  { title: "Reschedule", labelObj: resheduleLable },
 ];
 
 export default function OrderDetails() {
@@ -188,7 +208,6 @@ export default function OrderDetails() {
     ],
     []
   );
-
   return (
     <>
       <MainContainer>
@@ -219,7 +238,6 @@ export default function OrderDetails() {
                         : item.labelObj
                     }
                     data={order}
-                  
                   />
                 </Grid>
               ))}

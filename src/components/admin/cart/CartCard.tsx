@@ -12,11 +12,24 @@ import { LabelText } from "../retailers/styled";
 import usePrintData from "../../../hooks/usePrintData";
 import ProductDetailsList from "./ProductDetailsList";
 import ShopAvatar from "../../Image/shop-avatar";
+import dayjs from "dayjs";
 
 const label = [
   { title: "Farmer name", accessor: "customer_name" },
   { title: "Phone Number", accessor: "phone_no" },
   { title: "Total Product", accessor: "no_of_products" },
+  {
+    title: "Date",
+    accessor: "doc",
+    Cell: (cell: any) => (
+      <>
+        <Typography textAlign={"center"}>
+          {dayjs(cell.value).format("D-MMM-YYYY")}{" "}
+          {dayjs(cell.value).format("hh:mm a")}
+        </Typography>
+      </>
+    ),
+  },
 ];
 
 const label1 = [
@@ -26,6 +39,18 @@ const label1 = [
   { title: "Weight", accessor: "weight" },
   { title: "Unit Price Sub Total", accessor: "total_price" },
   { title: "Number of Farmers", accessor: "no_of_customer" },
+  {
+    title: "Date",
+    accessor: "doc",
+    Cell: (cell: any) => (
+      <>
+        <Typography textAlign={"center"}>
+          {dayjs(cell.value).format("D-MMM-YYYY")}{" "}
+          {dayjs(cell.value).format("hh:mm a")}
+        </Typography>
+      </>
+    ),
+  },
 ];
 
 function CartCard(props: {

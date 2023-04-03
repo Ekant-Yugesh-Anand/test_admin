@@ -45,7 +45,7 @@ export default function Returned(props: {
           if (res?.status === 200) {
             onClose();
             refetch();
-            enqueueSnackbar("order move successfully!", {
+            enqueueSnackbar("order moved successfully!", {
               variant: "success",
             });
           }

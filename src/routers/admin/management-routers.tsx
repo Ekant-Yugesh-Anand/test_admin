@@ -58,6 +58,8 @@ import RetailersCategory from "../../pages/admin/management/retailers/Category";
 import AddCategory from "../../pages/admin/management/retailers/AddCategory";
 import RetailerSubCategory from "../../pages/admin/management/retailers/SubCategory";
 import RetailerPackageingMaterial from "../../pages/admin/management/retailers/retailerDashboard/retailer-packaging-material";
+import InventoryReport from "../../pages/admin/management/retailers/retailerDashboard/inventory-report";
+import MarginReport from "../../pages/admin/management/retailers/retailerDashboard/margin-report";
 
 export default {
   path: "/management",
@@ -174,6 +176,14 @@ export default {
             {
               path: "retailer-target-achievement",
               element: <RetailerTargetAchievement />,
+            },
+            {
+              path: "inventory-report",
+              element: <InventoryReport />,
+            },
+            {
+              path: "margin-report",
+              element: <MarginReport />,
             },
           ],
         },

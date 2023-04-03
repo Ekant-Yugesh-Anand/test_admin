@@ -6,7 +6,9 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
 } from "@mui/material";
+import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
 import React from "react";
 
@@ -17,6 +19,7 @@ import { crops } from "../../../http";
 import { TextInput } from "../../form";
 import FileUploader from "../../form/inputs/file-uploader";
 import ShopAvatar from "../../Image/shop-avatar";
+import { cropSchema } from "./schemas";
 
 export default function CropAddEditDialog(props: {
   open: boolean;
@@ -29,10 +32,6 @@ export default function CropAddEditDialog(props: {
   const { imgUploader, imgUpdate } = useBucket();
   const { open, close, crop, reload, variant } = props;
   const [file, setFile] = React.useState<File>(crop?.image);
-  const [data, setData] = React.useState({
-    crop_name: crop?.crop_name || "",
-    image:crop?.image || ""
-  });
   const [loading, setLoading] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -46,7 +45,7 @@ export default function CropAddEditDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar("Brands update successfully!👍😊", {
+            enqueueSnackbar("Crop updated successfully!👍😊", {
               variant: "success",
             }),
           200
@@ -57,7 +56,7 @@ export default function CropAddEditDialog(props: {
       console.log(error);
       setTimeout(
         () =>
-          enqueueSnackbar("Brands update failed!😢", {
+          enqueueSnackbar("Crop updated failed!😢", {
             variant: "error",
           }),
         200
@@ -73,7 +72,7 @@ export default function CropAddEditDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar("Brands add successfully!👍😊", {
+            enqueueSnackbar("Crop added successfully!👍😊", {
               variant: "success",
             }),
           200
@@ -82,55 +81,75 @@ export default function CropAddEditDialog(props: {
       }
     } catch (error) {
       console.log(error);
-      enqueueSnackbar("Brands add failed!😢", {
+      enqueueSnackbar("Crop add failed!😢", {
         variant: "error",
       });
     }
   };
 
-  const onUpload = async () => {
-    setLoading(true);
-    if (file) {
-      if (variant === "edit") {
-        const metaData = await imgUpdate(data?.image, file);
-        if (metaData.status === "success") {
-          await putRequest({
-            ...data,
-            image: metaData.image,
-          });
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+  useFormik({
+    initialValues: {
+      crop_name: crop?.crop_name || "",
+      image: crop?.image || "",
+    },
+    validationSchema: cropSchema,
+    enableReinitialize: true,
+    async onSubmit(values) {
+      setLoading(true);
+      if (file) {
+        if (variant === "edit") {
+          const metaData = await imgUpdate(values?.image, file);
+          if (metaData.status === "success") {
+            await putRequest({
+              ...values,
+              image: metaData.image,
+            });
+          }
+        } else {
+          const metaData = await imgUploader(file);
+          if (metaData.status === "success") {
+            await postRequest({
+              ...values,
+              image: metaData.image,
+            });
+          }
         }
       } else {
-        const metaData = await imgUploader(file);
-        if (metaData.status === "success") {
-          await postRequest({
-            ...data,
-            image: metaData.image,
-          });
-        }
+        enqueueSnackbar(emptyText("crop image"), {
+          variant: "error",
+        });
       }
-    } else {
-      enqueueSnackbar(emptyText("crop image"), {
-        variant: "error",
-      });
-    }
-    setLoading(false);
-  };
+      setLoading(false);
+    },
+  });
+
 
   return (
     <Dialog open={open} fullWidth>
       <DialogTitle>Crop {variant}</DialogTitle>
       <DialogContent>
+      <form onSubmit={handleSubmit}>
         <Box sx={{ my: 1 }}>
-          <TextInput
-            type="text"
-            label="Crop Name"
-            name="crop_name"
-            placeholder="Crop name"
-            value={data.crop_name}
-            onChange={(e) =>
-              setData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-            }
-          />
+        <TextInput
+              type="text"
+              label="Crop Name"
+              name="crop_name"
+              placeholder="Crop Name"
+              value={values.crop_name}
+              onChange={handleChange}
+              error={
+                errors.crop_name && touched.crop_name ? true : false
+              }
+              helperText={
+                touched.crop_name
+                  ? (errors.crop_name as string)
+                  : ""
+              }
+            onBlur={handleBlur}
+
+            />
+          
           <ShopAvatar
             src={file}
             download={!(file instanceof File)}
@@ -145,12 +164,12 @@ export default function CropAddEditDialog(props: {
             handleChange={(file: React.SetStateAction<File>) => setFile(file)}
           />
         </Box>
-      </DialogContent>
-      <DialogActions>
+        <Divider/>
         <Box
           sx={{
             display: "flex",
             gap: 2,
+            my:2,
             flexFlow: "row-reverse",
           }}
         >
@@ -158,7 +177,6 @@ export default function CropAddEditDialog(props: {
             type="submit"
             color="secondary"
             variant="contained"
-            onClick={onUpload}
             disabled={loading}
             startIcon={
               loading ? (
@@ -172,7 +190,9 @@ export default function CropAddEditDialog(props: {
             Close
           </Button>
         </Box>
-      </DialogActions>
+        </form>
+      </DialogContent>
+    
     </Dialog>
   );
 }

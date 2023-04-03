@@ -1,22 +1,44 @@
 import React from "react";
 import dayjs from "dayjs";
-import { Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { FaEye, FaFileInvoice } from "react-icons/fa";
+import { MdOutlineDriveFileMove } from "react-icons/md";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { queryToStr } from "../utils";
 import { shopOrders } from "../../../http";
 import DataTable from "../../table/data-table";
+import LinkRouter from "../../../routers/LinkRouter";
 import TablePagination from "../../table/table-pagination";
-import { useQuery } from "@tanstack/react-query";
 import usePaginate from "../../../hooks/usePaginate";
 import SerialNumber from "../serial-number";
+import { TextCenter } from "./styles";
+import MoveOrdersDialog from "./move-orders/move-orders-dailog";
+import ReturnMoveOrdersDialog from "./move-orders/return-move-orders-dailog";
+import OrderStatus from "./order-status";
+import { VscReferences } from "react-icons/vsc";
 
-export default function InputAndCancelledList(props: {
-  orderStatus: string;
+export default function MarginListResults(props: {
+  postfix?: string;
   params?: string;
+  orderStatus: string;
   searchText: string;
   otherQuery?: { [key: string]: any };
+  moveVariant?: "return" | "normal";
+  moveCellShow?: boolean;
 }) {
   const { page, setPage, size, setSize } = usePaginate();
-  const { searchText, params, otherQuery, orderStatus } = props;
+  const {
+    searchText,
+    orderStatus,
+    params,
+    otherQuery,
+    postfix: otherPostfix,
+    moveVariant,
+  } = props;
+  const [moveOrder, setMoveOrder] = React.useState({
+    open: false,
+    values: {},
+  });
 
   const postfix = React.useMemo(() => {
     const x = queryToStr({
@@ -26,20 +48,21 @@ export default function InputAndCancelledList(props: {
       order_status: orderStatus,
     });
     return searchText ? `${searchText}&${x}` : `?${x}`;
-  }, [searchText, page, size]);
+  }, [searchText, page, size, orderStatus]);
 
-  const { isLoading, data } = useQuery(
+  const { isLoading, data, refetch } = useQuery(
     [`order-${orderStatus}`, postfix],
     () =>
       shopOrders("get", {
         params,
-        postfix,
+        postfix: otherPostfix ? `${postfix}&${otherPostfix}` : postfix,
       }),
     {
-      keepPreviousData: true,
       refetchOnWindowFocus: false,
     }
   );
+
+  const onCloseMoveOrder = () => setMoveOrder({ open: false, values: {} });
 
   const columns = React.useMemo(
     () => [
@@ -61,31 +84,27 @@ export default function InputAndCancelledList(props: {
           </Typography>
         ),
       },
+      
       {
-        Header: "Suborder No",
-        accessor: "suborder_no",
+        Header: "Order Status",
+        accessor: "order_status",
         width: "8%",
-        Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center" fontSize={"small"}>
-            {cell.value}
-          </Typography>
-        ),
+        Cell: (cell: any) => <OrderStatus value={cell.value} />,
       },
       {
         Header: "Order Date",
         accessor: "order_date",
-        width: "15%",
+        width: "10%",
         Cell: (cell: any) => (
           <>
+            {" "}
             <Typography textAlign={"center"} fontSize={"small"}>
               {dayjs(cell.value).format("D-MMM-YYYY")}
-
-            </Typography><Typography textAlign={"center"} fontSize={"small"}>
-              {dayjs(cell.value).format("hh:MM a")}
-
+            </Typography>
+            <Typography textAlign={"center"} fontSize={"small"}>
+              {dayjs(cell.value).format("hh:mm a")}
             </Typography>
           </>
-
         ),
       },
       {
@@ -94,14 +113,14 @@ export default function InputAndCancelledList(props: {
         width: "8%",
         Cell: (cell: any) => (
           <Typography fontWeight={"600"} textAlign="center">
-            ₹{cell.value}
+            ₹ {cell.value}
           </Typography>
         ),
       },
+    
       {
-        Header: "Total Cargill Margin Amt.",
+        Header: "Total Cargill Margin Amount",
         accessor: "grand_cargill_margin_amount",
-        width: "8%",
         Cell: (cell: any) => (
           <Typography fontWeight={"600"} textAlign="center">
             {cell.value ? `₹${(+cell.value).toFixed(2)}` :""}
@@ -111,27 +130,20 @@ export default function InputAndCancelledList(props: {
       {
         Header: "Farmer Name",
         accessor: "customer_name",
+        Cell: (cell: any) => <TextCenter>{cell.value}</TextCenter>,
       },
       {
         Header: "Retailer Name",
         accessor: "retailer_name",
         Cell: (cell: any) => (
-          <Typography fontWeight={"600"} fontSize="small">
+          <Typography fontWeight={"600"} fontSize="small" textAlign="center">
             {cell.row.original.retailer_company_name} ( {cell.value} )
           </Typography>
         ),
       },
-      {
-        Header: "Delivery Partner",
-        accessor: "partner_name",
-        Cell: (cell: any) => (
-          <Typography fontWeight={"600"} fontSize="small" textAlign="center">
-            {cell.value}
-          </Typography>
-        ),
-      },
+    
     ],
-    [page, size]
+    [postfix]
   );
 
   const getData = React.useMemo(() => {
@@ -150,23 +162,43 @@ export default function InputAndCancelledList(props: {
   }, [searchText]);
 
   return (
-    <DataTable
-      loading={isLoading}
-      columns={columns}
-      data={getData.orders}
-      showNotFound={getData.totalItems === 0}
-      components={{
-        pagination: (
-          <TablePagination
-            page={page}
-            pageSize={size}
-            totalItems={getData.totalItems}
-            count={getData.totalPages}
-            onChangePage={setPage}
-            onPageSizeSelect={setSize}
+    <>
+      <DataTable
+        loading={isLoading}
+        columns={columns}
+        data={getData.orders}
+        showNotFound={getData.totalItems === 0}
+        components={{
+          pagination: (
+            <TablePagination
+              page={page}
+              pageSize={size}
+              totalItems={getData.totalItems}
+              count={getData.totalPages}
+              onChangePage={setPage}
+              onPageSizeSelect={setSize}
+            />
+          ),
+        }}
+      />
+      {moveOrder.open &&
+        (moveVariant === "return" ? (
+          <ReturnMoveOrdersDialog
+            open={moveOrder.open}
+            orderStatus={orderStatus}
+            onClose={onCloseMoveOrder}
+            orders={moveOrder.values}
+            refetch={refetch}
           />
-        ),
-      }}
-    />
+        ) : (
+          <MoveOrdersDialog
+            open={moveOrder.open}
+            orderStatus={orderStatus}
+            onClose={onCloseMoveOrder}
+            orders={moveOrder.values}
+            refetch={refetch}
+          />
+        ))}
+    </>
   );
 }

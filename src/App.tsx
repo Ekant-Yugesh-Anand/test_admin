@@ -22,6 +22,10 @@ export default function App() {
   const token = searchParams.get("token")
   const refreshToken = searchParams.get("refreshToken")
 
+  const {
+    adminSlice: { pageLoading }, acessTokenSlice: { auth }
+  } = useSelector((state: RootState) => state);
+
 
   React.useEffect(() => {
     if (token) {
@@ -35,9 +39,7 @@ export default function App() {
   }, [])
 
 
-  const {
-    adminSlice: { pageLoading }, acessTokenSlice: { auth }
-  } = useSelector((state: RootState) => state);
+ 
 
   return (
     <ThemeProvider theme={theme}>

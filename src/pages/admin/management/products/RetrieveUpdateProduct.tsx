@@ -42,7 +42,7 @@ export default function EditProducts() {
       if (res?.status === 200) {
         navigate(-1);
         setTimeout(() => {
-          enqueueSnackbar("Product Update successfully!👍😊", {
+          enqueueSnackbar("Product updated successfully!👍😊", {
             variant: "success",
           });
         }, 200);

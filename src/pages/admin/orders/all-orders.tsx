@@ -50,12 +50,21 @@ export default function AllOrders() {
     }
   };
 
-  const exportHandle = async (gst?:boolean) => {
+  const exportHandle = async (gst?: boolean) => {
     try {
       dispatch(setPageLoading(true));
+
+      const getParams = () => {
+        if (gst === true) {
+          return {
+            params: "invoicecsv"
+          };
+        }
+        return { params: "allcsv" };
+      };
       const res = await shopOrders("get", {
         postfix: searchText ? `${searchText}` : ``,
-        params: "allcsv",
+        ...getParams(),
       });
       if (res?.status === 200) {
         let csvData = (res.data.orders as Array<Record<string, any>>) || [];
@@ -69,6 +78,12 @@ export default function AllOrders() {
           csvData,
           "delivered_date",
           "delivered_time"
+        );
+        // for reshedule date
+        csvData = dateTimeFormatTable(
+          csvData,
+          "reschedule_date",
+          "reschedule_time"
         );
         csvData = dateTimeFormatTable(csvData, "accept_date", "accept_time");
         csvData = dateTimeFormatTable(csvData, "cancel_date", "cancel_time");
@@ -141,8 +156,6 @@ export default function AllOrders() {
     }
   };
 
- 
-
   return (
     <MainContainer>
       <OrdersToolbar
@@ -159,7 +172,7 @@ export default function AllOrders() {
           data: csvData,
           headers: gstFields,
           filename: `Delivery Gst report`,
-          onClick: ()=>exportHandle(true),
+          onClick: () => exportHandle(true),
         }}
       >
         All Orders

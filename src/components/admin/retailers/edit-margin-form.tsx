@@ -18,6 +18,7 @@ import { TextInput } from "../../form";
 import { shopRetailerCategories } from "../../../http/server-api/server-apis";
 import { useParams } from "react-router-dom";
 import { marginSchema } from "./schemas";
+import { NumericFormat } from "react-number-format";
 
 export default function EditMarginFormDialog(props: {
   open: boolean;
@@ -25,9 +26,10 @@ export default function EditMarginFormDialog(props: {
   close: () => void;
   reload: () => void;
   variant: "category" | "sub_category";
+  category_id?: string;
 }) {
   const { retailer_id } = useParams();
-  const { open, close, category, reload , variant} = props;
+  const { open, close, category, reload, variant, category_id } = props;
   const { enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = React.useState(false);
 
@@ -37,16 +39,20 @@ export default function EditMarginFormDialog(props: {
         margin: category?.margin || "",
         change: "no",
       },
-        validationSchema: marginSchema,
+      validationSchema: marginSchema,
       enableReinitialize: true,
       async onSubmit(values) {
         setLoading(true);
-        
-        let id = variant =="category"? {
-            category_id:category?.category_id || "",
-        } : {
-            subcategory_id:category?.category_id || ""
-        }
+
+        let id =
+          variant == "category"
+            ? {
+                category_id: category?.category_id || "",
+              }
+            : {
+                category_id,
+                subcategory_id: category?.category_id || "",
+              };
 
         try {
           const res = await shopRetailerCategories("put", {
@@ -71,7 +77,7 @@ export default function EditMarginFormDialog(props: {
           }
         } catch (error) {
           console.log(error);
-          enqueueSnackbar("Margin Updated Failed!😢", {
+          enqueueSnackbar("Margin Update Failed!😢", {
             variant: "error",
           });
         }
@@ -84,23 +90,24 @@ export default function EditMarginFormDialog(props: {
       <DialogTitle>Update Margin </DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit}>
-          <TextInput
-            type="text"
+          <NumericFormat
             label="Margin"
             name="margin"
-            placeholder="Add margin (%)"
-            value={values.margin || ""}
+            suffix="%"
+            size="small"
+            value={values.margin}
             onChange={handleChange}
             error={errors.margin && touched.margin ? true : false}
-            helperText={touched.margin ? errors.margin as string :""}
+            helperText={touched.margin ? (errors.margin as string) : ""}
             onBlur={handleBlur}
+            customInput={TextInput}
           />
           <Box sx={{ my: 2 }}>
             <Typography
               component={"label"}
               sx={{ display: "block", color: "#6b7280", fontWeight: 600 }}
             >
-              Change Existing Product Margin
+              Change Existing Product{variant === "category" ? "/ Subcategory":null} Margin
             </Typography>
             <RadioGroup
               row

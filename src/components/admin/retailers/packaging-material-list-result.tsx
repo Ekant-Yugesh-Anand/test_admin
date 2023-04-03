@@ -118,9 +118,9 @@ export default function RetailerPackagingMaterialList(props: {
               <Typography textAlign={"center"} fontSize={"small"}>
                 {dayjs(cell.value).format("D-MMM-YYYY")}
               </Typography>
-              <Typography textAlign={"center"} fontSize={"small"}>
+              {/* <Typography textAlign={"center"} fontSize={"small"}>
                 {dayjs(cell.value).format("hh:mm a")}
-              </Typography>
+              </Typography> */}
             </>
           ),
       },

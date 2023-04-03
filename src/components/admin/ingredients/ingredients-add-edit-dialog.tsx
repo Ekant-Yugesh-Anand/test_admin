@@ -6,7 +6,9 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
 } from "@mui/material";
+import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { emptyText } from "../../../constants/messages";
@@ -15,6 +17,7 @@ import { shopIngredients } from "../../../http/server-api/server-apis";
 import { TextInput } from "../../form";
 import FileUploader from "../../form/inputs/file-uploader";
 import ShopAvatar from "../../Image/shop-avatar";
+import { ingredientSchema } from "./schemas";
 
 export default function IngredientAddEditDialog(props: {
   open: boolean;
@@ -25,10 +28,6 @@ export default function IngredientAddEditDialog(props: {
 }) {
   const { open, close, ingredient, reload, variant } = props;
   const [file, setFile] = React.useState<File>(ingredient?.image);
-  const [data, setData] = React.useState({
-    ingredient_name: ingredient?.ingredient_name || "",
-    image: ingredient?.image || "",
-  });
   const [loading, setLoading] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -44,7 +43,7 @@ export default function IngredientAddEditDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar("Ingredients update successfully!👍😊", {
+            enqueueSnackbar("Ingredients updated successfully!👍😊", {
               variant: "success",
             }),
           200
@@ -71,7 +70,7 @@ export default function IngredientAddEditDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar("Ingredients add successfully!👍😊", {
+            enqueueSnackbar("Ingredients added successfully!👍😊", {
               variant: "success",
             }),
           200
@@ -86,89 +85,111 @@ export default function IngredientAddEditDialog(props: {
     }
   };
 
-  const onUpload = async () => {
-    setLoading(true);
-    if (file) {
-      if (variant === "edit") {
-        const metaData = await imgUpdate(data.image, file);
-        if (metaData.status === "success") {
-          await putRequest({
-            ...data,
-            image: metaData.image,
-          });
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: {
+        ingredient_name: ingredient?.ingredient_name || "",
+        image: ingredient?.image || "",
+      },
+      validationSchema: ingredientSchema,
+      enableReinitialize: true,
+      async onSubmit(values) {
+        setLoading(true);
+        if (file) {
+          if (variant === "edit") {
+            const metaData = await imgUpdate(values.image, file);
+            if (metaData.status === "success") {
+              await putRequest({
+                ...values,
+                image: metaData.image,
+              });
+            }
+          } else {
+            const metaData = await imgUploader(file);
+            if (metaData.status === "success") {
+              await postRequest({
+                ...values,
+                image: metaData.image,
+              });
+            }
+          }
+        } else {
+          setTimeout(() => {
+            enqueueSnackbar(emptyText("ingredients image"), {
+              variant: "error",
+            });
+          }, 200);
         }
-      } else {
-        const metaData = await imgUploader(file);
-        if (metaData.status === "success") {
-          await postRequest({
-            ...data,
-            image: metaData.image,
-          });
-        }
-      }
-    } else {
-      enqueueSnackbar(emptyText("ingredients image"), {
-        variant: "error",
-      });
-    }
-    setLoading(false);
-  };
+        setLoading(false);
+      },
+    });
 
   return (
     <Dialog open={open} fullWidth>
       <DialogTitle>Ingredients {variant}</DialogTitle>
+
       <DialogContent>
-        <Box sx={{ my: 1 }}>
-          <TextInput
-            type="text"
-            label="Ingredient Name"
-            name="ingredient_name"
-            placeholder="Ingredient Name"
-            value={data.ingredient_name}
-            onChange={(e) =>
-              setData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-            }
-          />
-          <ShopAvatar
-            src={file}
-            download={!(file instanceof File)}
-            imgRectangle
+        <form onSubmit={handleSubmit}>
+          <Box sx={{ my: 1 }}>
+            <TextInput
+              type="text"
+              label="Ingredient Name"
+              name="ingredient_name"
+              placeholder="Ingredient Name"
+              value={values.ingredient_name}
+              onChange={handleChange}
+              error={
+                errors.ingredient_name && touched.ingredient_name ? true : false
+              }
+              helperText={
+                touched.ingredient_name
+                  ? (errors.ingredient_name as string)
+                  : ""
+              }
+              onBlur={handleBlur}
+            />
+
+            <ShopAvatar
+              src={file}
+              download={!(file instanceof File)}
+              imgRectangle
+              sx={{
+                width: "100%",
+                height: 240,
+              }}
+              variant="rounded"
+            />
+          </Box>
+          <FileUploader handleChange={(file) => setFile(file)} />
+
+          <Divider />
+          <Box
             sx={{
-              width: "100%",
-              height: 240,
+              display: "flex",
+              gap: 2,
+              my: 2,
+              flexFlow: "row-reverse",
             }}
-            variant="rounded"
-          />
-        </Box>
-        <FileUploader handleChange={(file) => setFile(file)} />
-      </DialogContent>
-      <DialogActions>
-        <Box
-          sx={{
-            display: "flex",
-            gap: 2,
-            flexFlow: "row-reverse",
-          }}
-        >
-          <Button
-            type="submit"
-            color="secondary"
-            variant="contained"
-            onClick={onUpload}
-            disabled={loading}
-            startIcon={
-              loading ? (
-                <CircularProgress color="inherit" size={20} />
-              ) : undefined
-            }
           >
-            {variant === "add" ? "Save" : "Update"}
-          </Button>
-          <Button color="secondary" variant="outlined" onClick={close}>
-            Close
-          </Button>
-        </Box>
-      </DialogActions>
+            <Button
+              type="submit"
+              color="secondary"
+              variant="contained"
+              disabled={loading}
+              startIcon={
+                loading ? (
+                  <CircularProgress color="inherit" size={20} />
+                ) : undefined
+              }
+            >
+              {variant === "add" ? "Save" : "Update"}
+            </Button>
+            <Button color="secondary" variant="outlined" onClick={close}>
+              Close
+            </Button>
+          </Box>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 }

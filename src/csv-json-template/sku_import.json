@@ -2,6 +2,8 @@
     {
         "sku_id": 5,
         "price_id": 5,
-        "sale_price": 1020
+        "sale_price": 1020,
+        "margin":"7%",
+        "margin_amount":"71.40"
     }
 ]

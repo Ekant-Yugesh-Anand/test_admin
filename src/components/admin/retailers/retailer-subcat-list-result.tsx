@@ -216,6 +216,7 @@ export default function RetailerSubCategoryList(props: { searchText: string }) {
           close={() => setEdit({ open: false, value: null })}
           category={edit.value}
           reload={refetch} 
+          category_id={category_id}
           variant="sub_category"
         />
       )}

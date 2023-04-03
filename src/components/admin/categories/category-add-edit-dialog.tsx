@@ -55,7 +55,7 @@ export default function CategoryAddEditDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar(cateLabel + " update successfully!👍😊", {
+            enqueueSnackbar(cateLabel + " updated successfully!👍😊", {
               variant: "success",
             }),
           200
@@ -85,7 +85,7 @@ export default function CategoryAddEditDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar(cateLabel + " add successfully!👍😊", {
+            enqueueSnackbar(cateLabel + " added successfully!👍😊", {
               variant: "success",
             }),
           200

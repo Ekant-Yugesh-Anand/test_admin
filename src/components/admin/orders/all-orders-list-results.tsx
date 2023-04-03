@@ -13,7 +13,6 @@ import SerialNumber from "../serial-number";
 import MoveOrdersDialog from "./move-orders/move-orders-dailog";
 import { MdOutlineDriveFileMove } from "react-icons/md";
 import { VscReferences } from "react-icons/vsc";
-import { BiStats } from "react-icons/bi";
 import StatsDialog from "./stats/stats-dialog";
 
 export default function AllOrdersListResults(props: { searchText: string }) {
@@ -109,6 +108,16 @@ export default function AllOrdersListResults(props: { searchText: string }) {
         Cell: (cell: any) => (
           <Typography fontWeight={"600"} textAlign="center">
             ₹{cell.value}
+          </Typography>
+        ),
+      },
+      {
+        Header: "Total Cargill Margin Amt.",
+        accessor: "grand_cargill_margin_amount",
+        width: "8%",
+        Cell: (cell: any) => (
+          <Typography fontWeight={"600"} textAlign="center">
+            {cell.value ? `₹${(+cell.value).toFixed(2)}` :""}
           </Typography>
         ),
       },

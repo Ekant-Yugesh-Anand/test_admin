@@ -60,7 +60,7 @@ import { shopMaterialPackage } from "../../../../http/server-api/server-apis";
                 close();
                 reload();
                 setTimeout(() => {
-                  enqueueSnackbar("Material Save  successfully!👍😊", {
+                  enqueueSnackbar("Material Saved  successfully!👍😊", {
                     variant: "success",
                   });
                 }, 200);

@@ -90,7 +90,7 @@ export default function NotificationFormDialog(props: {
             close();
             reload();
             setTimeout(() => {
-              enqueueSnackbar("Notification Save  successfully!👍😊", {
+              enqueueSnackbar("Notification Saved  successfully!👍😊", {
                 variant: "success",
               });
             }, 200);

@@ -6,12 +6,32 @@ import { LabelText } from "../styled";
 
 const labels = [
   { title: "SKU Name", accessor: "sku_name" },
-  { title: "Volume", accessor: "dimension" },
+  {
+    title: "Volume",
+    accessor: "dimension",
+    Cell: (cell: any) => (
+      <Typography fontSize="small">
+        {cell.value && cell.value > 0 ? (
+          <>
+            {cell.value}cm<sup>3</sup>
+          </>
+        ) : null}
+      </Typography>
+    ),
+  },
   { title: "Qty", accessor: "quantity" },
   { title: "Weight", accessor: "weight" },
   { title: "Unit Price Sub Total", accessor: "total_price" },
   { title: "Package Type", accessor: "package" },
-  { title: "Fragile", accessor: "fragile" },
+  {
+    title: "Fragile",
+    accessor: "fragile",
+    Cell: (cell: any) => (
+      <Typography fontSize="small">
+        {cell?.value == "1" ? "Yes" : "No"}
+      </Typography>
+    ),
+  },
 ];
 
 function OrderDetailsCard(props: { orderDetail: { [key: string]: any } }) {
@@ -33,32 +53,14 @@ function OrderDetailsCard(props: { orderDetail: { [key: string]: any } }) {
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Grid container>
-            {obj.map((item, index) => (
-              <Grid key={index} item lg={12}>
+            {obj.map((item, index) => 
+               <Grid key={index} item lg={12}>
                 <Box sx={{ display: "flex", gap: 1 }}>
-                  {item.get("title") == "Fragile" ? (
-                    <>
-                      <LabelText fontSize={"small"}>
-                        {item.get("title")}:
-                      </LabelText>
-                      <Typography fontSize={"small"}>
-                        {item.get("Cell").props.children == 1 ? "Yes" : "No"}
-                      </Typography>
-                    </>
-                  ) : (
-                    <>
-                      {" "}
-                      <LabelText fontSize={"small"}>
-                        {item.get("title")}:
-                      </LabelText>
-                      <Typography fontSize={"small"}>
-                        {item.get("Cell")}
-                      </Typography>
-                    </>
-                  )}
+                  <LabelText fontSize={"small"}>{item.get("title")}:</LabelText>
+                  <Typography fontSize={"small"}>{item.get("Cell")}</Typography>
                 </Box>
               </Grid>
-            ))}
+            )}
           </Grid>
         </CardContent>
       </Box>

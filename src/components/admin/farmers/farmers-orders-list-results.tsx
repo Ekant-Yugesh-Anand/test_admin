@@ -130,6 +130,16 @@ export default function FarmersOrdersListResults(props: {
         ),
       },
       {
+        Header: "Total Cargill Margin Amt.",
+        accessor: "grand_cargill_margin_amount",
+        width: "8%",
+        Cell: (cell: any) => (
+          <Typography fontWeight={"600"} textAlign="center">
+            {cell.value ? `₹${(+cell.value).toFixed(2)}` :""}
+          </Typography>
+        ),
+      },
+      {
         Header: "Volume",
         accessor: "grand_dimension",
         width: "8%",

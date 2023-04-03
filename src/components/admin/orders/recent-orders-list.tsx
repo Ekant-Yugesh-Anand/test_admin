@@ -121,14 +121,7 @@ export default function RecentOrdersList(props: {
           </>
         ),
       },
-      {
-        Header: "Mobile No.",
-        accessor:
-          variant === "retailer" ? "retailer_phone_no" : "partner_phone_no",
-        Cell: (cell: any) => (
-          <TextCenter fontSize="small">{cell.value}</TextCenter>
-        ),
-      },
+      
       {
         Header: "Total Value",
         accessor: "grand_total",

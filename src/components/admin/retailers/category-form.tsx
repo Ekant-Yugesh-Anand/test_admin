@@ -146,10 +146,10 @@ export default function CategoryForm(porps: {
                 }}
               />
             </Box>
-         
+
             <NumericFormat
-            label="Margin"
-            name="margin"
+              label="Margin"
+              name="margin"
               suffix="%"
               size="small"
               onChange={handleChange}
