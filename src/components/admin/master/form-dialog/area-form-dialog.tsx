@@ -6,6 +6,7 @@ import {
   Divider,
   Box,
   Button,
+  CircularProgress,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useFormik } from "formik";
@@ -13,7 +14,6 @@ import { TextInput } from "../../../form";
 import { shopAreas } from "../../../../http";
 import { areaSchema } from "./schemas";
 import { NumericFormat } from "react-number-format";
-
 
 export default function AreaFormDialog(props: {
   open: boolean;
@@ -24,6 +24,7 @@ export default function AreaFormDialog(props: {
 }) {
   const { open, close, area, reload, variant } = props;
   const { enqueueSnackbar } = useSnackbar();
+  const [loading, setLoading] = React.useState(false);
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -37,6 +38,7 @@ export default function AreaFormDialog(props: {
       validationSchema: areaSchema,
       enableReinitialize: true,
       async onSubmit(values) {
+        setLoading(true);
         if (variant === "edit" && area) {
           try {
             const res = await shopAreas("put", {
@@ -47,14 +49,14 @@ export default function AreaFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Area Updated  successfully!👍😊", {
+                enqueueSnackbar("Area Updated  successfully!", {
                   variant: "success",
                 });
               }, 200);
             }
           } catch (error) {
             console.log(error);
-            enqueueSnackbar("Area Update Failed!😢", {
+            enqueueSnackbar("Area Update Failed!", {
               variant: "error",
             });
           }
@@ -67,18 +69,19 @@ export default function AreaFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Area Saved  successfully!👍😊", {
+                enqueueSnackbar("Area Saved  successfully!", {
                   variant: "success",
                 });
               }, 200);
             }
-          } catch (error : any) {
+          } catch (error: any) {
             console.log(error);
             enqueueSnackbar(error.response.data.message, {
               variant: "error",
             });
           }
         }
+        setLoading(false);
       },
     });
 
@@ -123,44 +126,49 @@ export default function AreaFormDialog(props: {
       <DialogTitle>Area {variant === "edit" ? "Edit" : "Add"}</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit}>
-          {basicFields.map((item, index) => {
-            const { type, ...others } = item;
-            return type === "numeric" ? (
-              <NumericFormat
-                {...others}
-                size="small"
-                key={index}
-                value={(values as any)[item.name] || ""}
-                onChange={handleChange}
-                error={
-                  (errors as any)[item.name] && (touched as any)[item.name]
-                    ? true
-                    : false
-                }
-                helperText={
-                  (touched as any)[item.name] ? (errors as any)[item.name] : ""
-                }
-                onBlur={handleBlur}
-                customInput={TextInput}
-              />
-            ) : (
-              <TextInput
-                key={index}
-                {...item}
-                value={(values as any)[item.name] || ""}
-                onChange={handleChange}
-                error={
-                  (errors as any)[item.name] && (touched as any)[item.name]
-                    ? true
-                    : false
-                }
-                helperText={
-                  (touched as any)[item.name] ? (errors as any)[item.name] : ""
-                }
-                onBlur={handleBlur}
-              />
-            );
-          })}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            {basicFields.map((item, index) => {
+              const { type, ...others } = item;
+              return type === "numeric" ? (
+                <NumericFormat
+                  {...others}
+                  key={index}
+                  value={(values as any)[item.name] || ""}
+                  onChange={handleChange}
+                  error={
+                    (errors as any)[item.name] && (touched as any)[item.name]
+                      ? true
+                      : false
+                  }
+                  helperText={
+                    (touched as any)[item.name]
+                      ? (errors as any)[item.name]
+                      : ""
+                  }
+                  onBlur={handleBlur}
+                  customInput={TextInput}
+                />
+              ) : (
+                <TextInput
+                  key={index}
+                  {...item}
+                  value={(values as any)[item.name] || ""}
+                  onChange={handleChange}
+                  error={
+                    (errors as any)[item.name] && (touched as any)[item.name]
+                      ? true
+                      : false
+                  }
+                  helperText={
+                    (touched as any)[item.name]
+                      ? (errors as any)[item.name]
+                      : ""
+                  }
+                  onBlur={handleBlur}
+                />
+              );
+            })}
+          </div>
           <Divider sx={{ my: 1 }} />
           <Box
             sx={{
@@ -169,7 +177,17 @@ export default function AreaFormDialog(props: {
               flexFlow: "row-reverse",
             }}
           >
-            <Button type="submit" color="secondary" variant="contained">
+            <Button
+              type="submit"
+              color="secondary"
+              variant="contained"
+              disabled={loading}
+              startIcon={
+                loading ? (
+                  <CircularProgress color="inherit" size={20} />
+                ) : undefined
+              }
+            >
               <span className="first-letter:uppercase">
                 {variant === "edit" ? "update" : variant}
               </span>

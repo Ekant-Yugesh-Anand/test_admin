@@ -95,6 +95,38 @@ export default function ProductBasicForm(props: {
         multiline: true,
         rows: 4,
       },
+        {
+        type: "WebInput",
+        label: "Technical Formula",
+        name: "technical_formula",
+        placeholder: "Technical Formula",
+        multiline: true,
+        rows: 4,
+      },
+        {
+        type: "WebInput",
+        label: "Doses",
+        name: "doses",
+        placeholder: "Doses",
+        multiline: true,
+        rows: 4,
+      },
+        {
+        type: "WebInput",
+        label: "Application",
+        name: "application",
+        placeholder: "application",
+        multiline: true,
+        rows: 4,
+      },
+        {
+        type: "WebInput",
+        label: "Target Crop",
+        name: "target_crop",
+        placeholder: "Target Crop",
+        multiline: true,
+        rows: 4,
+      },
     ],
     []
   );
@@ -348,5 +380,9 @@ export const initialValues = {
   subcategory_id: "",
   brand_id: "",
   crop_id: "",
-  ingredient_id:""
+  ingredient_id:"",
+  technical_formula:"",
+  doses:"",
+  application:"",
+  target_crop:""
 };

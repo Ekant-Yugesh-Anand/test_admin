@@ -17,7 +17,14 @@ import { retailer } from "../../../../../http";
 import InnerDashboardCards from "../../../../../components/admin/inner-deshboard-two-cards";
 import RecentOrdersList from "../../../../../components/admin/orders/recent-orders-list";
 import { queryToStr } from "../../../../../components/admin/utils";
-import { MdMargin, MdOutlineAccountTree, MdOutlineCardGiftcard, MdOutlineInventory2 } from "react-icons/md";
+import {
+  MdMargin,
+  MdOutlineAccountTree,
+  MdOutlineCardGiftcard,
+  MdOutlineInventory2,
+} from "react-icons/md";
+import { BsPercent } from "react-icons/bs";
+import CommonToolbar from "../../../../../components/admin/common-toolbar";
 
 export default function RetailerDashboard() {
   const { retailer_id } = useParams();
@@ -70,17 +77,23 @@ export default function RetailerDashboard() {
         url: "packaging-material",
         color: "#6b21a8",
       },
-        {
+      {
         Title: "Inventory Report",
         Icon: <MdOutlineInventory2 />,
         url: "inventory-report",
         color: "#22d3ee",
       },
-        {
+      {
         Title: "Margin Report",
         Icon: <MdMargin />,
         url: "margin-report",
         color: "#1d4ed8",
+      },
+      {
+        Title: "Taxation Report",
+        Icon: <BsPercent />,
+        url: "taxation-report",
+        color: "#f59e0b",
       },
 
       // {
@@ -100,11 +113,7 @@ export default function RetailerDashboard() {
 
   return (
     <MainContainer>
-      <Box sx={{ my: 1 }}>
-        <Typography variant="h5">
-          {retailerName} / Retailer Dashboard
-        </Typography>
-      </Box>
+      <CommonToolbar title={`${retailerName} / Retailer Dashboard`} />
       <RetailerDashboardCards retailerId={retailer_id as string} />
       <Box sx={{ my: 2 }}>
         <Typography variant={"h6"}>Recent Orders</Typography>

@@ -4,9 +4,11 @@ import { useParams } from "react-router-dom";
 import FarmersOrdersListResults from "../../../../components/admin/farmers/farmers-orders-list-results";
 import { MainContainer } from "../../../../components/layout";
 import {
+  addComma,
   addSno,
   addTaxNetAmount,
   dateTimeFormatTable,
+  formatDate,
   formatVolume,
   formatWeight,
   getFragile,
@@ -86,6 +88,9 @@ export default function FarmersOrders() {
           "reschedule_date",
           "reschedule_time"
         );
+        //format accept and cancel date
+        csvData = dateTimeFormatTable(csvData, "accept_date", "accept_time");
+        csvData = dateTimeFormatTable(csvData, "cancel_date", "cancel_time");
         // marge two column
         csvData = margeRowTable(
           csvData,
@@ -120,8 +125,14 @@ export default function FarmersOrders() {
         );
         // format weight
         csvData = formatWeight(csvData);
+        // add ' before the string
+
+        csvData = addComma(csvData);
         // format volume
         csvData = formatVolume(csvData);
+
+         // convert date
+         csvData = formatDate(csvData);
         // add tax and net amount
         csvData = addTaxNetAmount(csvData);
         //get fragile

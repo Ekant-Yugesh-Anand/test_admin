@@ -65,3 +65,16 @@ export const customerFields = [
   { label: "Total Product", key: "no_of_products" },
   
 ];
+
+export const cartFields = [
+  { label: "S.No", key: "s_no" },
+  { label: "Sku Name", key: "sku_name" },
+  { label: "Sku Code", key: "sku_code" },
+  { label: "Farmer Name ", key: "customer_name" },
+  { label: "Farmer Phone No", key: "customer_phone_no" },
+  { label: "Retailer Company Name", key: "retailer_company_name" },
+  { label: "Retailer Name ", key: "retailer_name" },
+  { label: "Date ", key: "doc" },
+  { label: "Time ", key: "time" },
+
+];

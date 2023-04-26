@@ -45,9 +45,7 @@ export default function AllOrdersListResults(props: { searchText: string }) {
       shopOrders("get", {
         postfix,
       }),
-    {
-      refetchOnWindowFocus: false,
-    }
+   
   );
 
   const columns = React.useMemo(
@@ -63,7 +61,6 @@ export default function AllOrdersListResults(props: { searchText: string }) {
       {
         Header: "Order ID",
         accessor: "main_order_no",
-        width: "8%",
         Cell: (cell: any) => (
           <Typography fontWeight={"600"} textAlign="center" fontSize={"small"}>
             {cell.value}
@@ -73,7 +70,6 @@ export default function AllOrdersListResults(props: { searchText: string }) {
       {
         Header: "Suborder No",
         accessor: "suborder_no",
-        width: "8%",
         Cell: (cell: any) => (
           <Typography fontWeight={"600"} textAlign="center" fontSize={"small"}>
             {cell.value}
@@ -89,11 +85,11 @@ export default function AllOrdersListResults(props: { searchText: string }) {
       {
         Header: "Order Date",
         accessor: "order_date",
-        width: "15%",
+        width: "10%",
         Cell: (cell: any) => (
           <>
             <Typography textAlign={"center"} fontSize={"small"}>
-              {dayjs(cell.value).format("D-MMM-YYYY")}
+              {dayjs(cell.value).format("DD-MMM-YYYY")}
             </Typography>
             <Typography textAlign={"center"} fontSize={"small"}>
               {dayjs(cell.value).format("hh:mm a")}
@@ -106,7 +102,7 @@ export default function AllOrdersListResults(props: { searchText: string }) {
         accessor: "grand_total",
         width: "8%",
         Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center">
+          <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
             ₹{cell.value}
           </Typography>
         ),
@@ -116,7 +112,7 @@ export default function AllOrdersListResults(props: { searchText: string }) {
         accessor: "grand_cargill_margin_amount",
         width: "8%",
         Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center">
+          <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
             {cell.value ? `₹${(+cell.value).toFixed(2)}` :""}
           </Typography>
         ),
@@ -126,10 +122,10 @@ export default function AllOrdersListResults(props: { searchText: string }) {
         accessor: "grand_dimension",
         width: "8%",
         Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center">
+          <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
             {cell.value && cell.value > 0 ? (
               <>
-                {cell.value}cm<sup>3</sup>
+                {cell.value} cm<sup>3</sup>
               </>
             ) : null}
           </Typography>
@@ -140,12 +136,12 @@ export default function AllOrdersListResults(props: { searchText: string }) {
         accessor: "grand_weight",
         width: "8%",
         Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center">
+          <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
             {cell.value && cell.value > 0 ? (
               cell.value < 999 ? (
-                <>{cell.value}gm.</>
+                <>{cell.value} gm</>
               ) : (
-                <>{+cell.value / 1000}Kg.</>
+                <>{+cell.value / 1000} Kg</>
               )
             ) : null}
           </Typography>
@@ -193,6 +189,7 @@ export default function AllOrdersListResults(props: { searchText: string }) {
       {
         Header: "Retailer Name",
         accessor: "retailer_name",
+        width: "15%",
         Cell: (cell: any) => (
           <Typography fontWeight={"600"} fontSize="small">
             {cell.row.original.retailer_company_name} ( {cell.value} )

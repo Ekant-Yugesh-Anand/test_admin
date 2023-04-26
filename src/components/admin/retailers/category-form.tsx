@@ -13,6 +13,7 @@ import {
 import { TextInput } from "../../form";
 import {
   categories as categoriesHttp,
+  shopRetailerCategories,
   subCategories as subCategoriesHttp,
 } from "../../../http";
 import AsyncAutocomplete from "../../form/async-autocomplete";
@@ -33,6 +34,10 @@ export default function CategoryForm(porps: {
   const [subCategories, setSubCategories] = React.useState<
     Array<{ [key: string]: any }>
   >([]);
+  const [filteredSubCategories, setFilteredSubCategories] = React.useState<
+    Array<{ [key: string]: any }>
+  >([]);
+
   const {
     values,
     errors,
@@ -67,6 +72,7 @@ export default function CategoryForm(porps: {
       },
     }
   );
+
   const { isLoading: subcategoryLoading } = useQuery(
     ["all-subcategory-retailer", values.category_id],
     () =>
@@ -83,6 +89,43 @@ export default function CategoryForm(porps: {
       },
     }
   );
+
+  const postfix = React.useMemo(() => {
+    return `?category_id=${values.category_id || 0}&retailer_id=${retailer_id}`;
+  }, [values.category_id]);
+
+  const { data: retailerSubCategoryData } = useQuery(
+    ["retailer-subcategory", postfix],
+    () =>
+      shopRetailerCategories("get", {
+        params: "subcategories",
+        postfix,
+      })
+  );
+
+  const retailerSubCatData = React.useMemo(() => {
+    if (retailerSubCategoryData?.status === 200)
+      return retailerSubCategoryData.data;
+    return [];
+  }, [retailerSubCategoryData]);
+
+  const getFilterSubCategories = React.useCallback(() => {
+    const getDifference = (
+      subCategories: any[],
+      retailerSubCatData: { category_id: any }[]
+    ) => {
+      return subCategories?.filter((object1: { category_id: any }) => {
+        return !retailerSubCatData?.some((object2: { category_id: any }) => {
+          return object1.category_id === object2.category_id;
+        });
+      });
+    };
+    setFilteredSubCategories(getDifference(subCategories, retailerSubCatData));
+  }, [subCategories, retailerSubCatData]);
+
+  React.useEffect(() => {
+    getFilterSubCategories();
+  }, [subCategories, retailerSubCatData]);
 
   return (
     <Box>
@@ -125,7 +168,7 @@ export default function CategoryForm(porps: {
                 id="sub-category-option"
                 loading={subcategoryLoading}
                 label="Sub Category"
-                options={subCategories || []}
+                options={filteredSubCategories || []}
                 objFilter={{
                   title: "name",
                   value: "category_id",

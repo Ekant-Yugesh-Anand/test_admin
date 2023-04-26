@@ -11,7 +11,7 @@ const moveOrdersSchemas = {
   }),
 
   "3": Yup.object({
-    agent_id: Yup.number().required(emptyText("partner")),
+    agent_id: Yup.number().required(emptyText("agent_id")),
   }),
   "4": Yup.object({
     agent_id: Yup.number().required(emptyText("agent")),

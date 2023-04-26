@@ -1,18 +1,19 @@
-import { Card, CardContent } from "@mui/material";
 import Box from "@mui/material/Box";
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import CartList from "../../../components/admin/cart/CartList";
-import CartTypeTab from "../../../components/admin/cart/CartTypeTab";
-import CommonToolbar from "../../../components/admin/common-toolbar";
-import { addSno, removeEsc } from "../../../components/admin/utils";
+import CartListNew from "../../../components/admin/cart/cart-list";
+import {
+  addSno,
+  dateTimeFormatTable,
+  queryToStr,
+  removeEsc,
+} from "../../../components/admin/utils";
 import { MainContainer } from "../../../components/layout";
-import { packageFields, productFields } from "../../../constants";
-import { customerFields } from "../../../constants/fields/master-fields";
+import { cartFields } from "../../../constants/fields/master-fields";
 import useStateWithCallback from "../../../hooks/useStateWithCallback";
-import { shopPackages } from "../../../http";
 import { shopCart } from "../../../http/server-api/server-apis";
 import { setPageLoading } from "../../../redux/slices/admin-slice";
+import CartToolbar from "../../../components/admin/cart/CartToolbar";
 
 export default function ShoppingCart(props: { deleted: string }) {
   const { deleted } = props;
@@ -20,21 +21,40 @@ export default function ShoppingCart(props: { deleted: string }) {
     Array<Record<string, any>>
   >([]);
   const [searchText, setSearchText] = React.useState("");
-  const [cartTab, setCartTab] = React.useState(0);
+  // const [cartTab, setCartTab] = React.useState(0);
   const ref = React.useRef<any>(null);
   const dispatch = useDispatch();
-
-  const searchHandler = async (value: string) => {
-    setSearchText(value ? `/search?search_cart=${value}` : "");
+  const searchHandler = (
+    value: string,
+    customer_id?: number,
+    retailer_id?: number,
+    sku_id?: number
+  ) => {
+    if (
+      value == "" &&
+      customer_id == undefined &&
+      retailer_id == undefined &&
+      sku_id == undefined
+    )
+      setSearchText("");
+    else
+      setSearchText(
+        "/search/?" +
+          queryToStr({
+            customer_id: typeof customer_id !== "undefined" ? customer_id : 0,
+            retailer_id: typeof retailer_id !== "undefined" ? retailer_id : 0,
+            sku_id: typeof sku_id !== "undefined" ? sku_id : 0,
+            ...(value ? { search_cart: value } : {}),
+          })
+      );
   };
-
   const exportHandle = async () => {
     try {
       dispatch(setPageLoading(true));
       const res = await shopCart("get", {
-        postfix: `?type=${
-          cartTab == 0 ? "customers" : "products"
-        }&deleted=${deleted}`,
+        params: searchText
+          ? searchText + `&deleted=${deleted}`
+          : `?deleted=${deleted}`,
       });
       if (res?.status === 200) {
         let csvData = res.data || [];
@@ -43,6 +63,9 @@ export default function ShoppingCart(props: { deleted: string }) {
 
         // remove esc
         csvData = removeEsc(csvData);
+
+        // format date & time
+        csvData = dateTimeFormatTable(csvData, "doc", "time");
 
         setCsvData(csvData, () => {
           ref.current.link.click();
@@ -61,35 +84,27 @@ export default function ShoppingCart(props: { deleted: string }) {
     return "Shopping Cart";
   }
 
-  useEffect(() => {
-    setCartTab(0);
-  }, [deleted]);
-
   return (
     <>
-      <CartTypeTab onChange={setCartTab} value={cartTab} />
-      <MainContainer>
-        <CommonToolbar
-          title={getCartTitle()}
-          onSearch={searchHandler}
-          exportProps={{
-            ref,
-            data: csvData,
-            headers: cartTab == 0 ? customerFields : productFields,
-            filename: cartTab == 0 ? `cart-list-customer` : `cart-list-farmer`,
-            onClick: exportHandle,
-          }}
-        />
-        <Card sx={{ mt: 1 }}>
-          <CardContent sx={{ minHeight: 180 }}>
-            <CartList
-              searchText={searchText}
-              type={cartTab == 0 ? "customers" : "products"}
-              deleted={deleted}
-            />
-          </CardContent>
-        </Card>
-      </MainContainer>
+      <Box>
+        <MainContainer>
+          <CartToolbar
+            title={getCartTitle()}
+            onSearch={searchHandler}
+            exportProps={{
+              ref,
+              data: csvData,
+              headers: cartFields,
+              filename: `${getCartTitle()} List.csv`,
+              onClick: exportHandle,
+            }}
+            deleted={deleted}
+          />
+          <Box sx={{ mt: 3 }}>
+            <CartListNew searchText={searchText} deleted={deleted} />
+          </Box>
+        </MainContainer>
+      </Box>
     </>
   );
 }

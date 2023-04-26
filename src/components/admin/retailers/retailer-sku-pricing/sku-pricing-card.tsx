@@ -19,7 +19,7 @@ import { useSnackbar } from "notistack";
 import ShopAvatar from "../../../Image/shop-avatar";
 
 const label1 = [
-  { title: "weight", accessor: "weight" },
+  { title: "Weight", accessor: "weight" },
   { title: "MRP", accessor: "mrp" },
   { title: "Sale Price", accessor: "sale_price" },
   { title: "Total Qty", accessor: "quantity" },
@@ -34,10 +34,10 @@ const label1 = [
 
 const label2 = [
   { title: "SKU ID", accessor: "sku_id" },
-  { title: "category", accessor: "category_name" },
-  { title: "subcategory", accessor: "subcategory_name" },
-  { title: "brand", accessor: "brand_name" },
-  { title: "sku code", accessor: "sku_code" },
+  { title: "Category", accessor: "category_name" },
+  { title: "Subcategory", accessor: "subcategory_name" },
+  { title: "Brand", accessor: "brand_name" },
+  { title: "Sku code", accessor: "sku_code" },
 ];
 const label3 = [
   { title: "Cargill Margin(%)", accessor: "margin" },
@@ -90,7 +90,8 @@ export default function SkuPricingCard(props: {
   // };
 
   return (
-    <Card sx={{ width: 350 }} elevation={5}>
+    <Grid item sm={12} md={6} lg={4} xl={3}>
+    <Card elevation={5}>
       <ShopAvatar
         src={sku.image}
         sx={{ height: 180, width: "100%" }}
@@ -202,5 +203,6 @@ export default function SkuPricingCard(props: {
         </Box>
       </CardActions>
     </Card>
+    </Grid>
   );
 }

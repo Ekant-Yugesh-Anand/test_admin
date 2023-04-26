@@ -3,38 +3,38 @@ import { emptyText, minText } from "../../../../constants/messages";
 
 export const productSchema = Yup.object({
   sku_name: Yup.string()
-    .min(2, minText("product name"))
+    .min(2, minText("Product name"))
     .max(255)
-    .required(emptyText("product name")),
+    .required(emptyText("Product name")),
   sku_name_kannada: Yup.string()
-    .min(2, minText("product kannada name"))
+    .min(2, minText("Product kannada name"))
     .max(255)
-    .required(emptyText("product kannada name")),
+    .required(emptyText("Product kannada name")),
+  category_id: Yup.string().required(emptyText("Category")),
+  subcategory_id: Yup.string().required(emptyText("Subcategory")),
+  brand_id: Yup.string().required(emptyText("Brand")),
+  crop_id:Yup.string().required(emptyText("Crop id")),
+  ingredient_id:Yup.string().required(emptyText("Ingredient id")),
 
-  category_id: Yup.string().required(emptyText("category")),
-  subcategory_id: Yup.string().required(emptyText("subcategory")),
-  brand_id: Yup.string().required(emptyText("brand")),
-  crop_id:Yup.string().required(emptyText("crop id")),
-  ingredient_id:Yup.string().required(emptyText("ingredient id"))
 
 });
 
 export const productPriceSchema = Yup.object({
-  mrp: Yup.number().required(emptyText("product mrp")),
-  gst: Yup.string().required(emptyText("product gst")),
-  price: Yup.number().max(Yup.ref('mrp'), "Price should less than mrp").required(emptyText("product price")),
+  mrp: Yup.number().positive().required(emptyText("Product MRP")),
+  gst: Yup.string().required(emptyText("Product GST")),
+  price: Yup.number().positive().max(Yup.ref('mrp'), "Price should less than mrp").required(emptyText("Product price")),
 
-  dimension_height:Yup.number().required(emptyText("height")),
-  dimension_width:Yup.number().required(emptyText("width")),
-  dimension_length:Yup.number().required(emptyText("length")),
+  dimension_height:Yup.number().required(emptyText("Height")),
+  dimension_width:Yup.number().required(emptyText("Width")),
+  dimension_length:Yup.number().required(emptyText("Length")),
   package: Yup.string(),
-  weight: Yup.string().required(emptyText("product weight")),
+  weight: Yup.string().required(emptyText("Product weight")),
   // dimension: Yup.number(),
-  totalweight: Yup.number().required(emptyText("actual weight")),
+  totalweight: Yup.number().required(emptyText("Actual weight")),
   units_per_case: Yup.string(),
 });
 
 export const productLanguageSchema = Yup.object({
-  title: Yup.string().required(emptyText("product title")),
-  description: Yup.string().required(emptyText("product title"))
+  title: Yup.string().required(emptyText("Product title")),
+  description: Yup.string().required(emptyText("Product title"))
 })

@@ -19,19 +19,11 @@ export const orderLabel= [
         id:5,
         label:"delivered"
     },
-    {
-        id:6,
-        label:"return from farmer"
-    },
-
      {
         id:7,
         label:"cancel from farmer"
     },
-    {
-        id:8,
-        label:"return in process"
-    },
+
     {
         id:9,
         label:"cancel from retailer"
@@ -40,23 +32,8 @@ export const orderLabel= [
         id:10,
         label:"cancel from manager/agent"
     },
-    {
-        id:11,
-        label:"cancel return"
-    },
-    {
-        id:12,
-        label:"return in process"
-    },
-    {
-        id:13,
-        label:"refunded"
-    },
-    {
-        id:14,
-        label:"failed"
-    },
-  
+ 
+   
 
 ]
 

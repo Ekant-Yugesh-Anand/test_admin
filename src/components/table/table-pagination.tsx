@@ -31,7 +31,7 @@ const GotoContainer = styled("div")`
     background-image: none;
     border: 1px solid #e5e5e5;
     border-radius: 3px;
-    width: 25px;
+    width: 30px;
     margin: 0 8px;
   }
 `;

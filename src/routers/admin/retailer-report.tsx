@@ -5,6 +5,8 @@ import {
   InputSaleDetails,
 } from "../../pages/admin/retailer-report";
 import MarginReport from "../../pages/admin/retailer-report/margin-report";
+import PackagingMaterialReport from "../../pages/admin/retailer-report/packaging-material";
+import TaxationReport from "../../pages/admin/retailer-report/taxation-report";
 
 export default {
   path: "/retailer-report",
@@ -28,6 +30,14 @@ export default {
     {
       path: "margin-report",
       element: <MarginReport />,
+    },
+    {
+      path: "taxation-report",
+      element: <TaxationReport />,
+    },
+    {
+      path: "packaging-material",
+      element: <PackagingMaterialReport />,
     },
   ],
 };

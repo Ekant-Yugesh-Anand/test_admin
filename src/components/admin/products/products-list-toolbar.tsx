@@ -19,6 +19,7 @@ import RowSearch from "../../table/row-search";
 import AsyncAutocomplete from "../../form/async-autocomplete";
 import { useQuery } from "@tanstack/react-query";
 import { queryToStr } from "../utils";
+import PageBack from "../../layout/page-back";
 
 export default function ProductsListToolbar(props: {
   title?: string;
@@ -64,7 +65,7 @@ export default function ProductsListToolbar(props: {
       retailer_id
         ? shopRetailerHttp("get", {
             params: "categories",
-            postfix: `?retailer_id=${retailer_id}`,
+            postfix: `?retailer_id=${retailer_id}&active=1`,
           })
         : categoriesHttp("get", { params: "categories" }),
     {
@@ -81,7 +82,11 @@ export default function ProductsListToolbar(props: {
         ? shopRetailerHttp("get", {
             params: "subcategories",
             postfix: "?".concat(
-              queryToStr({ category_id: categoryId || 0, retailer_id })
+              queryToStr({
+                category_id: categoryId || 0,
+                retailer_id,
+                active: "1",
+              })
             ),
           })
         : subCategoriesHttp("get", {
@@ -170,11 +175,12 @@ export default function ProductsListToolbar(props: {
               Add Product
             </Button>
           )}
+          <PageBack />
         </Box>
       </Box>
       <Box sx={{ mt: 2 }}>
         <Card>
-          <CardContent>
+          <CardContent sx={{ display: "flex" }}>
             <Grid
               container
               rowSpacing={1}
@@ -233,12 +239,11 @@ export default function ProductsListToolbar(props: {
                 </>
               )}
             </Grid>
-            <Box
+            <Grid
               sx={{
                 display: "flex",
                 gap: 3,
-                marginTop: 0.5,
-                justifyContent: "flex-end",
+                alignItems: "center",
               }}
             >
               <Button
@@ -264,7 +269,7 @@ export default function ProductsListToolbar(props: {
               >
                 Reset
               </Button>
-            </Box>
+            </Grid>
           </CardContent>
         </Card>
       </Box>

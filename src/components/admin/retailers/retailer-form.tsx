@@ -132,9 +132,10 @@ function RetailerForm(props: {
         placeholder: "subzone id",
       },
       {
-        type: "string",
+        type: "numeric",
         label: "Margin (in %)",
         name: "margin",
+        suffix:"%",
         placeholder: "Margin in %",
       },
     ],

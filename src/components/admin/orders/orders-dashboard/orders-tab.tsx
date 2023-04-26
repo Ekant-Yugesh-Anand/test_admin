@@ -40,7 +40,7 @@ function RetailerOrdersTab(props: {
           order_status: "1",
         },
         {
-          label: "in transit orders",
+          label: "in process orders",
           order_status: "2,3",
         },
         {
@@ -57,35 +57,35 @@ function RetailerOrdersTab(props: {
           order_status: "6",
           child: [
             {
-              label: "new orders",
+              label: "New orders",
               order_status: "6",
             },
             {
-              label: "accepted orders",
+              label: "Accepted orders",
               order_status: "8",
             },
             {
-              label: "in process",
+              label: "In process",
               order_status: "12",
             },
             {
-              label: "pickup",
+              label: "Pickup",
               order_status: "14",
             },
             {
-              label: "out for pickup",
+              label: "Out for pickup",
               order_status: "16",
             },
             {
-              label: "returning",
+              label: "Returning",
               order_status: "17",
             },
             {
-              label: "returned",
+              label: "Returned",
               order_status: "18",
             },
             {
-              label: "cancel",
+              label: "Cancel",
               order_status: "11,13,15",
             },
           ],

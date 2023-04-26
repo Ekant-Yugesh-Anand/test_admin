@@ -24,20 +24,13 @@ export default function MoveOrdersDialog(props: {
   onClose: () => void;
   refetch: Function;
 }) {
+
+
   const { open, onClose, orderStatus, orders, refetch } = props;
   const [select, setSelect] = React.useState("");
   const orderStatusList = React.useMemo(() => {
     const defaultList = [
       { title: "New", value: "0" },
-      // { title: "Accepted", value: "1" },
-      // { title: "In Process", value: "3" },
-      // { title: "Out for Delivery", value: "4" },
-      // { title: "Delivered", value: "5" },
-      // { title: "Cancelled from Farmer", value: "7" },
-      // { title: "Cancelled from Retailer", value: "9" },
-      // { title: "Cancelled from Delivery partner", value: "10" },
-      // { title: "Cancelled from Delivery agent", value: "11" },
-      // { title: "Re-schedule Order", value: "2" },
     ];
 
     if (orderStatus === "0") {
@@ -76,19 +69,13 @@ export default function MoveOrdersDialog(props: {
       return [
       ];
     }
-    // if (orderStatus !== "0" || "1" || "3" || "4" || "5") {
-    //   return [
-    //     { title: "Accepted", value: "1" },
-    //     { title: "In Process", value: "3" },
-    //     { title: "Out for Delivery", value: "4" },
-    //     { title: "Delivered", value: "5" },
-    //     { title: "Cancelled from Farmer", value: "7" },
-    //     { title: "Cancelled from Retailer", value: "9" },
-    //     { title: "Cancelled from Delivery partner", value: "10" },
-    //     { title: "Cancelled from Delivery agent", value: "11" },
-    //     { title: "Re-schedule Order", value: "2" },
-    //   ];
-    // }
+
+    if (orderStatus == "7,9,10" || 7 || 9 || 10) {
+      return [
+        { title: "Restore Order", value:12 },
+      ];
+    }
+
     return defaultList;
   }, []);
 
@@ -169,6 +156,14 @@ export default function MoveOrdersDialog(props: {
       "11": (
         <OrderForms.CancelledFromAgent
           key={10}
+          onClose={onClose}
+          orders={orders}
+          refetch={refetch}
+        />
+      ),
+      "12": (
+        <OrderForms.RestoreOrder
+          key={12}
           onClose={onClose}
           orders={orders}
           refetch={refetch}

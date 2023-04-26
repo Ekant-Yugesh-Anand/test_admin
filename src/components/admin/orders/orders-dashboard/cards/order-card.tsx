@@ -17,6 +17,7 @@ import usePrintData from "../../../../../hooks/usePrintData";
 import OrderStatus from "../../order-status";
 import { BsCheck2All } from "react-icons/bs";
 import { BsX } from "react-icons/bs";
+import { GiBackwardTime } from "react-icons/gi";
 
 const label1 = [
   { title: "Farmer name", accessor: "customer_name" },
@@ -39,7 +40,15 @@ const label1 = [
 ];
 
 const label2 = [
-  { title: "Order no", accessor: "main_order_no" },
+  {
+    title: "Order no",
+    accessor: "main_order_no",
+    Cell: (cell: any) => (
+      <>
+        {cell.original?.reschedule == "yes" ? <s>{cell.value}</s> : cell.value}
+      </>
+    ),
+  },
   { title: "Suborder no", accessor: "suborder_no" },
 
   {
@@ -75,6 +84,53 @@ const label2 = [
     },
   },
 ];
+const label3 = [
+  { title: "Reshedule", accessor: "reschedule" },
+  {
+    title: "Reshedule Date",
+    accessor: "reschedule_date",
+    Cell: (cell: any) => (
+      <>
+        {cell.value ? (
+          <>
+            {" "}
+            {dayjs(cell.value).format("D-MMM-YYYY")}{" "}
+            {dayjs(cell.value).format("hh:mm a")}{" "}
+          </>
+        ) : null}
+      </>
+    ),
+  },
+  { title: "Reshedule reason", accessor: "reschedule_reason" },
+  { title: "Reshedule other reason", accessor: "reschedule_other_reason" },
+];
+const label4 = [
+  { title: "Return reason", accessor: "return_reason_name" },
+  { title: "Return Type", accessor: "return_type" },
+  { title: "Other Return Reason", accessor: "return_other_reason" },
+  {
+    title: "Return Date",
+    accessor: "return_date",
+    Cell: (cell: any) => (
+      <>
+        {cell.value ? (
+          <>
+            {" "}
+            {dayjs(cell.value).format("D-MMM-YYYY")}{" "}
+            {dayjs(cell.value).format("hh:mm a")}{" "}
+          </>
+        ) : null}
+      </>
+    ),
+  },
+  { title: "Return Partner Name", accessor: "return_partner_name" },
+  { title: "Return Partner Mobile", accessor: "return_partner_phone_no" },
+  { title: "Return Partner Email", accessor: "return_partner_email_id" },
+  { title: "Return Agent Name", accessor: "return_agent_name" },
+  { title: "Return Agent Mobile", accessor: "return_agent_phone_no" },
+  { title: "Return Agent Email", accessor: "return_agent_email_id" },
+
+];
 
 function OrderCard(props: { order?: { [key: string]: any } }) {
   const { order } = props;
@@ -89,6 +145,14 @@ function OrderCard(props: { order?: { [key: string]: any } }) {
   });
   const { printData: obj2 } = usePrintData({
     labels: label1,
+    data: order,
+  });
+  const { printData: obj3 } = usePrintData({
+    labels: label3,
+    data: order,
+  });
+  const { printData: obj4 } = usePrintData({
+    labels: label4,
     data: order,
   });
 
@@ -161,6 +225,42 @@ function OrderCard(props: { order?: { [key: string]: any } }) {
                 ) : null}
               </Grid>
             </Grid>
+            <Grid container justifyContent="space-between">
+              {obj3.map((item, index) => {
+                if (item.get("Cell")?.props?.children)
+                  return (
+                    <Grid key={index} item lg={12}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: 1,
+                        }}
+                      >
+                        <LabelText>{item.get("title")}:</LabelText>
+                        {item.get("Cell")}
+                      </Box>
+                    </Grid>
+                  );
+              })}
+            </Grid>
+            <Grid container justifyContent="space-between">
+              {obj4.map((item, index) => {
+                if (item.get("Cell")?.props?.children)
+                  return (
+                    <Grid key={index} item lg={12}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: 1,
+                        }}
+                      >
+                        <LabelText>{item.get("title")}:</LabelText>
+                        {item.get("Cell")}
+                      </Box>
+                    </Grid>
+                  );
+              })}
+            </Grid>
           </Grid>
 
           <Grid item sm={12} lg={4}>
@@ -215,15 +315,33 @@ function OrderCard(props: { order?: { [key: string]: any } }) {
                   </IconButton>
                 )
               ) : (
-                <IconButton
-                  color="warning"
-                  aria-label="upload picture"
-                  component="label"
-                >
-                  <Typography>C.O.D</Typography>
-                </IconButton>
+                <>
+                  <IconButton
+                    color="warning"
+                    aria-label="upload picture"
+                    component="label"
+                  >
+                    <Typography>C.O.D</Typography>
+                  </IconButton>
+                </>
               )}
             </Box>
+            {order?.reschedule == "yes" ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  gap: 2,
+                  my: 2,
+                }}
+              >
+                <GiBackwardTime fontWeight="bold" color="red" />
+                <Typography fontWeight="bold" color="red">
+                  Resheduled
+                </Typography>
+              </Box>
+            ) : null}
           </Grid>
         </Grid>
         <Collapse in={orderDetailShow}>

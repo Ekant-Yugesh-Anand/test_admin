@@ -29,6 +29,8 @@ export default function WebInput(props: IProps) {
     ...inputProps
   } = props;
 
+  
+
   const idStr = React.useMemo(() => {
     const random = Math.random().toString(36).substring(7);
     return `${props.type}-${random}`;
@@ -66,14 +68,19 @@ export default function WebInput(props: IProps) {
     }
   }, [value, loadFirst]);
 
-  React.useEffect(() => {
-    actualValue && updateState(actualValue);
-  }, [actualValue]);
+ 
 
   React.useEffect(() => {
     let html = convertToHTML(editorState.getCurrentContent());
     onChangeOption(html);
   }, [editorState]);
+
+
+  React.useEffect(() => {
+    actualValue ? updateState(actualValue) : updateState("");
+  }, [actualValue ]);
+
+
 
   return (
     <Box sx={{ my: 1, width: "100%" }}>

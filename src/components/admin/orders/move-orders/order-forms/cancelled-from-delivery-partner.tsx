@@ -7,7 +7,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { shopOrders, shopReason } from "../../../../../http";
 import AsyncAutocomplete from "../../../../form/async-autocomplete";
 import moveOrdersSchemas from "../schemas";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 
 export default function CancelledFromDeliveryPartner(props: {
   onClose: () => void;
@@ -41,7 +41,7 @@ export default function CancelledFromDeliveryPartner(props: {
             order_id: orders.order_id,
             order_status: 10,
             agent_id: orders.agent_id,
-            cancel_date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+            // cancel_date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
             user: "admin",
           }),
         });

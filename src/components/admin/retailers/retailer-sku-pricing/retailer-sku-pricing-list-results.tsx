@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Grid } from "@mui/material";
 import { shopAssignRetailerProducts } from "../../../../http";
 import TablePagination from "../../../table/table-pagination";
 import RawDataNotFound from "../../raw-data-not-found";
@@ -59,24 +59,26 @@ function RetailerSkuPricingListResults(props: {
         ) : getData.totalItems === 0 ? (
           <RawDataNotFound />
         ) : (
-          getData.products.map(
-            (
-              item: { [key: string]: any },
-              index: React.Key | null | undefined
-            ) => (
-              <SkuPricingCard
-                key={index}
-                sku={item}
-                refetch={refetch}
-                onClickPrice={() =>
-                  setEdit({
-                    value: item,
-                    open: true,
-                  })
-                }
-              />
-            )
-          )
+          <Grid container spacing={2}>
+            {getData.products.map(
+              (
+                item: { [key: string]: any },
+                index: React.Key | null | undefined
+              ) => (
+                <SkuPricingCard
+                  key={index}
+                  sku={item}
+                  refetch={refetch}
+                  onClickPrice={() =>
+                    setEdit({
+                      value: item,
+                      open: true,
+                    })
+                  }
+                />
+              )
+            )}
+          </Grid>
         )}
       </Box>
       <Box mt={3}>

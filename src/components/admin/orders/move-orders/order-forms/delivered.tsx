@@ -15,7 +15,7 @@ import { useSnackbar } from "notistack";
 import { NumericFormat } from "react-number-format";
 import moveOrdersSchemas from "../schemas";
 import { shopOrders } from "../../../../../http";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 
 export default function Delivered(props: {
   onClose: () => void;
@@ -23,6 +23,7 @@ export default function Delivered(props: {
   refetch: Function;
 }) {
   const { onClose, refetch, orders } = props;
+
   const { enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = React.useState(false);
   const [paymentMethod, setPaymentMethod] = React.useState("cash");
@@ -38,7 +39,7 @@ export default function Delivered(props: {
   const initData = React.useMemo(
     () => ({
       cash: {
-        amount_receive: "",
+        amount_receive: orders?.grand_total || 0,
         payment_to: "",
       },
       upi: {
@@ -60,12 +61,13 @@ export default function Delivered(props: {
           label: "Amount Receive",
           name: "amount_receive",
           placeholder: "amount receive",
+          disabled:true
         },
         {
           type: "text",
-          label: "Payment To",
+          label: "Payment Recived From",
           name: "payment_to",
-          placeholder: "payment_to",
+          placeholder: "Payment recived from",
         },
       ],
       upi: [
@@ -74,6 +76,7 @@ export default function Delivered(props: {
           label: "Payment To",
           name: "payment_to",
           placeholder: "payment_to",
+          
         },
         {
           type: "numeric",
@@ -118,6 +121,7 @@ export default function Delivered(props: {
       moveOrdersSchemas[5][paymentMethod as keyof typeof initData],
     async onSubmit(values) {
       try {
+
         setLoading(true);
         const res = await shopOrders("post", {
           params: "status",
@@ -126,8 +130,9 @@ export default function Delivered(props: {
             order_id: orders.order_id,
             payment_method: paymentMethod === "upi" ? "UPI" : "Cash",
             order_status: 5,
-            delivered_date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+            // delivered_date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
             agent_id: orders.agent_id,
+            sub_order_no:orders.suborder_no,
             user: "admin",
           }),
         });

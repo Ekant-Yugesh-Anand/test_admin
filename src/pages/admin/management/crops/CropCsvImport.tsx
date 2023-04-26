@@ -129,7 +129,6 @@ export default function CropCsvImport() {
       <Box my={1}>
         <CSVFileReader setFile={onRead} />
       </Box>
-      <CommonToolbar title="csv data preview" titleVariant="subtitle" />
       <Box sx={{ mt: 1 }}>
         <PreviewTable
           columns={columns}
@@ -144,7 +143,7 @@ export default function CropCsvImport() {
         size="small"
         variant="contained"
         onClick={onUpload}
-        disabled={loading}
+        disabled={data.length > 0 ? loading : true}
         startIcon={
           loading ? <CircularProgress color="inherit" size={18} /> : undefined
         }

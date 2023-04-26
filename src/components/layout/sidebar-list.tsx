@@ -19,8 +19,8 @@ import {
   FaBoxes,
   FaPeopleCarry,
   FaShoppingCart,
-  FaCartPlus,
   FaAlignCenter,
+  FaMapMarkedAlt,
 } from "react-icons/fa";
 import {
   BsBookmarkCheckFill,
@@ -28,11 +28,11 @@ import {
   // BsGraphUp,
   BsJournalBookmark,
   BsMailbox,
+  BsPercent,
   BsShopWindow,
   BsUiRadiosGrid,
 } from "react-icons/bs";
 import {
-  MdAcUnit,
   MdAddShoppingCart,
   MdFreeCancellation,
   MdMargin,
@@ -138,7 +138,7 @@ const sideBarMainList = [
       {
         href: "/masters/areas",
         title: "Areas",
-        icon: <MdAcUnit />,
+        icon: <FaMapMarkedAlt />,
       },
       {
         href: "/masters/banner",
@@ -224,6 +224,16 @@ const sideBarMainList = [
         href: "/retailer-report/margin-report",
         title: "Margin Report",
         icon: <MdMargin />,
+      },
+      {
+        href: "/retailer-report/taxation-report",
+        title: "Taxation Report",
+        icon: <BsPercent />,
+      },
+      {
+        href: "/retailer-report/packaging-material",
+        title: "Issued Packaging Material",
+        icon: <MdOutlineCardGiftcard />,
       },
     ],
   },

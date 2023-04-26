@@ -15,6 +15,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Data, Headers } from "react-csv/components/CommonPropTypes";
 import { CSVLink } from "react-csv";
 import { TbReceiptTax } from "react-icons/tb";
+import PageBack from "../../layout/page-back";
 
 export type DatesType = {
   from: Dayjs | null;
@@ -33,10 +34,14 @@ export default function OrdersToolbar(props: {
   };
   gstProps?: {
     ref?: any;
+    igstRef?:any;
     headers?: Headers;
+    iHeaders?:Headers
     onClick?: () => void;
     data: string | Data | (() => string | Data);
     filename?: string;
+    iFilename?: string;
+
   };
 }) {
   const { onSearch, children, exportProps, gstProps } = props;
@@ -87,6 +92,14 @@ export default function OrdersToolbar(props: {
                 target="_blank"
                 ref={gstProps.ref}
               />
+              <CSVLink
+                data={gstProps.data}
+                headers={gstProps.iHeaders}
+                filename={gstProps.iFilename}
+                target="_blank"
+                ref={gstProps.igstRef}
+              />
+              
               <Button
                 sx={{ mr: 1 }}
                 color="secondary"
@@ -116,13 +129,15 @@ export default function OrdersToolbar(props: {
               </Button>
             </>
           )}
+          <PageBack/>
+
           
         </Box>
       </Box>
       {onSearch && (
         <Box sx={{ mt: 2 }}>
           <Card>
-            <CardContent>
+            <CardContent sx={{ display: "flex" }}>
               <Grid
                 container
                 rowSpacing={1}
@@ -177,12 +192,11 @@ export default function OrdersToolbar(props: {
                   />
                 </Grid>
               </Grid>
-              <Box
-                sx={{
+              <Grid
+                 sx={{
                   display: "flex",
                   gap: 3,
-                  marginTop: 0.5,
-                  justifyContent: "flex-end",
+                  alignItems: "center",
                 }}
               >
                 <Button
@@ -208,7 +222,7 @@ export default function OrdersToolbar(props: {
                 >
                   Reset
                 </Button>
-              </Box>
+              </Grid>
             </CardContent>
           </Card>
         </Box>

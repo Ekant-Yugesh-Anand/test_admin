@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Grid } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { shopAssignRetailerProducts } from "../../../../http";
 import TablePagination from "../../../table/table-pagination";
@@ -111,19 +111,21 @@ function RetailerSkuListResults(props: {
             }
           />
         ) : (
-          getData.products.map(
-            (
-              item: { [key: string]: any },
-              index: React.Key | null | undefined
-            ) => (
-              <SkuCard
-                key={index}
-                sku={item}
-                variant={variant === "assign" ? "unassign" : "assign"}
-                onClick={onClickHandle}
-              />
-            )
-          )
+          <Grid container spacing={2}>
+            {getData.products.map(
+              (
+                item: { [key: string]: any },
+                index: React.Key | null | undefined
+              ) => (
+                <SkuCard
+                  key={index}
+                  sku={item}
+                  variant={variant === "assign" ? "unassign" : "assign"}
+                  onClick={onClickHandle}
+                />
+              )
+            )}
+          </Grid>
         )}
       </Box>
       <Box mt={3}>

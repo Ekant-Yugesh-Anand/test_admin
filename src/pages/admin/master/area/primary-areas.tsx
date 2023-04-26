@@ -9,6 +9,7 @@ import {
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { shopAreas } from "../../../../http";
+import { Typography } from "@mui/material";
 
 export default function AreaWiseData() {
   const { area_id } = useParams();
@@ -25,22 +26,42 @@ export default function AreaWiseData() {
   return (
     <MainContainer>
       <CommonToolbar title={`${areaName} / Primary Areas`} titleVariant="h6" />
-      <CommonToolbar
-        title={"Retailer"}
-        placeholder="search retailer area"
-        titleVariant="subtitle"
-      />
-      <Box sx={{ mt: 3 }}>
-        <RetailerAreaList searchText={""} area_id={area_id as string} />
-      </Box>
-      <CommonToolbar
-        title={"Partner"}
-        placeholder="search partner area"
-        titleVariant="subtitle"
-      />
-      <Box sx={{ mt: 3 }}>
-        <PartnerAreaList searchText={""} area_id={area_id as string} />
-      </Box>
+      <>
+        <Box
+          sx={{
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            m: -0.5,
+          }}
+        >
+          <Typography sx={{ m: 1 }} variant={"subtitle1"}>
+            Retailers
+          </Typography>
+        </Box>
+        <Box sx={{ mt: 2 }}>
+          <RetailerAreaList searchText={""} area_id={area_id as string} />
+        </Box>
+      </>
+      <>
+        <Box
+          sx={{
+            alignItems: "center",
+            display: "flex",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            m: -0.5,
+          }}
+        >
+          <Typography sx={{ m: 1 }} variant={"subtitle1"}>
+            Partners
+          </Typography>
+        </Box>
+        <Box sx={{ mt: 2 }}>
+          <PartnerAreaList searchText={""} area_id={area_id as string} />
+        </Box>
+      </>
     </MainContainer>
   );
 }

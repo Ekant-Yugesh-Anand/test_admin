@@ -34,7 +34,7 @@ export default function AllOrderLog() {
           filter={true}
         />
         <Box sx={{ mt: 3 }} ref={componentRef}>
-          <AllOrderLogList searchText={searchText} />
+          <AllOrderLogList searchText={searchText == "?" ? "": searchText} />
         </Box>
       </MainContainer>
 

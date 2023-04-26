@@ -22,6 +22,7 @@ import { useNavigate } from "react-router-dom";
 import FileUploader from "../../../../components/form/inputs/file-uploader";
 import ShopAvatar from "../../../../components/Image/shop-avatar";
 import useBucket from "../../../../hooks/useBucket";
+import CommonToolbar from "../../../../components/admin/common-toolbar";
 
 export default function CreateProducts() {
   const { enqueueSnackbar } = useSnackbar();
@@ -39,15 +40,15 @@ export default function CreateProducts() {
       if (res?.status === 200) {
         navigate(-1);
         setTimeout(() => {
-          enqueueSnackbar("Product Save successfully!👍😊", {
+          enqueueSnackbar("Product Save successfully!", {
             variant: "success",
           });
         }, 200);
       }
-    } catch (error) {
+    } catch (error:any) {
       console.log(error);
       setTimeout(() => {
-        enqueueSnackbar("Product Save Failed!😢", { variant: "error" });
+        enqueueSnackbar(error.response.data.message ? error.response.data.message :"Product Save Failed!", { variant: "error" });
       }, 200);
     }
   };
@@ -74,7 +75,7 @@ export default function CreateProducts() {
         } catch (error) {
           console.log(error);
           setTimeout(() => {
-            enqueueSnackbar("Product Save Failed!😢", { variant: "error" });
+            enqueueSnackbar("Product Save Failed!", { variant: "error" });
           }, 200);
         }
       } else {
@@ -88,7 +89,7 @@ export default function CreateProducts() {
   return (
     <MainContainer>
       <Container>
-        <Typography variant="h5">Add New Product</Typography>
+      <CommonToolbar title="Add New Product"  />
         <Card className="lg:col-span-2">
           <CardContent sx={{ pt: 2 }}>
             <form onSubmit={handleSubmit}>

@@ -3,14 +3,14 @@ import { emptyText, minText } from "../../../../constants/messages";
 
 export const retailerSchema = Yup.object({
   retailer_name: Yup.string()
-    .min(2, minText("retailer name"))
+    .min(2, minText("Retailer name"))
     .max(255)
-    .required(emptyText("retailer name")),
+    .required(emptyText("Retailer name")),
   company_name: Yup.string()
-    .min(2, minText("retailer name"))
+    .min(2, minText("Retailer name"))
     .max(255)
-    .required(emptyText("company name")),
-  email_id: Yup.string().email().required(emptyText("email")),
+    .required(emptyText("Company name")),
+  email_id: Yup.string().email().required(emptyText("Email")),
   phone_no: Yup.string().matches(
     /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$/,
     {
@@ -19,23 +19,23 @@ export const retailerSchema = Yup.object({
     }
   ),
   pincode: Yup.string()
-    .max(6, "invalid pincode")
-    .required(emptyText("pincode")),
+    .max(6, "Invalid pincode")
+    .required(emptyText("Pincode")),
   // margin: Yup.number(),
 });
 
 export const categorySchema = Yup.object({
-  category_id: Yup.string().required(emptyText("category")),
-  subcategory_id: Yup.string().required(emptyText("subcategory")),
-  margin:Yup.string().required(emptyText("margin"))
+  category_id: Yup.string().required(emptyText("Category")),
+  subcategory_id: Yup.string().required(emptyText("Subcategory")),
+  margin:Yup.string().required(emptyText("Margin"))
 })
 
 export const marginSchema = Yup.object({
-  margin:Yup.string().required(emptyText("margin"))
+  margin:Yup.string().required(emptyText("Margin"))
 })
 
 export const retailerMaterialSchema = Yup.object({
-  material_id: Yup.string().required(emptyText("material_id")),
-  quantity: Yup.number().required(emptyText("quantity")),
+  material_id: Yup.string().required(emptyText("Material_id")),
+  quantity: Yup.number().required(emptyText("Quantity")),
   remark:Yup.string()
 })

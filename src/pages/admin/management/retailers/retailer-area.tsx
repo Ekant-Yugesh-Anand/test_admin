@@ -236,6 +236,17 @@ export default function RetailerArea() {
             alignItems: "center",
           }}
         >
+          
+          <Button
+            color="secondary"
+            variant="outlined"
+            size="small"
+            sx={{ backgroundColor: "#fff" }}
+            disabled={loading}
+            onClick={onCancel}
+          >
+            Cancel
+          </Button>
           <Button
             type="submit"
             color="secondary"
@@ -250,16 +261,6 @@ export default function RetailerArea() {
             }
           >
             Save
-          </Button>
-          <Button
-            color="secondary"
-            variant="outlined"
-            size="small"
-            sx={{ backgroundColor: "#fff" }}
-            disabled={loading}
-            onClick={onCancel}
-          >
-            Cancel!
           </Button>
         </Box>
       </Container>

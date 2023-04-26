@@ -56,7 +56,7 @@ export default function BrandAddEditDialog(props: {
       console.log(error);
       setTimeout(
         () =>
-          enqueueSnackbar("Brands update failed!😢", {
+          enqueueSnackbar(error.response?.data?.message || "Brands update failed!😢", {
             variant: "error",
           }),
         200
@@ -79,11 +79,16 @@ export default function BrandAddEditDialog(props: {
         );
         reload();
       }
-    } catch (error) {
+    } catch (error:any) {
       console.log(error);
-      enqueueSnackbar("Brands add failed!😢", {
-        variant: "error",
-      });
+      setTimeout(
+        () =>
+          enqueueSnackbar(error.response?.data?.message || "Brands could not added!😢", {
+            variant: "error",
+          }),
+        200
+      );
+      
     }
   };
 

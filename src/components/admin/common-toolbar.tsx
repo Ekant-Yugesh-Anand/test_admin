@@ -6,8 +6,7 @@ import { Data, Headers } from "react-csv/components/CommonPropTypes";
 import { CSVLink } from "react-csv";
 import AsyncAutocomplete from "../form/async-autocomplete";
 import { orderLabel } from "./orders/status";
-import { useQuery } from "@tanstack/react-query";
-import { shopRetailerCategories } from "../../http";
+import PageBack from "../layout/page-back";
 
 export default function CommonToolbar(props: {
   title: string;
@@ -16,7 +15,7 @@ export default function CommonToolbar(props: {
     onClick: () => void;
   };
   onClickSort?: () => void;
-  onSearch?: (value: string, filter?: string|number) => void;
+  onSearch?: (value: string, filter?: string | number) => void;
   filter?: boolean;
   placeholder?: string;
   onClickExport?: () => void;
@@ -128,6 +127,7 @@ export default function CommonToolbar(props: {
               {onAddProps.title}
             </Button>
           )}
+          <PageBack />
         </Box>
       </Box>
       {onSearch && (

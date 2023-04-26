@@ -2,7 +2,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { ToWords } from "to-words";
 import dayjs from "dayjs";
-import { getStrOrderStatus } from "../../constants/messages";
+import { getPos, getStrOrderStatus } from "../../constants/messages";
 import {
   brands,
   categories,
@@ -155,7 +155,7 @@ export const dateTimeFormatTable = (
           [dateExtractKeyName]: dayjs(row[dateExtractKeyName]).format(
             "D-M-YYYY"
           ),
-          [addTimeKeyName]: dayjs(row[dateExtractKeyName]).format("h:mm"),
+          [addTimeKeyName]: dayjs(row[dateExtractKeyName]).format("hh:mm A"),
         }
       : row
   );
@@ -326,7 +326,9 @@ export const calculateMargin = (data: Array<Record<string, any>>) =>
     for (const key in row) {
       if (Object.prototype.hasOwnProperty.call(row, key)) {
         newRow["margin_amount"] = row["margin"]
-          ? ` ${((+row["price"] * +row["margin"]?.split("%")[0]) / 100).toFixed(2)}`
+          ? ` ${((+row["price"] * +row["margin"]?.split("%")[0]) / 100).toFixed(
+              2
+            )}`
           : "0";
       }
     }
@@ -448,6 +450,18 @@ export function wieghtValidation(value: any) {
   return { error: false, message: "" };
 }
 
+//  used_quantity validation
+
+export function usedQuantityValidation(quantity: number, used: number) {
+  if (quantity < used) {
+    return {
+      error: true,
+      message: "Used Quantity should be less than quantity",
+    };
+  }
+  return { error: false, message: "" };
+}
+
 //  category validation
 export async function categoryValidation(value: any) {
   try {
@@ -561,7 +575,7 @@ export const gstValidation = (gst: string | number) => {
 
 export async function sku_id_validation(value: any) {
   try {
-    let res = await shopProductWeightPrice("get", { params: value });
+    let res = await shopProducts("get", { params: value });
     if (res?.data[0]?.sku_id !== value) {
       return { error: true, message: "Sku id is not valid" };
     }
@@ -672,3 +686,56 @@ export const getPackage = async (package_name: string | number) => {
     return false;
   }
 };
+
+export const manipulateGst = (data: Array<Record<string, any>>) =>
+  data.map((row) => {
+    const newRow: typeof row = {};
+    for (const key in row) {
+      if (Object.prototype.hasOwnProperty.call(row, key)) {
+        if (row["delivery_charge"]) {
+          newRow["igst"] = "18%";
+          newRow["cgst"] = "9%";
+          newRow["sgst"] = "9%";
+          newRow["taxable_value"] =
+            row["delivery_charge"] - (row["delivery_charge"] * 18) / 100;
+          newRow["igst_amt"] = (row["delivery_charge"] * 18) / 100;
+          newRow["cgst_amt"] = (row["delivery_charge"] * 9) / 100;
+          newRow["sgst_amt"] = (row["delivery_charge"] * 9) / 100;
+        }
+        if (row["retailer_state"])
+          newRow["pos"] = getPos(row["retailer_state"]);
+
+        row["hsn"] = "999999";
+        row["customerGSTIN"] = "Not Registered";
+        row["customer_code"] = "NA";
+        row["reserve_charge_flag"] = "N";
+      }
+    }
+    return { ...row, ...newRow };
+  });
+
+export const getTaxationValue = (data: Array<Record<string, any>>) =>
+  data.map((row) => {
+    const newRow: typeof row = {};
+    for (const key in row) {
+      if (Object.prototype.hasOwnProperty.call(row, key)) {
+        if (row["grand_cargill_margin_amount"]) {
+          newRow["ds_margin_gst"] = (
+            +row["grand_cargill_margin_amount"] * 0.18
+          ).toFixed(2);
+          newRow["ds_payable"] = (
+            +newRow["ds_margin_gst"] + +row["grand_cargill_margin_amount"]
+          ).toFixed(2);
+        }
+        newRow["tds"] = row["grand_total"] * 0.01;
+        newRow["tcs"] = row["grand_total"] * 0.01;
+        newRow["ret_payable"] = (
+          +row["grand_total"] -
+          (+row["grand_total"] * 0.02 +
+            +newRow["ds_margin_gst"] +
+            +row["grand_cargill_margin_amount"])
+        ).toFixed(2);
+      }
+    }
+    return { ...row, ...newRow };
+  });

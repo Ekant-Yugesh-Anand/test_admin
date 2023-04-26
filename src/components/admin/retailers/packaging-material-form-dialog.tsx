@@ -69,6 +69,7 @@ export default function RetailerPackagingMaterialFormDialog(props: {
     validationSchema: retailerMaterialSchema,
     enableReinitialize: true,
     async onSubmit(values) {
+  
       if (variant === "edit" && materialData) {
         try {
           const res = await shopRetailerMaterialPackage("put", {
@@ -99,6 +100,7 @@ export default function RetailerPackagingMaterialFormDialog(props: {
             data: JSON.stringify({
               ...values,
               retailer_id,
+              issue_date:values?.issue_date || dayjs().format("YYYY-MM-DD HH:mm:ss"), 
             }),
           });
           if (res?.status === 200) {
@@ -157,7 +159,7 @@ export default function RetailerPackagingMaterialFormDialog(props: {
               <DatePicker
                 label="Issue Date"
                 inputFormat="DD/MM/YYYY"
-                value={dayjs(values?.issue_date || dayjs())}
+                value={dayjs(values?.issue_date || dayjs().format("YYYY-MM-DD HH:mm:ss"))}
                 onChange={(value) => {
                   setFieldValue("issue_date", value);
                 }}

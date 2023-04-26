@@ -22,6 +22,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import useBucket from "../../../../hooks/useBucket";
 import ShopAvatar from "../../../../components/Image/shop-avatar";
 import FileUploader from "../../../../components/form/inputs/file-uploader";
+import CommonToolbar from "../../../../components/admin/common-toolbar";
 
 export default function EditProducts() {
   const { enqueueSnackbar } = useSnackbar();
@@ -42,15 +43,15 @@ export default function EditProducts() {
       if (res?.status === 200) {
         navigate(-1);
         setTimeout(() => {
-          enqueueSnackbar("Product updated successfully!👍😊", {
+          enqueueSnackbar("Product updated successfully!", {
             variant: "success",
           });
         }, 200);
       }
-    } catch (error) {
+    } catch (error:any) {
       console.log(error);
       setTimeout(() => {
-        enqueueSnackbar("Product Update Failed!😢", { variant: "error" });
+        enqueueSnackbar(error.response.data.message ? error.response.data.message :"Product Update Failed!", { variant: "error" });
       }, 200);
     }
   };
@@ -78,7 +79,7 @@ export default function EditProducts() {
         } catch (error) {
           console.log(error);
           setTimeout(() => {
-            enqueueSnackbar("Product Update Failed!😢", { variant: "error" });
+            enqueueSnackbar("Product Update Failed!", { variant: "error" });
           }, 200);
         }
       } else {
@@ -101,6 +102,10 @@ export default function EditProducts() {
           hsn_code,
           description,
           ingredients,
+          technical_formula,
+          doses,
+          application,
+          target_crop,
           category_id,
           subcategory_id,
           brand_id,
@@ -120,7 +125,11 @@ export default function EditProducts() {
           brand_id,
           crop_id,
           ingredients:ingredients ? ingredients :"",
-          ingredient_id
+          ingredient_id,
+          technical_formula,
+          doses,
+          application,
+          target_crop
         });
         setFile(image_url);
       }
@@ -136,7 +145,7 @@ export default function EditProducts() {
   return (
     <MainContainer>
       <Container>
-        <Typography variant="h5">Edit Product</Typography>
+        <CommonToolbar title="Edit Product"  />
         <Card className="lg:col-span-2">
           <CardContent sx={{ pt: 2 }}>
             <form onSubmit={handleSubmit}>

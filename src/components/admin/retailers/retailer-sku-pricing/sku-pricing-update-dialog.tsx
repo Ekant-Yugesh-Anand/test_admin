@@ -94,15 +94,17 @@ export default function SkuPricingUpdateDialog(props: {
             helperText={touched.sale_price ? (errors.sale_price as string) : ""}
             onBlur={handleBlur}
           />
-          <TextInput
+        
+          <NumericFormat
             value={values.margin}
-            label="Margin (%)"
+            customInput={TextInput}
+            label="Margin"
             name="margin"
+            suffix="%"
             onChange={handleChange}
-            error={errors.margin && touched.margin ? true : false}
-            helperText={touched.margin ? (errors.margin as string) : ""}
+            error={errors.quantity && touched.quantity ? true : false}
+            helperText={touched.quantity ? (errors.quantity as string) : ""}
             onBlur={handleBlur}
-           
           />
           <NumericFormat
             value={

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, Container } from "@mui/material";
+import { Box, Card, CardContent } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { MainContainer } from "../../../../../components/layout";
 import {
@@ -84,8 +84,8 @@ export default function RetailerSkuUnits() {
   return (
     <>
       <RetailerSkuUnitTab onChange={setProductTab} value={productTab} />
-      <MainContainer>
-        <Container>
+      <MainContainer >
+        <Box sx={{ mt: 10 }}>
           {productTab != 0 ? (
             <ProductsListToolbar
               title={`${retailerName} / Retailer Orders`}
@@ -128,7 +128,7 @@ export default function RetailerSkuUnits() {
               />
             </CardContent>
           </Card>
-        </Container>
+        </Box>
       </MainContainer>
     </>
   );

@@ -26,6 +26,7 @@ export default function AllOrderLogList(props: { searchText: string }) {
     ["order-log", postfix],
     () =>
       shopOrderLog("get", {
+        params:searchText ? "search" :"",
         postfix,
       }),
     {
@@ -54,13 +55,23 @@ export default function AllOrderLogList(props: { searchText: string }) {
       },
       {
         Header: "Order Id",
-        accessor: "order_id",
+        accessor: "main_order_no",
         Cell: (cell: any) => (
           <>
             <Typography textAlign={"center"} fontSize={"small"}>
               {cell.value}
             </Typography>
           </>
+        ),
+      },
+      {
+        Header: "Suborder No",
+        accessor: "suborder_no",
+        width: "8%",
+        Cell: (cell: any) => (
+          <Typography textAlign="center" fontSize={"small"}>
+            {cell.value}
+          </Typography>
         ),
       },
       {

@@ -7,4 +7,5 @@ export { default as CancelledFromFarmer } from "./cancelled-from-farmer";
 export { default as CancelledFromRetailer } from "./cancelled-from-retailer";
 export { default as CancelledFromAgent } from "./cancelled-from-delivery-agent";
 export { default as CancelledFromPartner } from "./cancelled-from-delivery-partner";
-export { default as ReScheduleOrder} from "./reshedule"
+export { default as ReScheduleOrder } from "./reshedule";
+export { default as RestoreOrder } from "./restore-order";

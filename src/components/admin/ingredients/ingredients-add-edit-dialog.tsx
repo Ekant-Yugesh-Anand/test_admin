@@ -54,7 +54,7 @@ export default function IngredientAddEditDialog(props: {
       console.log(error);
       setTimeout(
         () =>
-          enqueueSnackbar("Ingredients update failed!😢", {
+          enqueueSnackbar( error.response?.data?.message || "Ingredients update failed!😢", {
             variant: "error",
           }),
         200
@@ -77,11 +77,16 @@ export default function IngredientAddEditDialog(props: {
         );
         reload();
       }
-    } catch (error) {
+    } catch (error:any) {
       console.log(error);
-      enqueueSnackbar("Ingredients add failed!😢", {
-        variant: "error",
-      });
+      setTimeout(
+        () =>
+          enqueueSnackbar(error.response?.data?.message ||"Ingredients add failed!😢", {
+            variant: "error",
+          }),
+        200
+      );
+
     }
   };
 

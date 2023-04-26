@@ -11,7 +11,7 @@ import ActiveDeactive from "../active-deactive";
 import usePaginate from "../../../hooks/usePaginate";
 import TablePagination from "../../table/table-pagination";
 import DeleteDialogBox from "../../dialog-box/delete-dialog-box";
-import { shopMaterialPackage, shopRetailerMaterialPackage } from "../../../http/server-api/server-apis";
+import { shopRetailerMaterialPackage } from "../../../http/server-api/server-apis";
 import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import RetailerPackagingMaterialFormDialog from "./packaging-material-form-dialog";
@@ -55,6 +55,7 @@ export default function RetailerPackagingMaterialList(props: {
     ["retailer-material", postfix],
     () =>
       shopRetailerMaterialPackage("get", {
+        params:"material",
         postfix,
       }),
     {

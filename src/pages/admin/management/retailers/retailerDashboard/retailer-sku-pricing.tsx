@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, Container } from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 import { MainContainer } from "../../../../../components/layout";
 import RetailerSkuPricingListResults from "../../../../../components/admin/retailers/retailer-sku-pricing/retailer-sku-pricing-list-results";
 import { retailer, shopAssignRetailerProducts } from "../../../../../http";
@@ -76,7 +76,6 @@ export default function RetailerSkuPricingUnits() {
 
   return (
     <MainContainer>
-      <Container>
         <ProductsListToolbar
           title={`${retailerName} / Data Sku Pricing`}
           onSearch={searchHandler}
@@ -97,7 +96,6 @@ export default function RetailerSkuPricingUnits() {
             />
           </CardContent>
         </Card>
-      </Container>
     </MainContainer>
   );
 }

@@ -29,7 +29,7 @@ export default function SkuCard(props: {
   });
 
   const label1 = [
-    { title: "weight", accessor: "weight" },
+    { title: "Weight", accessor: "weight" },
     { title: "MRP₹", accessor: "mrp" },
     { title: "Total Qty.", accessor: "quantity" },
     { title: "Qty. in stock", accessor: "quantity" },
@@ -37,9 +37,9 @@ export default function SkuCard(props: {
 
   const label2 = [
     { title: "SKU ID", accessor: "sku_id" },
-    { title: "category", accessor: "category_name" },
-    { title: "subcategory", accessor: "subcategory_name" },
-    { title: "brand", accessor: "brand_name" },
+    { title: "Category", accessor: "category_name" },
+    { title: "Subcategory", accessor: "subcategory_name" },
+    { title: "Brand", accessor: "brand_name" },
   ];
   const label3 = [
     { title: "Cargill Margin(%)", accessor: "margin" },
@@ -69,53 +69,32 @@ export default function SkuCard(props: {
   });
 
   return (
-    <Card sx={{ width: 350 }} elevation={5}>
-      <ShopAvatar
-        src={sku.image}
-        sx={{ height: 180, width: "100%" }}
-        defaultImg={{
-          variant: "rounded",
-          sx: {
-            backgroundColor: "#fff",
-            height: 150,
-            width: 150,
-          },
-        }}
-        variant="square"
-        download
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {sku?.sku_name || "No Name"}
-        </Typography>
-        <Grid container spacing={1}>
-          <Grid item xs={12}>
-            <Grid container>
-              {obj2.map((item, index) => (
-                <Grid key={index} item xs={12}>
-                  
-                    <Box sx={{ display: "flex", gap: 1 }}>
-                      <LabelText>{item.get("title")}:</LabelText>
-                      <Typography>
-                        {item.get("Cell").props.children
-                          ? item.get("Cell")
-                          : "0"}
-                      </Typography>
-                    </Box>
-                  
-                </Grid>
-              ))}
-            </Grid>
+    <Grid item sm={12} md={6} lg={4} xl={3}>
+      <Card elevation={5}>
+        <ShopAvatar
+          src={sku.image}
+          sx={{ height: 180, width: "100%" }}
+          defaultImg={{
+            variant: "rounded",
+            sx: {
+              backgroundColor: "#fff",
+              height: 150,
+              width: 150,
+            },
+          }}
+          variant="square"
+          download
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            {sku?.sku_name || "No Name"}
+          </Typography>
+          <Grid container spacing={1}>
             <Grid item xs={12}>
               <Grid container>
-                {obj1.map((item, index) => (
-                  <Grid key={index} item xs={6}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        gap: 1,
-                      }}
-                    >
+                {obj2.map((item, index) => (
+                  <Grid key={index} item xs={12}>
+                    <Box sx={{ display: "flex", gap: 1 }}>
                       <LabelText>{item.get("title")}:</LabelText>
                       <Typography>
                         {item.get("Cell").props.children
@@ -126,63 +105,84 @@ export default function SkuCard(props: {
                   </Grid>
                 ))}
               </Grid>
-            </Grid>
-            <Grid container>
-              {obj3.map((item, index) => (
-                <Grid key={index} item xs={12}>
-                  {item.get("title") == "Cargill Margin Amount(₹)" ? (
-                    <Box sx={{ display: "flex", gap: 1 }}>
-                      <LabelText>{item.get("title")}:</LabelText>
-                      <Typography>
-                        {item.get("Cell").props.children
-                          ? item.get("Cell")
-                          : variant == "assign"
-                          ? (sku?.price * sku?.margin?.split("%")[0]) / 100
-                          : "0"}
-                      </Typography>
-                    </Box>
-                  ) : (
-                    <Box sx={{ display: "flex", gap: 1 }}>
-                      <LabelText>{item.get("title")}:</LabelText>
-                      <Typography>
-                        {item.get("Cell").props.children
-                          ? item.get("Cell")
-                          : "0"}
-                      </Typography>
-                    </Box>
-                  )}
+              <Grid item xs={12}>
+                <Grid container>
+                  {obj1.map((item, index) => (
+                    <Grid key={index} item xs={6}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: 1,
+                        }}
+                      >
+                        <LabelText>{item.get("title")}:</LabelText>
+                        <Typography>
+                          {item.get("Cell").props.children
+                            ? item.get("Cell")
+                            : "0"}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  ))}
                 </Grid>
-              ))}
+              </Grid>
+              <Grid container>
+                {obj3.map((item, index) => (
+                  <Grid key={index} item xs={12}>
+                    {item.get("title") == "Cargill Margin Amount(₹)" ? (
+                      <Box sx={{ display: "flex", gap: 1 }}>
+                        <LabelText>{item.get("title")}:</LabelText>
+                        <Typography>
+                          {item.get("Cell").props.children
+                            ? item.get("Cell")
+                            : variant == "assign"
+                            ? (sku?.price * sku?.margin?.split("%")[0]) / 100
+                            : "0"}
+                        </Typography>
+                      </Box>
+                    ) : (
+                      <Box sx={{ display: "flex", gap: 1 }}>
+                        <LabelText>{item.get("title")}:</LabelText>
+                        <Typography>
+                          {item.get("Cell").props.children
+                            ? item.get("Cell")
+                            : "0"}
+                        </Typography>
+                      </Box>
+                    )}
+                  </Grid>
+                ))}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </CardContent>
-      <CardActions>
-        <Button
-          size="small"
-          color={variant === "assign" ? "secondary" : "error"}
-          variant="outlined"
-          onClick={async () => {
-            variant == "assign"
-              ? setAssignData({
-                  value: sku,
-                  open: true,
-                })
-              : await onClick(sku);
+        </CardContent>
+        <CardActions>
+          <Button
+            size="small"
+            color={variant === "assign" ? "secondary" : "error"}
+            variant="outlined"
+            onClick={async () => {
+              variant == "assign"
+                ? setAssignData({
+                    value: sku,
+                    open: true,
+                  })
+                : await onClick(sku);
+            }}
+          >
+            {variant === "assign" ? "assign" : "un-assign"}
+          </Button>
+        </CardActions>
+        <AssignDialogBox
+          open={asignData?.open}
+          sku={sku}
+          onClickClose={assignModalClose}
+          onClickOk={async () => {
+            assignModalClose();
+            await onClick(sku);
           }}
-        >
-          {variant === "assign" ? "assign" : "un-assign"}
-        </Button>
-      </CardActions>
-      <AssignDialogBox
-        open={asignData?.open}
-        sku={sku}
-        onClickClose={assignModalClose}
-        onClickOk={async () => {
-          assignModalClose();
-          await onClick(sku);
-        }}
-      />
-    </Card>
+        />
+      </Card>
+    </Grid>
   );
 }

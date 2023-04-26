@@ -53,7 +53,7 @@ export default function FileUploader(props: {
       onTypeError={typeError}
       onSizeError={sizeError}
       multiple={multiple ? multiple :false}
-      // maxSize={5}
+      maxSize={2}
       handleChange={handleChange}
     >
       <ImageContainer sx={{ p: 1, minHeight: "fit-content" }}>

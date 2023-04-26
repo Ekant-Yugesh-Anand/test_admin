@@ -56,7 +56,7 @@ export default function CropAddEditDialog(props: {
       console.log(error);
       setTimeout(
         () =>
-          enqueueSnackbar("Crop updated failed!😢", {
+          enqueueSnackbar( error.response?.data?.message || "Crop updated failed!😢", {
             variant: "error",
           }),
         200
@@ -79,11 +79,16 @@ export default function CropAddEditDialog(props: {
         );
         reload();
       }
-    } catch (error) {
+    } catch (error:any) {
       console.log(error);
-      enqueueSnackbar("Crop add failed!😢", {
-        variant: "error",
-      });
+        setTimeout(
+        () =>
+          enqueueSnackbar(error.response?.data?.message ||"Crop could not added!😢", {
+            variant: "error",
+          }),
+        200
+      );
+     
     }
   };
 

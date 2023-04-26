@@ -76,13 +76,13 @@ export default function SubCategoriesList(props: {
       });
       if (res.status === 200) {
         refetch();
-        enqueueSnackbar("entry successfully deleted 😊", {
+        enqueueSnackbar("entry successfully deleted ", {
           variant: "success",
         });
       }
     } catch (err: any) {
       console.log(err.response);
-      enqueueSnackbar("entry not delete 😢", { variant: "error" });
+      enqueueSnackbar("entry could not delete", { variant: "error" });
     }
     deleteBoxClose();
   };

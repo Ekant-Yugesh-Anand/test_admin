@@ -17,6 +17,7 @@ import {
   formatVolume,
   formatWeight,
   getFragile,
+  manipulateGst,
   margeAsList,
   margeRowTable,
   orderStatusReadable,
@@ -33,6 +34,7 @@ export default function AllOrders() {
   >([]);
   const ref = React.useRef<any>(null);
   const gstRef = React.useRef<any>(null);
+  const igstRef = React.useRef<any>(null);
   const dispatch = useDispatch();
 
   const searchHandler = (value: string, dates: DatesType) => {
@@ -124,7 +126,6 @@ export default function AllOrders() {
         csvData = addTaxNetAmount(csvData);
 
         // add ' before the string
-
         csvData = addComma(csvData);
 
         //get fragile
@@ -140,9 +141,14 @@ export default function AllOrders() {
         // remove esc
         csvData = removeEsc(csvData);
 
+        gst == true ? csvData = manipulateGst(csvData) : null
+
+
+
         gst == true
           ? setCsvData(csvData, () => {
               gstRef.current.link.click();
+              igstRef.current.link.click()
               dispatch(setPageLoading(false));
             })
           : setCsvData(csvData, () => {
@@ -169,9 +175,12 @@ export default function AllOrders() {
         }}
         gstProps={{
           ref: gstRef,
+          igstRef:igstRef,
           data: csvData,
-          headers: gstFields,
-          filename: `Delivery Gst report`,
+          headers: gstFields("gst"),
+          iHeaders: gstFields("igst"),
+          filename: `Delivery GST report`,
+          iFilename: `Delivery IGST report`,
           onClick: () => exportHandle(true),
         }}
       >
@@ -183,3 +192,5 @@ export default function AllOrders() {
     </MainContainer>
   );
 }
+
+

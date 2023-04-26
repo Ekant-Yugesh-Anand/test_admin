@@ -45,9 +45,9 @@ export default function PackageFormDialog(props: {
                 });
               }, 200);
             }
-          } catch (error) {
+          } catch (error:any) {
             console.log(error);
-            enqueueSnackbar("Package Update Failed!😢", {
+            enqueueSnackbar(error.response?.data?.message || "Package Update Failed!😢", {
               variant: "error",
             });
           }
@@ -60,16 +60,19 @@ export default function PackageFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Package Saved  successfully!👍😊", {
+                enqueueSnackbar( "Package Saved  successfully!👍😊", {
                   variant: "success",
                 });
               }, 200);
             }
-          } catch (error) {
+          } catch (error:any) {
             console.log(error);
-            enqueueSnackbar("Package Save Failed!😢", {
-              variant: "error",
-            });
+            setTimeout(() => {
+              enqueueSnackbar(error.response?.data?.message || "Package Could not save", {
+                variant: "error",
+              });
+            }, 200);
+           
           }
         }
       },

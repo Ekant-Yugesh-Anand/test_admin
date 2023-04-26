@@ -19,7 +19,7 @@ const label = [
   { title: "Phone Number", accessor: "phone_no" },
   { title: "Total Product", accessor: "no_of_products" },
   {
-    title: "Date",
+    title: "Updated",
     accessor: "doc",
     Cell: (cell: any) => (
       <>
@@ -34,17 +34,31 @@ const label = [
 
 const label1 = [
   { title: "SKU Name", accessor: "sku_name" },
-  { title: "Volume", accessor: "dimension" },
+  { title: "SKU Code", accessor: "sku_code" },
+  {
+    title: "Volume",
+    accessor: "dimension",
+    Cell: (cell: any) => (
+      <Typography>
+        {cell.value && cell.value > 0 ? (
+          <>
+            {cell.value}cm<sup>3</sup>
+          </>
+        ) : null}
+      </Typography>
+    ),
+  },
+
   { title: "Qty", accessor: "quantity" },
   { title: "Weight", accessor: "weight" },
-  { title: "Unit Price Sub Total", accessor: "total_price" },
+  { title: "Unit Price", accessor: "total_price" },
   { title: "Number of Farmers", accessor: "no_of_customer" },
   {
-    title: "Date",
+    title: "Updated",
     accessor: "doc",
     Cell: (cell: any) => (
       <>
-        <Typography textAlign={"center"}>
+        <Typography>
           {dayjs(cell.value).format("D-MMM-YYYY")}{" "}
           {dayjs(cell.value).format("hh:mm a")}
         </Typography>
@@ -78,14 +92,16 @@ function CartCard(props: {
           sx={{
             minHeight: "150px",
             display: "flex",
-            flexDirection: "row",
+            flexDirection: "column",
             gap: 3,
+            p:2
           }}
         >
+          
           {data?.sku_image ? (
             <ShopAvatar
               src={data?.sku_image}
-              sx={{ height: 150, width: 150 }}
+              sx={{ height: 80, width: 80 }}
               variant="rounded"
               download
               {...props}
@@ -93,9 +109,9 @@ function CartCard(props: {
           ) : null}
           <Grid container>
             {obj.map((item, index) => (
-              <Grid key={index} item lg={12}>
+              <Grid key={index} item lg={12} width="100%">
                 <Box sx={{ display: "flex", gap: 1 }}>
-                  <LabelText>{item.get("title")}:</LabelText>
+                  <LabelText >{item.get("title")}:</LabelText>
                   <Typography>{item.get("Cell")}</Typography>
                 </Box>
               </Grid>

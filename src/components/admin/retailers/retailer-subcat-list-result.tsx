@@ -13,6 +13,7 @@ import { shopRetailerCategories } from "../../../http/server-api/server-apis";
 import { useParams } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
 import EditMarginFormDialog from "./edit-margin-form";
+import ActiveDeactive from "../active-deactive";
 
 
 export default function RetailerSubCategoryList(props: { searchText: string }) {
@@ -88,6 +89,19 @@ export default function RetailerSubCategoryList(props: { searchText: string }) {
           <SerialNumber cell={cell} page={page} size={size} />
         ),
         width: "5%",
+      },
+      {
+        Header: "Status",
+        accessor: "active",
+        width: "10%",
+        Cell: (cell: any) => (
+          <ActiveDeactive
+            cell={cell}
+            idAccessor="category_id"
+            // refetch={refetch}
+            // axiosFunction={shopRetailerCategories}
+          />
+        ),
       },
       {
         Header: "Sub Category Name",

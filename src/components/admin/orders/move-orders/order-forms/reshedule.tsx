@@ -12,7 +12,7 @@ import {
 } from "../../../../../http";
 import moveOrdersSchemas from "../schemas";
 import { TextInput } from "../../../../form";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 
 
 
@@ -63,7 +63,7 @@ export default function ReScheduleOrder(props: {
             agent_id:orders.agent_id,
             order_status: 3,
             reschedule:"yes",
-            reschedule_date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+            // reschedule_date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
             reschedule_reason: getReschedule(values.reschedule_reason),
             user: "admin",
           }),

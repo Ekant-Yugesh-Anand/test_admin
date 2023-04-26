@@ -111,7 +111,7 @@ export default function FarmersOrdersListResults(props: {
         Cell: (cell: any) => (
           <>
             <Typography textAlign={"center"} fontSize={"small"}>
-              {dayjs(cell.value).format("D-MMM-YYYY")}
+              {dayjs(cell.value).format("DD-MMM-YYYY")}
             </Typography>
             <Typography textAlign={"center"} fontSize={"small"}>
               {dayjs(cell.value).format("hh:mm a")}
@@ -124,7 +124,7 @@ export default function FarmersOrdersListResults(props: {
         accessor: "grand_total",
         width: "8%",
         Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center">
+          <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
             ₹{cell.value}
           </Typography>
         ),
@@ -134,7 +134,7 @@ export default function FarmersOrdersListResults(props: {
         accessor: "grand_cargill_margin_amount",
         width: "8%",
         Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center">
+          <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
             {cell.value ? `₹${(+cell.value).toFixed(2)}` :""}
           </Typography>
         ),
@@ -144,10 +144,10 @@ export default function FarmersOrdersListResults(props: {
         accessor: "grand_dimension",
         width: "8%",
         Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center">
+          <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
             {cell.value && cell.value > 0  ? (
               <>
-                {cell.value}cm<sup>3</sup>
+                {cell.value} cm<sup>3</sup>
               </>
             ) : null}
           </Typography>
@@ -158,12 +158,12 @@ export default function FarmersOrdersListResults(props: {
         accessor: "grand_weight",
         width: "8%",
         Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center">
+          <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
             {cell.value && cell.value > 0  ? (
               cell.value < 999 ? (
-                <>{cell.value}gm.</>
+                <>{cell.value} gm</>
               ) : (
-                <>{+cell.value/1000}Kg.</>
+                <>{+cell.value/1000} Kg</>
               )
             ) : null}
           </Typography>
@@ -209,7 +209,7 @@ export default function FarmersOrdersListResults(props: {
         Header: "Retailer Name",
         accessor: "retailer_name",
         Cell: (cell: any) => (
-          <Typography textAlign="center" fontWeight={"600"}>
+          <Typography textAlign="center" fontSize={"small"} fontWeight={"600"}>
             {cell.value} ( {cell.row.original.retailer_company_name} )
           </Typography>
         ),

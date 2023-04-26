@@ -60,6 +60,8 @@ import RetailerSubCategory from "../../pages/admin/management/retailers/SubCateg
 import RetailerPackageingMaterial from "../../pages/admin/management/retailers/retailerDashboard/retailer-packaging-material";
 import InventoryReport from "../../pages/admin/management/retailers/retailerDashboard/inventory-report";
 import MarginReport from "../../pages/admin/management/retailers/retailerDashboard/margin-report";
+import InventoryCsvImport from "../../pages/admin/management/retailers/retailerDashboard/inventory-csv-import";
+import TaxationReport from "../../pages/admin/management/retailers/retailerDashboard/taxation-report";
 
 export default {
   path: "/management",
@@ -132,7 +134,6 @@ export default {
                   path: "",
                   element: <RetailerPackageingMaterial />,
                 },
-               
               ],
             },
             {
@@ -179,11 +180,24 @@ export default {
             },
             {
               path: "inventory-report",
-              element: <InventoryReport />,
+              children: [
+                {
+                  path: "",
+                  element: <InventoryReport />,
+                },
+                {
+                  path: "inventory-csv-import",
+                  element: <InventoryCsvImport />,
+                },
+              ],
             },
             {
               path: "margin-report",
               element: <MarginReport />,
+            },
+            {
+              path: "taxation-report",
+              element: <TaxationReport />,
             },
           ],
         },

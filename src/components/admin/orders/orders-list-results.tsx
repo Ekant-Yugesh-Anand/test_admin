@@ -58,9 +58,7 @@ export default function OrdersListResults(props: {
         params,
         postfix: otherPostfix ? `${postfix}&${otherPostfix}` : postfix,
       }),
-    {
-      refetchOnWindowFocus: false,
-    }
+  
   );
 
   const onCloseMoveOrder = () => setMoveOrder({ open: false, values: {} });
@@ -78,7 +76,6 @@ export default function OrdersListResults(props: {
       {
         Header: "Order ID",
         accessor: "main_order_no",
-        width: "8%",
         Cell: (cell: any) => (
           <Typography fontWeight={"600"} textAlign="center" fontSize="small">
             {cell.value}
@@ -88,7 +85,6 @@ export default function OrdersListResults(props: {
       {
         Header: "Suborder No",
         accessor: "suborder_no",
-        width: "8%",
         Cell: (cell: any) => (
           <Typography fontWeight={"600"} textAlign="center" fontSize={"small"}>
             {cell.value}
@@ -109,7 +105,7 @@ export default function OrdersListResults(props: {
           <>
             {" "}
             <Typography textAlign={"center"} fontSize={"small"}>
-              {dayjs(cell.value).format("D-MMM-YYYY")}
+              {dayjs(cell.value).format("DD-MMM-YYYY")}
             </Typography>
             <Typography textAlign={"center"} fontSize={"small"}>
               {dayjs(cell.value).format("hh:mm a")}
@@ -122,7 +118,7 @@ export default function OrdersListResults(props: {
         accessor: "grand_total",
         width: "8%",
         Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center">
+          <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
             ₹ {cell.value}
           </Typography>
         ),
@@ -132,7 +128,7 @@ export default function OrdersListResults(props: {
         accessor: "grand_cargill_margin_amount",
         width: "8%",
         Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center">
+          <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
             {cell.value ? `₹${(+cell.value).toFixed(2)}` :""}
           </Typography>
         ),
@@ -142,10 +138,10 @@ export default function OrdersListResults(props: {
         accessor: "grand_dimension",
         width: "8%",
         Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center">
+          <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
             {cell.value && cell.value > 0 ? (
               <>
-                {cell.value}cm<sup>3</sup>
+                {cell.value} cm<sup>3</sup>
               </>
             ) : null}
           </Typography>
@@ -156,12 +152,12 @@ export default function OrdersListResults(props: {
         accessor: "grand_weight",
         width: "8%",
         Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center">
+          <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
             {cell.value && cell.value > 0 ? (
               cell.value < 999 ? (
-                <>{cell.value}gm.</>
+                <>{cell.value} gm</>
               ) : (
-                <>{+cell.value / 1000}Kg.</>
+                <>{+cell.value / 1000} Kg</>
               )
             ) : null}
           </Typography>
@@ -174,7 +170,7 @@ export default function OrdersListResults(props: {
         Cell: (cell: any) => {
           return (
             <>
-              <Typography textAlign="center" fontSize={"small"}>
+              <Typography  textAlign="center" fontSize={"small"}>
                 {cell.value}
               </Typography>
 

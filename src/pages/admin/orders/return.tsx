@@ -6,11 +6,17 @@ import OrdersToolbar, {
 } from "../../../components/admin/orders/orders-toolbar";
 import { MainContainer } from "../../../components/layout";
 import {
+  addComma,
   addSno,
   addTaxNetAmount,
   dateTimeFormatTable,
+  formatDate,
+  formatVolume,
+  formatWeight,
+  getFragile,
   margeAsList,
   margeRowTable,
+  orderStatusReadable,
   queryToStr,
   removeEsc,
   setExtraValue,
@@ -107,12 +113,24 @@ export default function Return() {
           "delivered_date",
           "delivered_time"
         );
+        // for reshedule date
+        csvData = dateTimeFormatTable(
+          csvData,
+          "reschedule_date",
+          "reschedule_time"
+        );
+        csvData = dateTimeFormatTable(csvData, "accept_date", "accept_time");
+        csvData = dateTimeFormatTable(csvData, "cancel_date", "cancel_time");
+        // order readable from
+
         // marge two column
         csvData = margeRowTable(
           csvData,
           ["retailer_company_name", "retailer_name"],
           "selected_retailer"
         );
+        // order readable from
+        csvData = orderStatusReadable(csvData);
         // marge list as a farmer shipping address
         csvData = margeAsList(
           csvData,
@@ -139,12 +157,27 @@ export default function Return() {
         );
         // add tax and net amount
         csvData = addTaxNetAmount(csvData);
-        // set Order Status
-        csvData = setExtraValue(
-          csvData,
-          "order_status",
-          getStrOrderStatus(orderStatus)
-        );
+
+        // add ' before the string
+
+        csvData = addComma(csvData);
+
+        //get fragile
+        csvData = getFragile(csvData);
+
+         // convert date
+         csvData = formatDate(csvData);
+
+          // format weight
+        csvData = formatWeight(csvData);
+        // format volume
+        csvData = formatVolume(csvData);
+        // // set Order Status
+        // csvData = setExtraValue(
+        //   csvData,
+        //   "order_status",
+        //   getStrOrderStatus(orderStatus)
+        // );
 
         // remove esc
         csvData = removeEsc(csvData);

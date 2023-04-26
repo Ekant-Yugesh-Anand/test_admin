@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSnackbar } from "notistack";
 import { TbListDetails } from "react-icons/tb";
 import { RiDeleteBinFill } from "react-icons/ri";
 import { useQuery } from "@tanstack/react-query";
-import { Box, Tooltip, IconButton , CircularProgress} from "@mui/material";
+import { Box, Tooltip, IconButton, CircularProgress } from "@mui/material";
 import { FaRegEdit, /* FaRegFileImage, */ FaRupeeSign } from "react-icons/fa";
 import FocusStar from "../focus-star";
 import SerialNumber from "../serial-number";
@@ -23,8 +23,8 @@ import { BsImages } from "react-icons/bs";
 export default function ProductsListResults(props: {
   searchText: string;
   sortOpen: boolean;
-  CategoryFilter?:string | number;
-  SubCategoryFilter?:string |number;
+  CategoryFilter?: string | number;
+  SubCategoryFilter?: string | number;
   onSortClose: () => void;
 }) {
   const { page, setPage, size, setSize } = usePaginate();
@@ -39,27 +39,33 @@ export default function ProductsListResults(props: {
     open: false,
     id: "",
   });
-  const { searchText, sortOpen, onSortClose, CategoryFilter, SubCategoryFilter } = props;
+  const {
+    searchText,
+    sortOpen,
+    onSortClose,
+    CategoryFilter,
+    SubCategoryFilter,
+  } = props;
 
   const postfix = React.useMemo(() => {
     return searchText
       ? `${searchText}&page=${page}&size=${size}`
-      : `?page=${page}&size=${size}&category_id=${CategoryFilter ? CategoryFilter : 0}&subcategory_id=${SubCategoryFilter ? SubCategoryFilter : 0}`;
+      : `?page=${page}&size=${size}&category_id=${
+          CategoryFilter ? CategoryFilter : 0
+        }&subcategory_id=${SubCategoryFilter ? SubCategoryFilter : 0}`;
   }, [searchText, page, size, CategoryFilter, SubCategoryFilter]);
 
   const { isLoading, refetch, data } = useQuery(
     ["products", postfix],
     () =>
       shopProducts("get", {
-      params: "all",
-       postfix
+        params: "all",
+        postfix,
       }),
     {
       refetchOnWindowFocus: false,
     }
   );
-
-  
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -83,9 +89,8 @@ export default function ProductsListResults(props: {
     deleteBoxClose();
   };
 
-
   const PriceComponent = (props: any) => {
-    const [validPrice, setValidPrice] = useState(false)
+    const [validPrice, setValidPrice] = useState(false);
     useEffect(() => {
       (async () => {
         try {
@@ -93,28 +98,23 @@ export default function ProductsListResults(props: {
             postfix: `?sku_id=${props.sku_id}`,
           });
           if (res?.data[0]?.price) {
-            setValidPrice(true)
-            return true
+            setValidPrice(true);
+            return true;
           } else {
-            return false
+            return false;
           }
-
         } catch (err) {
-          console.log(err)
+          console.log(err);
         }
-
-      })()
-
-
+      })();
     }, [props]);
-
 
     return (
       <Tooltip title="Product Price">
         <IconButton
           disableRipple={false}
           size="small"
-          color={validPrice ? "secondary":"error"}
+          color={validPrice ? "secondary" : "error"}
           onClick={() => {
             setPrice({
               open: true,
@@ -125,43 +125,38 @@ export default function ProductsListResults(props: {
           <FaRupeeSign />
         </IconButton>
       </Tooltip>
-    )
-  }
+    );
+  };
 
-const PriceID = (props :any)=>{
-  const [priceId, setPriceID] = useState()
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await shopProductWeightPrice("get", {
-          postfix: `?sku_id=${props.sku_id}`,
-        });
-        if (res?.data[0]?.price) {
-
-
-          setPriceID(res.data[0]?.price_id)
-          return true
-        } else {
-          return false
+  const PriceID = (props: any) => {
+    const [priceId, setPriceID] = useState();
+    useEffect(() => {
+      (async () => {
+        try {
+          const res = await shopProductWeightPrice("get", {
+            postfix: `?sku_id=${props.sku_id}`,
+          });
+          if (res?.data[0]?.price) {
+            setPriceID(res.data[0]?.price_id);
+            return true;
+          } else {
+            return false;
+          }
+        } catch (err) {
+          console.log(err);
         }
-
-      } catch (err) {
-        console.log(err)
-      }
-
-    })()
-
-
-  }, [props]);
-  return (
-    <>
-    {priceId ? <p>{priceId}</p> :<CircularProgress color="inherit" size={20} /> }
-   
-    </>
-  )
-}
-
-
+      })();
+    }, [props]);
+    return (
+      <>
+        {priceId ? (
+          <p>{priceId}</p>
+        ) : (
+          <CircularProgress color="inherit" size={20} />
+        )}
+      </>
+    );
+  };
 
   const columns = React.useMemo(
     () => [
@@ -176,13 +171,12 @@ const PriceID = (props :any)=>{
       {
         Header: "SKU ID",
         accessor: "sku_id",
-        width:"8%"
+        width: "8%",
       },
       {
         Header: "Price ID",
-        Cell: (cell: any) => (
-          <PriceID sku_id ={cell.row.original.sku_id} />),
-        width:"8%"
+        Cell: (cell: any) => <PriceID sku_id={cell.row.original.sku_id} />,
+        width: "8%",
       },
       {
         Header: "Status",

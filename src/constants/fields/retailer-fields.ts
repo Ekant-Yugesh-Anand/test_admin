@@ -62,6 +62,15 @@ export const retailerSkuImportFields = [
   { label: "margin_amount", key: "margin_amount" },
 ];
 
+export const retailerInventoryImportFields = [
+  { label: "sku_id", key: "sku_id" },
+  { label: "price_id", key: "product_price_id" },
+  { label: "sku_name", key: "sku_name" },
+  { label: "quantity", key: "quantity" },
+  { label: "used_quantity", key: "used_quantity" },
+];
+
+
 export const retailerAreaFields = [
   { label: "S.No", key: "s_no" },
   { label: "area_id", key: "area_id" },

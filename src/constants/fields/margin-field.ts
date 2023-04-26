@@ -1,6 +1,7 @@
 export const marginFields = [
   { label: "S.No", key: "s_no" },
   { label: "Order ID", key: "main_order_no" },
+  { label: "Suborder No", key: "suborder_no" },
   { label: "Order Date", key: "order_date" },
   { label: "Farmer Name", key: "customer_name" },
   { label: "Brand", key: "brand_name" },

@@ -4,7 +4,6 @@ import { styled } from "@mui/material/styles";
 import { Outlet } from "react-router-dom";
 import DashboardNavbar from "./dashboard-navbar";
 import DashboardSidebar from "./dashboard-sidebar";
-import PageBack from "./page-back";
 
 const DashboardLayoutRoot = styled("div")(({ theme }) => ({
   display: "flex",
@@ -30,7 +29,6 @@ export default function DashboardLayout() {
             width: "100%",
           }}
         >
-          <PageBack />
           <Outlet />
         </Box>
       </DashboardLayoutRoot>

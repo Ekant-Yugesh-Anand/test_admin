@@ -21,40 +21,6 @@ export default function OrderDetailCard(props: {
         </Typography>
         <Grid container>
           {obj.map((item, index) => {
-            if (item.get("label") === "Weight") {
-              return item.get("Cell").props.children > 0 ? (
-                <Grid key={index} item xs={12}>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    textAlign={"justify"}
-                  >
-                    <strong>{item.get("label")}: </strong>
-                    {item.get("Cell").props.children < 999 ? (
-                      <>{item.get("Cell")}gm</>
-                    ) : (
-                      <>{item.get("Cell").props.children / 1000}Kg</>
-                    )}
-                  </Typography>
-                </Grid>
-              ) : null;
-            }
-
-            if (item.get("label") === "Volume") {
-              return item.get("Cell").props.children > 0 ? (
-                <Grid key={index} item xs={12}>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    textAlign={"justify"}
-                  >
-                    <strong>{item.get("label")}: </strong>
-                    {item.get("Cell")} cm<sup>3</sup>
-                  </Typography>
-                </Grid>
-              ) : null;
-            }
-
             return (
               <Grid key={index} item xs={12}>
                 <Typography

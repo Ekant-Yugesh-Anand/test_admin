@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Card, CardContent, Container } from "@mui/material";
+import { Box, Card, CardContent  } from "@mui/material";
 import { MainContainer } from "../../../../../components/layout";
 import { useQuery } from "@tanstack/react-query";
 import { deliveryPartners, shopOrders } from "../../../../../http";
@@ -22,15 +22,12 @@ import {
   getFragile,
   margeAsList,
   margeRowTable,
-  orderStatusReadable,
   queryToStr,
   removeEsc,
-  setExtraValue,
   setOrderStatusValue,
 } from "../../../../../components/admin/utils";
 import { setPageLoading } from "../../../../../redux/slices/admin-slice";
 import { ordersFields } from "../../../../../constants";
-import { getStrOrderStatus } from "../../../../../constants/messages";
 
 export default function PartnerOrders() {
   const { partner_id } = useParams();
@@ -94,6 +91,12 @@ export default function PartnerOrders() {
           csvData,
           "delivered_date",
           "delivered_time"
+        );
+        // for reshedule date
+        csvData = dateTimeFormatTable(
+          csvData,
+          "reschedule_date",
+          "reschedule_time"
         );
 
         csvData = dateTimeFormatTable(csvData, "accept_date", "accept_time");
@@ -172,7 +175,7 @@ export default function PartnerOrders() {
     <>
       <OrdersTab onSetOrderStatus={setOrderStatus} />
       <MainContainer>
-        <Container>
+        <Box mt={10}>
           <OrdersToolbar
             onSearch={searchHandler}
             exportProps={{
@@ -194,7 +197,7 @@ export default function PartnerOrders() {
               />
             </CardContent>
           </Card>
-        </Container>
+        </Box>
       </MainContainer>
     </>
   );

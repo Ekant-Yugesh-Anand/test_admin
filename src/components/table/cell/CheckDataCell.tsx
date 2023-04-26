@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography } from "@mui/material";
 import { Cell } from "react-table";
-import { brandValidation, categoryValidation, dtypeValidation, packageValidation, subCategoryValidation, wieghtValidation, priceValidation, gstValidation, sku_id_validation, price_id_validation, sale_price_validation, cropValidation, ingredientValidation } from "../../admin/utils";
+import { brandValidation, categoryValidation, dtypeValidation, packageValidation, subCategoryValidation, wieghtValidation, priceValidation, gstValidation, sku_id_validation, price_id_validation, sale_price_validation, cropValidation, ingredientValidation, usedQuantityValidation } from "../../admin/utils";
 
 export default function CheckDataCell(props: {
   cell: Cell;
@@ -73,6 +73,10 @@ export default function CheckDataCell(props: {
             let sprice_res = await sale_price_validation(value, cell.row.values.sku_id)
             setValidateRes(sprice_res)
             break;
+            case "used_quantity":
+            let q_res =  usedQuantityValidation( cell.row.values.quantity, value)
+            setValidateRes(q_res)
+            break;
           default:
             return
         }
@@ -100,5 +104,5 @@ export default function CheckDataCell(props: {
       </Typography>
     );
   }
-  return <Typography fontSize="small">{value}</Typography>;
+  return <Typography textAlign="center" fontSize="small">{value}</Typography>;
 }

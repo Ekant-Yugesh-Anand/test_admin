@@ -78,13 +78,13 @@ export default function CouponBatchList(props: {
       });
       if (res.status === 200) {
         await refetch();
-        enqueueSnackbar("entry successfully deleted 😊", {
+        enqueueSnackbar("entry successfully deleted", {
           variant: "success",
         });
       }
     } catch (err: any) {
       console.log(err);
-      enqueueSnackbar("entry not delete 😢", { variant: "error" });
+      enqueueSnackbar("entry could not deleted", { variant: "error" });
     }
     deleteBoxClose();
   };

@@ -46,7 +46,7 @@ function FocusStar(props: {
         });
         if (res.status === 200) {
           enqueueSnackbar(
-            (focus_sku === 1 ? "On" : "Off") + " successfully 😊",
+            (focus_sku === 1 ? "On" : "Off") + " successfully",
             {
               variant: "success",
             }
@@ -74,6 +74,7 @@ function FocusStar(props: {
         color={value === 0 ? "error" : "warning"}
         label={value === 0 ? "Off" : "On"}
         variant="outlined"
+        disabled={loading ? true : false}
         icon={
           loading ? (
             <CircularProgress

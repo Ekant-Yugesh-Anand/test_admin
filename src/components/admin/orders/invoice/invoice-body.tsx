@@ -116,18 +116,24 @@ export default function InvoiceBody(props: {
    
       {
         Header: "Weight",
-        accessor: "weight",
+        accessor: "total_weight",
         width: "5%",
-        Cell: (cell: any) => <TextCenter>{cell.value}</TextCenter>,
+        Cell: (cell: any) => <TextCenter>{cell.value && cell.value > 0 ? (
+          cell.value < 999 ? (
+            <>{cell.value}gm</>
+          ) : (
+            <>{+cell.value / 1000}Kg</>
+          )
+        ) : cell.row.original?.weight + " (per unit)"}</TextCenter>,
       },
       {
         Header: "Volume",
         accessor: "dimension",
         width: "5%",
-        Cell: (cell: any) => <TextCenter>{cell.value ? cell.value +"cm³":""}</TextCenter>,
+        Cell: (cell: any) => <TextCenter>{cell.value > 0 ? cell.value +"cm³": ""}</TextCenter>,
       },
       {
-        Header: "Price (Incl.GST)",
+        Header: "Price/Unit (Incl.GST)",
         accessor: "price",
         width: "8%",
         Cell: (cell: any) => (

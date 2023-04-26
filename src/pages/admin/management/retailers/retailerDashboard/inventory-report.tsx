@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Box} from "@mui/material";
 import { MainContainer } from "../../../../../components/layout";
@@ -13,7 +13,6 @@ import {
   queryToStr,
   removeEsc,
 } from "../../../../../components/admin/utils";
-import { retailerSKUPricingFields } from "../../../../../constants/fields/retailer-fields";
 import ProductsListToolbar from "../../../../../components/admin/products/products-list-toolbar";
 import InventoryDetailList from "../../../../../components/admin/retailers/inventory-detail-list";
 import { inventoryFields } from "../../../../../constants";
@@ -26,6 +25,7 @@ export default function RetailerSkuPricingUnits() {
   >([]);
   const ref = React.useRef<any>(null);
   const dispatch = useDispatch();
+  const navigate= useNavigate()
 
   const { data } = useQuery(["retailer-name"], () =>
     retailer("get", { params: retailer_id })
@@ -88,6 +88,7 @@ export default function RetailerSkuPricingUnits() {
       <ProductsListToolbar
         title={`${retailerName} / Inventory Report`}
         onSearch={searchHandler}
+        onImport={() => navigate("inventory-csv-import")}
         exportProps={{
           ref,
           data: csvData,

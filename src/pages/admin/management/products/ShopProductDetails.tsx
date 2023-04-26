@@ -48,10 +48,36 @@ const productPriceLabels = [
   { label: "SGST", accessor: "sgst" },
   { label: "Fragile", accessor: "fragile" },
   { label: "Weight", accessor: "weight" },
-  { label: "Actual Weight", accessor: "totalweight" },
+  {
+    label: "Actual Weight",
+    accessor: "totalweight",
+    Cell: (cell: any) => (
+      <>
+        {cell.value && cell.value > 0 ? (
+          cell.value < 999 ? (
+            <>{cell.value}gm.</>
+          ) : (
+            <>{+cell.value / 1000}Kg.</>
+          )
+        ) : null}
+      </>
+    ),
+  },
   { label: "Package", accessor: "package_name" },
   { label: "Units Per Case", accessor: "units_per_case" },
-  { label: "Volume", accessor: "dimension" },
+  {
+    label: "Volume",
+    accessor: "dimension",
+    Cell: (cell: any) => (
+      <>
+        {cell.value && cell.value > 0 ? (
+          <>
+            {cell.value}cm<sup>3</sup>
+          </>
+        ) : null}
+      </>
+    ),
+  },
 ];
 
 export default function ShopProductDetails() {
@@ -232,40 +258,6 @@ export default function ShopProductDetails() {
                 </Typography>
                 <Grid container>
                   {obj2.map((item, index) => {
-                    if (item.get("label") === "Actual Weight") {
-                      return item.get("Cell").props.children > 0 ? (
-                        <Grid key={index} item xs={12}>
-                          <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            textAlign={"justify"}
-                          >
-                            <strong>{item.get("label")}: </strong>
-                            {item.get("Cell").props.children < 999 ? (
-                              <>{item.get("Cell")}gm</>
-                            ) : (
-                              <>{item.get("Cell").props.children / 1000}Kg</>
-                            )}
-                          </Typography>
-                        </Grid>
-                      ) : null;
-                    }
-
-                    if (item.get("label") === "Dimensions") {
-                      return item.get("Cell").props.children > 0 ? (
-                        <Grid key={index} item xs={12}>
-                          <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            textAlign={"justify"}
-                          >
-                            <strong>{item.get("label")}: </strong>
-                            {item.get("Cell")} cm<sup>3</sup>
-                          </Typography>
-                        </Grid>
-                      ) : null;
-                    }
-
                     return (
                       <Grid key={index} item xs={6}>
                         {item.get("Cell") ? (

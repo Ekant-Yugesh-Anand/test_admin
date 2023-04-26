@@ -39,7 +39,7 @@ export default function InProcess(props: {
     setFieldValue,
   } = useFormik({
     initialValues: {
-      agent_id: 0,
+      agent_id: "",
       vehicle: "",
       vehicle_number: "",
       remark: "",
@@ -55,7 +55,6 @@ export default function InProcess(props: {
         });
         return vehicle_name;
       };
-
       try {
         setLoading(true);
         const res = await shopOrders("post", {

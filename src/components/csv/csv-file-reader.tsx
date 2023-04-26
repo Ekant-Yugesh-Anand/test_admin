@@ -1,6 +1,6 @@
 import React from "react";
 import CSVReader, { IFileInfo } from "react-csv-reader";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { MdDelete } from "react-icons/md";
 import { useSnackbar } from "notistack";
@@ -44,6 +44,7 @@ export default function CSVFileReader(props: {
   };
 
   return (
+    <>
     <Box
       sx={{
         display: "flex",
@@ -73,5 +74,19 @@ export default function CSVFileReader(props: {
         </IconButton>
       )}
     </Box>
+     <Box
+     sx={{
+       alignItems: "center",
+       display: "flex",
+       justifyContent: "space-between",
+       flexWrap: "wrap",
+       m: -0.5,
+     }}
+   >
+     <Typography sx={{ m: 1 }} variant={"subtitle1"}>
+       Csv data preview
+     </Typography>
+   </Box>
+   </>
   );
 }

@@ -7,7 +7,7 @@ import { queryToStr } from "../../../utils";
 import { useFormik } from "formik";
 import moveOrdersSchemas from "../schemas";
 import AsyncAutocomplete from "../../../../form/async-autocomplete";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 
 export default function Accepted(props: {
   onClose: () => void;
@@ -43,7 +43,7 @@ export default function Accepted(props: {
               order_id: orders.order_id,
               invoice_no: orders.suborder_no,
               order_status: 1,
-              accept_date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+              // accept_date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
               user: "admin",
             }),
           });
@@ -64,17 +64,7 @@ export default function Accepted(props: {
       },
     });
 
-  const { isLoading: partnerAgentLoading, data: partnerAgentData } = useQuery(
-    ["get-all-delivery-agent", values.partner_id],
-    () =>
-      shopDeliveryAgent("get", {
-        postfix: "/all/?".concat(
-          queryToStr({
-            partner_id: values.partner_id || 0,
-          })
-        ),
-      })
-  );
+
 
   const partnerOptions = React.useMemo(() => {
     if (data?.status === 200) return data.data.partners;

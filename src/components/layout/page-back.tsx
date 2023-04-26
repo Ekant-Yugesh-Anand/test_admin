@@ -35,6 +35,8 @@ function PageBreadcrumbs() {
         "/management/delivery-partners",
         "/management/trending-products",
         "/management/delivery-charges",
+        "/management/crops",
+        "/management/ingredients",
         "/dashboard",
         "/auth0-users",
         "/masters/packages",
@@ -42,9 +44,18 @@ function PageBreadcrumbs() {
         "/masters/areas",
         "/masters/banner",
         "/masters/reason",
+        "/masters/languages",
+        "/masters/coupon",
+        "/masters/notification",
+        "/masters/packaging-material",
+        "/shopping-cart",
+        "/shopping-cart",
+        "/shopping-cart",
         "/retailer-report/input-sale-details",
         "/retailer-report/cancelled-orders",
         "/retailer-report/data-sku-pricing",
+        "/retailer-report/margin-report",
+        "/retailer-report/packaging-material",
         "/orders/all-orders",
         "/orders/new-orders",
         "/orders/orders-accepted",
@@ -54,16 +65,19 @@ function PageBreadcrumbs() {
         "/orders/orders-returning",
         "/orders/orders-returned",
         "/orders/orders-cancelled",
+        "/orders/orders-failed",
         "/retailer-report/data-sku-unit",
         "/retailer-report/data-sku-pricing",
         "/retailer-report/cancelled-orders",
         "/retailer-report/input-sale-details",
+        "/log/order",
+        "/log/notification",
       ]),
     []
   );
 
   return backOff.has(pathname) ? null : (
-    <Box mt={addMarginTop} mb={1} mr={5} alignSelf="end">
+    <Box mt={addMarginTop} mb={1} mx={2} display="inline" alignSelf="end">
       <Button
         variant="outlined"
         startIcon={<BiArrowBack size={20} />}

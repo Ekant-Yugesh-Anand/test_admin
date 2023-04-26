@@ -22,6 +22,7 @@ export default function ErrorSuccessChip(props: {
       color={show ? "error" : "secondary"}
       label={show ? values.error : values.success}
       variant="outlined"
+      disabled={loading ? true : false}
       icon={
         loading ? (
           <CircularProgress size={15} color={show ? "error" : "secondary"} />

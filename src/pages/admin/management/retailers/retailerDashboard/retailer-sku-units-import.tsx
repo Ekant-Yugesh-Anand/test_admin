@@ -98,14 +98,14 @@ export default function RetailerSkuImport() {
         Header: "Margin",
         accessor: "margin",
         Cell: (cell: any) => (
-          <CheckDataCell cell={cell} dtype="string" validate="sale_price" />
+          <CheckDataCell cell={cell} dtype="string"  />
         ),
       },
       {
         Header: "Margin Amount",
         accessor: "margin_amount",
         Cell: (cell: any) => (
-          <CheckDataCell cell={cell} dtype="number" validate="sale_price" />
+          <CheckDataCell cell={cell} dtype="number"  />
         ),
       },
     ],
@@ -228,7 +228,6 @@ export default function RetailerSkuImport() {
       <Box my={1}>
         <CSVFileReader setFile={onRead} />
       </Box>
-      <CommonToolbar title="csv data preview" titleVariant="subtitle" />
       <Box sx={{ mt: 1 }}>
         <PreviewTable
           columns={columns}
@@ -243,7 +242,7 @@ export default function RetailerSkuImport() {
         size="small"
         variant="contained"
         onClick={onUpload}
-        disabled={loading}
+        disabled={data.length > 0 ? loading : true}
         startIcon={
           loading ? <CircularProgress color="inherit" size={18} /> : undefined
         }

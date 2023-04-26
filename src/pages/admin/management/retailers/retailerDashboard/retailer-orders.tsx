@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, Container } from "@mui/material";
+import { Box, Card, CardContent, Container } from "@mui/material";
 import { MainContainer } from "../../../../../components/layout";
 import { retailer, shopOrders } from "../../../../../http";
 import OrdersTab from "../../../../../components/admin/orders/orders-dashboard/orders-tab";
@@ -24,12 +24,10 @@ import {
   margeRowTable,
   queryToStr,
   removeEsc,
-  setExtraValue,
   setOrderStatusValue,
 } from "../../../../../components/admin/utils";
 import { setPageLoading } from "../../../../../redux/slices/admin-slice";
 import { ordersFields } from "../../../../../constants";
-import { getStrOrderStatus } from "../../../../../constants/messages";
 
 export default function RetailerOrders() {
   const { retailer_id } = useParams();
@@ -94,6 +92,12 @@ export default function RetailerOrders() {
           csvData,
           "delivered_date",
           "delivered_time"
+        );
+        // for reshedule date
+        csvData = dateTimeFormatTable(
+          csvData,
+          "reschedule_date",
+          "reschedule_time"
         );
 
         csvData = dateTimeFormatTable(csvData, "accept_date", "accept_time");
@@ -171,7 +175,7 @@ export default function RetailerOrders() {
     <>
       <OrdersTab onSetOrderStatus={setOrderStatus} />
       <MainContainer>
-        <Container>
+        <Box mt={10}>
           <OrdersToolbar
             onSearch={searchHandler}
             exportProps={{
@@ -193,7 +197,7 @@ export default function RetailerOrders() {
               />
             </CardContent>
           </Card>
-        </Container>
+        </Box>
       </MainContainer>
     </>
   );

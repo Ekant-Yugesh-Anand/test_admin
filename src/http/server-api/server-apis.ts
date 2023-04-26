@@ -73,6 +73,9 @@ export const shopPartnerArea = baseFunc("shop_partnerareas");
 export const shopBanner = baseFunc("shop_banners");
 // refreshToken api
 export const shopRefreshToken = baseFunc("shop_tokenrefresh")
+// notification api
+export const shopAdmin = baseFunc("shop_admin")
+
 
 
 export const shopImgDownLoad = (img: any) =>

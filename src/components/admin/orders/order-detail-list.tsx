@@ -73,9 +73,15 @@ export default function OrderDetailsList(props: {
       },
       {
         Header: "Weight",
-        accessor: "weight",
+        accessor: "total_weight",
         width: "5%",
-        Cell: (cell: any) => <TextCenter>{cell.value}</TextCenter>,
+        Cell: (cell: any) => <TextCenter>{cell.value && cell.value > 0 ? (
+          cell.value < 999 ? (
+            <>{cell.value}gm</>
+          ) : (
+            <>{+cell.value / 1000}Kg</>
+          )
+        ) : cell.row.original?.weight + " (per unit)"}</TextCenter>,
       },
       {
         Header: "Fragile",
