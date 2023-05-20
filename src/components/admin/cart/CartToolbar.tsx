@@ -208,7 +208,7 @@ export default function CartToolbar(props: {
                       <AsyncAutocomplete
                         id="customer-option"
                         loading={customerLoading}
-                        label="Customers"
+                        label="Farmers"
                         options={customers}
                         objFilter={{
                           title: "customer_name",

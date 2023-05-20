@@ -27,8 +27,11 @@ export const reasonSchema = Yup.object({
 
 export const couponSchema = Yup.object({
   batch_name: Yup.string().required(emptyText("Coupon Name")),
-  coupon_code: Yup.string().when("coupon_type", {
-    is: "dynamic",
+  coupon_code: Yup.string().when(["coupon_type", "variant"], {
+    is: (type: string, variant: string) => {
+      if (type == "dynamic" && variant == "save") return true;
+      else return false;
+    },
     then: Yup.string()
       .required(emptyText("Coupon code"))
       .min(5, "Must be 5 char long"),

@@ -84,6 +84,18 @@ export default function OrderLogList() {
           </>
         ),
       },
+      {
+        Header: "Type",
+        accessor: "type",
+
+        Cell: (cell: any) => (
+          <>
+            <Typography textAlign={"center"} fontSize={"small"}>
+              {cell.value}
+            </Typography>
+          </>
+        ),
+      },
     ],
     [postfix]
   );

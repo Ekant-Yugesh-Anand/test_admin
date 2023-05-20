@@ -47,112 +47,40 @@ export default function ProductCsvImport() {
       dtype: "string" | "number" | "both";
     }>
   >(
-    () =>
-      importTab == 0
-        ? [
-            { label: "sku_name", dtype: "string" },
-            { label: "sku_name_kannada", dtype: "string" },
-            { label: "description", dtype: "string" },
-            { label: "ingredients", dtype: "string" },
-            { label: "sku_code", dtype: "string" },
-            { label: "category_id", dtype: "number" },
-            { label: "subcategory_id", dtype: "number" },
-            { label: "brand_id", dtype: "number" },
-            { label: "crop_id", dtype: "both" },
-            { label: "ingredient_id", dtype: "both" },
-            { label: "hsn_code", dtype: "number" },
-            { label: "mrp", dtype: "number" },
-            { label: "price", dtype: "number" },
-            { label: "gst", dtype: "string" },
-            { label: "weight", dtype: "string" },
-            { label: "package", dtype: "number" },
-            { label: "fragile", dtype: "number" },
-            { label: "units_per_case", dtype: "number" },
-            { label: "dimension_length", dtype: "number" },
-            { label: "dimension_width", dtype: "number" },
-            { label: "dimension_height", dtype: "number" },
-            { label: "totalweight", dtype: "number" },
-          ]
-        : [
-            { label: "sku_name", dtype: "string" },
-            { label: "sku_name_kannada", dtype: "string" },
-            { label: "description", dtype: "string" },
-            { label: "sku_code", dtype: "string" },
-            { label: "category_id", dtype: "number" },
-            { label: "subcategory_id", dtype: "number" },
-            { label: "brand_id", dtype: "number" },
-            { label: "crop_id", dtype: "both" },
-            { label: "ingredient_id", dtype: "both" },
-            { label: "hsn_code", dtype: "number" },
-          ],
-    [importTab]
+    () => [
+      { label: "sku_name", dtype: "string" },
+      { label: "sku_name_kannada", dtype: "string" },
+      { label: "description", dtype: "string" },
+      { label: "ingredients", dtype: "string" },
+      { label: "sku_code", dtype: "string" },
+      { label: "category_id", dtype: "number" },
+      { label: "subcategory_id", dtype: "number" },
+      { label: "brand_id", dtype: "number" },
+      { label: "crop_id", dtype: "both" },
+      { label: "ingredient_id", dtype: "both" },
+      { label: "hsn_code", dtype: "number" },
+      { label: "mrp", dtype: "number" },
+      { label: "price", dtype: "number" },
+      { label: "gst", dtype: "string" },
+      { label: "weight", dtype: "string" },
+      { label: "package", dtype: "number" },
+      { label: "fragile", dtype: "number" },
+      { label: "units_per_case", dtype: "number" },
+      { label: "dimension_length", dtype: "number" },
+      { label: "dimension_width", dtype: "number" },
+      { label: "dimension_height", dtype: "number" },
+      { label: "totalweight", dtype: "number" },
+    ],
+    []
   );
 
-  const getExtraCell = () => {
-    if (importTab == 0)
+  const getSkuID = () => {
+    if (importTab == 1)
       return [
         {
-          Header: "MRP",
-          accessor: "mrp",
-          Cell: (cell: any) => <CheckDataCell cell={cell} dtype="number" />,
-        },
-        {
-          Header: "Price",
-          accessor: "price",
-          Cell: (cell: any) => (
-            <CheckDataCell cell={cell} dtype="number" validate="price" />
-          ),
-        },
-        {
-          Header: "Gst",
-          accessor: "gst",
-          Cell: (cell: any) => (
-            <CheckDataCell cell={cell} dtype="string" validate="gst" />
-          ),
-        },
-        {
-          Header: "Weight",
-          accessor: "weight",
-          Cell: (cell: any) => (
-            <CheckDataCell cell={cell} dtype="string" validate="weight" />
-          ),
-        },
-        {
-          Header: "Package",
-          accessor: "package",
-          Cell: (cell: any) => (
-            <CheckDataCell cell={cell} dtype="number" validate="package" />
-          ),
-        },
-        {
-          Header: "Fragile",
-          accessor: "fragile",
-          Cell: (cell: any) => <CheckDataCell cell={cell} dtype="number" />,
-        },
-        {
-          Header: "Units per case",
-          accessor: "units_per_case",
-          Cell: (cell: any) => <CheckDataCell cell={cell} dtype="number" />,
-        },
-        {
-          Header: "Length",
-          accessor: "dimension_width",
-          Cell: (cell: any) => <CheckDataCell cell={cell} dtype="number" />,
-        },
-        {
-          Header: "Width",
-          accessor: "dimension_length",
-          Cell: (cell: any) => <CheckDataCell cell={cell} dtype="number" />,
-        },
-        {
-          Header: "Height",
-          accessor: "dimension_height",
-          Cell: (cell: any) => <CheckDataCell cell={cell} dtype="number" />,
-        },
-        {
-          Header: "Total Weight",
-          accessor: "totalweight",
-          Cell: (cell: any) => <CheckDataCell cell={cell} dtype="number" />,
+          Header: "SKU ID.",
+          accessor: "sku_id",
+          width: "5.5%",
         },
       ];
     return [];
@@ -166,6 +94,7 @@ export default function ProductCsvImport() {
         Cell: (cell: any) => <SerialNumber cell={cell} page={0} size={"1"} />,
         width: "5.5%",
       },
+      ...getSkuID(),
       {
         Header: "SKU Name",
         accessor: "sku_name",
@@ -244,11 +173,80 @@ export default function ProductCsvImport() {
         ),
       },
       {
+        Header: "Chemicals",
+        accessor: "chemical_id",
+        Cell: (cell: any) => (
+          <CheckDataCell cell={cell} dtype="both"  />
+        ),
+      },
+      {
         Header: "Hsn Code",
         accessor: "hsn_code",
         Cell: (cell: any) => <CheckDataCell cell={cell} dtype="number" />,
       },
-      ...getExtraCell(),
+      {
+        Header: "MRP",
+        accessor: "mrp",
+        Cell: (cell: any) => <CheckDataCell cell={cell} dtype="number" />,
+      },
+      {
+        Header: "Price",
+        accessor: "price",
+        Cell: (cell: any) => (
+          <CheckDataCell cell={cell} dtype="number" validate="price" />
+        ),
+      },
+      {
+        Header: "Gst",
+        accessor: "gst",
+        Cell: (cell: any) => (
+          <CheckDataCell cell={cell} dtype="string" validate="gst" />
+        ),
+      },
+      {
+        Header: "Weight",
+        accessor: "weight",
+        Cell: (cell: any) => (
+          <CheckDataCell cell={cell} dtype="string" validate="weight" />
+        ),
+      },
+      {
+        Header: "Package",
+        accessor: "package",
+        Cell: (cell: any) => (
+          <CheckDataCell cell={cell} dtype="number" validate="package" />
+        ),
+      },
+      {
+        Header: "Fragile",
+        accessor: "fragile",
+        Cell: (cell: any) => <CheckDataCell cell={cell} dtype="number" />,
+      },
+      {
+        Header: "Units per case",
+        accessor: "units_per_case",
+        Cell: (cell: any) => <CheckDataCell cell={cell} dtype="number" />,
+      },
+      {
+        Header: "Length",
+        accessor: "dimension_width",
+        Cell: (cell: any) => <CheckDataCell cell={cell} dtype="number" />,
+      },
+      {
+        Header: "Width",
+        accessor: "dimension_length",
+        Cell: (cell: any) => <CheckDataCell cell={cell} dtype="number" />,
+      },
+      {
+        Header: "Height",
+        accessor: "dimension_height",
+        Cell: (cell: any) => <CheckDataCell cell={cell} dtype="number" />,
+      },
+      {
+        Header: "Total Weight",
+        accessor: "totalweight",
+        Cell: (cell: any) => <CheckDataCell cell={cell} dtype="number" />,
+      },
     ],
     [importTab]
   );
@@ -261,7 +259,6 @@ export default function ProductCsvImport() {
       const res = await shopProducts("get", {});
       if (res?.status === 200) {
         let csvData = res.data || [];
-        console.log(csvData);
         // indexing
         csvData = addSno(csvData);
 
@@ -353,86 +350,23 @@ export default function ProductCsvImport() {
               +row.dimension_length *
               +row.dimension_width *
               +row.dimension_height,
+              crop_id:`${row.crop_id}`,
+              ingredient_id:`${row.ingredient_id}`,
+              chemical_id:`${row.chemical_id}`,
+           
           };
 
           row = { ...row, ...calValue };
 
-          await shopProducts("post", {
-            params: "import",
-            data: JSON.stringify(row),
-          });
-        }
-        navigate(-1);
-        enqueueSnackbar(`product csv upload successfully.`, {
-          variant: "success",
-        });
-      } catch (error) {
-        setLoading(false);
-        console.log(error);
-      }
-    }
-    setLoading(false);
-  };
-
-  const onUpdate = async () => {
-    let show = false;
-    setLoading(true);
-    for (let index = 0; index < data.length; index++) {
-      const row = data[index];
-      for (const column of validateList) {
-        const { error } = dtypeValidation(row[column.label], column.dtype);
-        show = error;
-      }
-
-      let cat_valid = await categoryValidation(row.category_id);
-      let sub_cat_valid = await subCategoryValidation(row.subcategory_id);
-      let brand_valid = await brandValidation(row.brand_id);
-      let crop_valid = await cropValidation(row.crop_id);
-      let ingredient_valid = await ingredientValidation(row.ingredient_id);
-
-      if (!show) {
-        if (
-          cat_valid.error ||
-          sub_cat_valid.error ||
-          brand_valid.error ||
-          crop_valid.error ||
-          ingredient_valid.error
-        ) {
-          show = true;
-        }
-      }
-      if (show) {
-        setLoading(false);
-        enqueueSnackbar(`please check S No. ${index + 1}`, {
-          variant: "error",
-        });
-        break;
-      }
-    }
-    if (!show) {
-      try {
-        for (let index = 0; index < data.length; index++) {
-          let row = data[index];
-          await shopProducts("put", {
-            params: row.sku_id,
-            data: JSON.stringify({
-              sku_name: row.sku_name,
-              application: row.application || "<></>",
-              doses: row.doses || "<></>",
-              target_crop: row.target_crop || "<></>",
-              technical_formula: row.technical_formula || "<></>",
-              sku_name_kannada: row.sku_name_kannada,
-              description: row.description,
-              ingredients: row?.ingredients || "<></>",
-              sku_code: row.sku_code,
-              category_id: row.category_id,
-              subcategory_id: row.subcategory_id,
-              brand_id: row.brand_id,
-              crop_id: `${row.crop_id}`,
-              ingredient_id: `${row.ingredient_id}`,
-              hsn_code: row.hsn_code,
-            }),
-          });
+          importTab == 0
+            ? await shopProducts("post", {
+                params: "import",
+                data: JSON.stringify(row),
+              })
+            : await shopProducts("put", {
+                params: row.sku_id,
+                data: JSON.stringify(row),
+              });
         }
         navigate(-1);
         enqueueSnackbar(`product csv upload successfully.`, {
@@ -484,7 +418,7 @@ export default function ProductCsvImport() {
             color="secondary"
             size="small"
             variant="contained"
-            onClick={importTab == 0 ? onUpload : onUpdate}
+            onClick={onUpload}
             disabled={data.length > 0 ? loading : true}
             startIcon={
               loading ? (

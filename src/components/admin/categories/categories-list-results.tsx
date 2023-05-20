@@ -16,7 +16,7 @@ import SerialNumber from "../serial-number";
 import SortMainDialog from "../sort-main-dialog";
 import { queryToStr } from "../utils";
 import ShopAvatar from "../../Image/shop-avatar";
-import {MdProductionQuantityLimits} from "react-icons/md"
+import { MdProductionQuantityLimits } from "react-icons/md";
 
 function CategoriesListResults(props: {
   searchText: string;
@@ -29,9 +29,11 @@ function CategoriesListResults(props: {
   const [deleteData, setDeleteData] = React.useState<{
     value: { [key: string]: any };
     open: boolean;
+    validate?: boolean;
   }>({
     value: {},
     open: false,
+    validate: false,
   });
   const [edit, setEdit] = React.useState<{
     value?: { [key: string]: any };
@@ -52,7 +54,8 @@ function CategoriesListResults(props: {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const deleteBoxClose = () => setDeleteData({ open: false, value: {} });
+  const deleteBoxClose = () =>
+    setDeleteData({ open: false, value: {}, validate: false });
 
   const { isLoading, refetch, data } = useQuery(["categories", postfix], () =>
     categories("get", {
@@ -68,14 +71,14 @@ function CategoriesListResults(props: {
       });
       if (res.status === 200) {
         await refetch();
-        enqueueSnackbar("entry successfully deleted ", {
+        enqueueSnackbar("Category successfully deleted ", {
           variant: "success",
         });
       }
       // }
     } catch (err: any) {
       console.log(err.response);
-      enqueueSnackbar("entry could not delete", { variant: "error" });
+      enqueueSnackbar("Category could not be deleted", { variant: "error" });
     }
     deleteBoxClose();
   };
@@ -90,10 +93,10 @@ function CategoriesListResults(props: {
         ),
         width: "5%",
       },
-     {
+      {
         Header: "Category ID",
         accessor: "category_id",
-        width:"8%"
+        width: "8%",
       },
       {
         Header: "Status",
@@ -105,9 +108,14 @@ function CategoriesListResults(props: {
             idAccessor="category_id"
             axiosFunction={categories}
             refetch={refetch}
+            validation={ {
+              params: "checkcategory",
+              postfix: `?category_id=`,
+              message:"Category"
+            }}
           />
         ),
-      }, 
+      },
       {
         Header: "Category Image",
         accessor: "image",
@@ -127,7 +135,7 @@ function CategoriesListResults(props: {
         Header: "Category Name",
         accessor: "name",
       },
-      
+
       {
         Header: "Action",
         width: "15%",
@@ -151,7 +159,11 @@ function CategoriesListResults(props: {
                 size="small"
                 color="secondary"
                 onClick={() =>
-                  setDeleteData({ open: true, value: cell.row.original })
+                  setDeleteData({
+                    open: false,
+                    validate: true,
+                    value: cell.row.original,
+                  })
                 }
               >
                 <RiDeleteBinFill />
@@ -200,6 +212,31 @@ function CategoriesListResults(props: {
   React.useEffect(() => {
     if (searchText) setPage(0);
   }, [searchText]);
+
+  const deleteValidation = React.useCallback(async () => {
+    try {
+      const validataion = await categories("get", {
+        params: "checkcategory",
+        postfix: `?category_id=${deleteData.value.category_id}`,
+      });
+      if (validataion?.data?.status == 0) {
+        setDeleteData((prev) => {
+          return { ...prev, validate: false, open: true };
+        });
+      } else {
+        enqueueSnackbar("This category can not delete", {
+          variant: "error",
+        });
+        deleteBoxClose();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [deleteData]);
+
+  React.useEffect(() => {
+    deleteData.validate && deleteValidation();
+  }, [deleteData]);
 
   return (
     <>

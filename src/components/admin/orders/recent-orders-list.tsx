@@ -55,7 +55,12 @@ export default function RecentOrdersList(props: {
       {
         Header: "Order Status",
         accessor: "order_status",
-        Cell: (cell: any) => <OrderStatus value={cell.value} />,
+        Cell: (cell: any) => (
+          <OrderStatus
+            value={cell.value}
+            returnValue={cell.row.original?.return_order_status || undefined}
+          />
+        ),
       },
       {
         Header: "Order Date",
@@ -68,9 +73,7 @@ export default function RecentOrdersList(props: {
             <Typography textAlign={"center"} fontSize="small">
               {dayjs(cell.value).format("hh:mm a")}
             </Typography>
-
           </>
-
         ),
       },
       {
@@ -110,18 +113,24 @@ export default function RecentOrdersList(props: {
       },
       {
         Header: "Delivery Address",
-        accessor:"shipping_village",
-        width:"15%",
+        accessor: "shipping_village",
+        width: "15%",
         Cell: (cell: any) => (
           <>
-          <TextCenter fontSize="small">{cell.value}</TextCenter>
-          <TextCenter fontSize="small">{cell.row.original?.shipping_sub_district}</TextCenter>
-          <TextCenter fontSize="small">{cell.row.original?.shipping_district}</TextCenter>
-          <TextCenter fontSize="small">{cell.row.original?.shipping_district}</TextCenter>          
+            <TextCenter fontSize="small">{cell.value}</TextCenter>
+            <TextCenter fontSize="small">
+              {cell.row.original?.shipping_subdistrict}
+            </TextCenter>
+            <TextCenter fontSize="small">
+              {cell.row.original?.shipping_district}
+            </TextCenter>
+            <TextCenter fontSize="small">
+              {cell.row.original?.shipping_state}
+            </TextCenter>
           </>
         ),
       },
-      
+
       {
         Header: "Total Value",
         accessor: "grand_total",
@@ -191,14 +200,18 @@ export default function RecentOrdersList(props: {
               {dayjs(cell.value).format("hh:mm a")}
             </Typography>
           </>
-
         ),
       },
       {
         Header: "Order Status",
         accessor: "order_status",
         width: "15%",
-        Cell: (cell: any) => <OrderStatus value={cell.value} />,
+        Cell: (cell: any) => (
+          <OrderStatus
+            value={cell.value}
+            returnValue={cell.row.original?.return_order_status || undefined}
+          />
+        ),
       },
       {
         Header: "Amount",
@@ -261,10 +274,6 @@ export default function RecentOrdersList(props: {
         orders: [],
       };
   }, [data]);
-
-
-
-
 
   return (
     <DataTable

@@ -62,6 +62,7 @@ import InventoryReport from "../../pages/admin/management/retailers/retailerDash
 import MarginReport from "../../pages/admin/management/retailers/retailerDashboard/margin-report";
 import InventoryCsvImport from "../../pages/admin/management/retailers/retailerDashboard/inventory-csv-import";
 import TaxationReport from "../../pages/admin/management/retailers/retailerDashboard/taxation-report";
+import Chemicals from "../../pages/admin/management/Chemical";
 
 export default {
   path: "/management",
@@ -307,6 +308,15 @@ export default {
         {
           path: "crop-csv-import",
           element: <CropCsvImport />,
+        },
+      ],
+    },
+    {
+      path: "chemical",
+      children: [
+        {
+          path: "",
+          element: <Chemicals />,
         },
       ],
     },

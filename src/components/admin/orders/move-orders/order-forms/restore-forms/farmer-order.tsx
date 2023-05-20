@@ -21,6 +21,7 @@ export default function NewOrder(props: {
           order_id: orders.order_id,
           order_status: 0,
           user: "admin",
+          type:"restore"
         }),
       });
       if (res?.status === 200) {

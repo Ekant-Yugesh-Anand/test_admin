@@ -9,6 +9,7 @@ import {
   subCategories as subCategoriesHttp,
   brands as brandsHttp,
   crops,
+  shopChemical,
 } from "../../../http";
 import AsyncAutocomplete from "../../form/async-autocomplete";
 import { queryToStr } from "../utils";
@@ -43,9 +44,12 @@ export default function ProductBasicForm(props: {
   const [cropsData, setCropsData] = React.useState<
     Array<{ [key: string]: any }>
   >([]);
+  const [chemicalData, setChemicalData] = React.useState<
+    Array<{ [key: string]: any }>
+  >([]);
   const [ingredientsData, setIngredientsData] = React.useState<
-  Array<{ [key: string]: any }>
->([]);
+    Array<{ [key: string]: any }>
+  >([]);
   const [categories, setCategories] = React.useState<
     Array<{ [key: string]: any }>
   >([]);
@@ -95,7 +99,7 @@ export default function ProductBasicForm(props: {
         multiline: true,
         rows: 4,
       },
-        {
+      {
         type: "WebInput",
         label: "Technical Formula",
         name: "technical_formula",
@@ -103,7 +107,7 @@ export default function ProductBasicForm(props: {
         multiline: true,
         rows: 4,
       },
-        {
+      {
         type: "WebInput",
         label: "Doses",
         name: "doses",
@@ -111,7 +115,7 @@ export default function ProductBasicForm(props: {
         multiline: true,
         rows: 4,
       },
-        {
+      {
         type: "WebInput",
         label: "Application",
         name: "application",
@@ -119,7 +123,7 @@ export default function ProductBasicForm(props: {
         multiline: true,
         rows: 4,
       },
-        {
+      {
         type: "WebInput",
         label: "Target Crop",
         name: "target_crop",
@@ -157,6 +161,22 @@ export default function ProductBasicForm(props: {
       },
     }
   );
+  const { isLoading: chemicalLoading } = useQuery(
+    ["get-all-chemical"],
+    () =>
+      shopChemical("get", {
+        params: "chemicals",
+      }),
+    {
+      onSuccess(data) {
+        if (data?.status === 200)
+          setChemicalData(
+            data.data?.chemicals instanceof Array ? data.data?.chemicals : []
+          );
+      },
+    }
+  );
+
   const { isLoading: ingredientLoading } = useQuery(
     ["get-all-ingredients"],
     () =>
@@ -166,7 +186,7 @@ export default function ProductBasicForm(props: {
     {
       onSuccess(data) {
         if (data?.status === 200)
-        setIngredientsData(data.data instanceof Array ? data.data : []);
+          setIngredientsData(data.data instanceof Array ? data.data : []);
       },
     }
   );
@@ -197,7 +217,6 @@ export default function ProductBasicForm(props: {
     }
   );
 
-
   return (
     <Box>
       <Box sx={{ mb: 2 }}>
@@ -214,12 +233,11 @@ export default function ProductBasicForm(props: {
                 key={index}
                 label={item.label}
                 value={values[item.name] ? values[item.name] : ""}
-                onChangeOption={(value) =>
-                  setFieldValue(item.name, value)
-                }
-                error={errors[item.name] && touched[item.name] ? true : false}
+                onChangeOption={(value) => setFieldValue(item.name, value)}
+                error={errors[item.name]}
                 helperText={touched[item.name] ? errors[item.name] : ""}
                 onBlur={handleBlur}
+               
               />
             );
           }
@@ -354,11 +372,44 @@ export default function ProductBasicForm(props: {
                 value: "ingredient_id",
               }}
               value={values?.ingredient_id || ""}
-              onChangeOption={(value) => { 
-                setFieldValue("ingredient_id", value)}}
+              onChangeOption={(value) => {
+                setFieldValue("ingredient_id", value);
+              }}
               TextInputProps={{
-                error: errors["ingredient_id"] && touched["ingredient_id"] ? true : false,
-                helperText: touched["ingredient_id"] ? errors["ingredient_id"] : "",
+                error:
+                  errors["ingredient_id"] && touched["ingredient_id"]
+                    ? true
+                    : false,
+                helperText: touched["ingredient_id"]
+                  ? errors["ingredient_id"]
+                  : "",
+                onBlur: handleBlur,
+              }}
+            />
+          </Box>
+          <Box sx={{ my: 1 }}>
+            <AsyncAutocomplete
+              id="chemical-option"
+              multiple={true}
+              loading={chemicalLoading}
+              label="Chemicals"
+              options={chemicalData || []}
+              objFilter={{
+                title: "name",
+                value: "id",
+              }}
+              value={values?.chemical_id || ""}
+              onChangeOption={(value) => {
+                setFieldValue("chemical_id", value);
+              }}
+              TextInputProps={{
+                error:
+                  errors["chemical_id"] && touched["chemical_id"]
+                    ? true
+                    : false,
+                helperText: touched["chemical_id"]
+                  ? errors["chemical_id"]
+                  : "",
                 onBlur: handleBlur,
               }}
             />
@@ -380,9 +431,10 @@ export const initialValues = {
   subcategory_id: "",
   brand_id: "",
   crop_id: "",
-  ingredient_id:"",
-  technical_formula:"",
-  doses:"",
-  application:"",
-  target_crop:""
+  ingredient_id: "",
+  technical_formula: "",
+  doses: "",
+  application: "",
+  target_crop: "",
+  chemical_id:""
 };

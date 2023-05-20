@@ -140,7 +140,7 @@ export const orderStatusReadable = (
 ) =>
   data.map((row) => ({
     ...row,
-    [addKeyName]: getStrOrderStatus(`${row[extractName]}`),
+    [addKeyName]: getStrOrderStatus(`${row[extractName]}`,`${row["return_order_status"]}`),
   }));
 
 export const dateTimeFormatTable = (
@@ -153,7 +153,7 @@ export const dateTimeFormatTable = (
       ? {
           ...row,
           [dateExtractKeyName]: dayjs(row[dateExtractKeyName]).format(
-            "D-M-YYYY"
+            "DD-MMM-YYYY"
           ),
           [addTimeKeyName]: dayjs(row[dateExtractKeyName]).format("hh:mm A"),
         }
@@ -253,7 +253,8 @@ export const setExtraValue = (
 export const setOrderStatusValue = (
   data: Array<Record<string, any>>,
   keyName: string,
-  orderStatus: string
+  orderStatus: string,
+  retunStatus?: string
 ) =>
   data.map((row) => {
     const newRow: typeof row = {};
@@ -261,8 +262,8 @@ export const setOrderStatusValue = (
       if (Object.prototype.hasOwnProperty.call(row, key)) {
         newRow["order_status"] =
           orderStatus == "21"
-            ? getStrOrderStatus(row["order_status"])
-            : getStrOrderStatus(orderStatus);
+            ? getStrOrderStatus(row["order_status"], row["return_order_status"])
+            : getStrOrderStatus(orderStatus, row["return_order_status"]);
       }
     }
     return { ...row, ...newRow };
@@ -358,25 +359,6 @@ export const getFragile = (data: Array<Record<string, any>>) =>
     return { ...row, ...newRow };
   });
 
-export const formatDate = (data: Array<Record<string, any>>) =>
-  data.map((row) => {
-    const newRow: typeof row = {};
-    dayjs.extend(CustomParserFormat);
-    for (const key in row) {
-      if (Object.prototype.hasOwnProperty.call(row, key)) {
-        newRow["order_date"] = `${dayjs(row["order_date"], "D-M-YYYY").format(
-          "D-MMM-YYYY"
-        )}`;
-        row["delivered_date"] &&
-          (newRow["delivered_date"] = `${dayjs(
-            row["delivered_date"],
-            "D-M-YYYY"
-          ).format("D-MMM-YYYY")}`);
-      }
-    }
-    return { ...row, ...newRow };
-  });
-
 // !Table Units End
 
 export const objectToForm = (obj: Record<string, any>) => {
@@ -444,7 +426,10 @@ export function wieghtValidation(value: any) {
     "Kg",
     "Ml",
   ];
-  if (!weight_parameter.includes(value.split(" ")[1])) {
+  if (value.slice(-5) === "liter" || value.slice(-5) === "Liter") {
+    return { error: false, message: "" };
+  }
+  if (!weight_parameter.includes(value.slice(-2))) {
     return { error: true, message: "Weight parameter is not correct" };
   }
   return { error: false, message: "" };
@@ -537,6 +522,8 @@ export async function ingredientValidation(value: any) {
   }
   return { error: false, message: "" };
 }
+
+
 //  package validation
 export async function packageValidation(value: any) {
   try {
@@ -696,16 +683,30 @@ export const manipulateGst = (data: Array<Record<string, any>>) =>
           newRow["igst"] = "18%";
           newRow["cgst"] = "9%";
           newRow["sgst"] = "9%";
-          newRow["taxable_value"] =
-            row["delivery_charge"] - (row["delivery_charge"] * 18) / 100;
-          newRow["igst_amt"] = (row["delivery_charge"] * 18) / 100;
-          newRow["cgst_amt"] = (row["delivery_charge"] * 9) / 100;
-          newRow["sgst_amt"] = (row["delivery_charge"] * 9) / 100;
+          newRow["taxable_value"] = (
+            (row["delivery_charge"] * 100) /
+            118
+          ).toFixed(2);
+          newRow["igst_amt"] = (
+            (((row["delivery_charge"] * 100) / 118) * 18) /
+            100
+          ).toFixed(2);
+          newRow["cgst_amt"] = (
+            (((row["delivery_charge"] * 100) / 118) * 9) /
+            100
+          ).toFixed(2);
+          newRow["sgst_amt"] = (
+            (((row["delivery_charge"] * 100) / 118) * 9) /
+            100
+          ).toFixed(2);
         }
-        if (row["retailer_state"])
-          newRow["pos"] = getPos(row["retailer_state"]);
-
+        newRow["pos"] = row["shipping_state"];
+        row["document_type"] = "Invoice";
+        row["bill_to_state"] = row["billing_state"];
+        row["document_number"] = row["invoice_no"];
+        row["document_date"] = row["accept_date"];
         row["hsn"] = "999999";
+        row["supplierGSTIN"] = "29AAACC3269J1ZG";
         row["customerGSTIN"] = "Not Registered";
         row["customer_code"] = "NA";
         row["reserve_charge_flag"] = "N";

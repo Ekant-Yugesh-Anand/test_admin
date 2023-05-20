@@ -48,7 +48,7 @@ export default function DeliveryChargeFormDialog(props: {
         close();
         reload();
         setTimeout(() => {
-          enqueueSnackbar("Delivery Charge Saved successfully!👍😊", {
+          enqueueSnackbar("Delivery Charge Saved successfully", {
             variant: "success",
           });
         }, 200);
@@ -61,7 +61,7 @@ export default function DeliveryChargeFormDialog(props: {
       if (status === 400) {
         enqueueSnackbar(message, { variant: "error" });
       } else {
-        enqueueSnackbar("Delivery Charge Save Failed!😢", {
+        enqueueSnackbar("Delivery Charge Save Failed!", {
           variant: "error",
         });
       }
@@ -78,7 +78,7 @@ export default function DeliveryChargeFormDialog(props: {
         close();
         reload();
         setTimeout(() => {
-          enqueueSnackbar("Delivery Charge Updated successfully!👍😊", {
+          enqueueSnackbar("Delivery Charge Updated successfully", {
             variant: "success",
           });
         }, 200);
@@ -91,7 +91,7 @@ export default function DeliveryChargeFormDialog(props: {
       if (status === 400) {
         enqueueSnackbar(message, { variant: "error" });
       } else {
-        enqueueSnackbar("Delivery Charge Update Failed!😢", {
+        enqueueSnackbar("Delivery Charge Update Failed", {
           variant: "error",
         });
       }

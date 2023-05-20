@@ -62,17 +62,17 @@ export default function DeliveryPartnerArea() {
 
   const handleChangeMultiple =
     (variant: "left" | "right") =>
-      (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const { options } = event.target;
-        const value: string[] = [];
-        for (let i = 0, l = options.length; i < l; i += 1) {
-          if (options[i].selected) {
-            value.push(options[i].value);
-          }
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const { options } = event.target;
+      const value: string[] = [];
+      for (let i = 0, l = options.length; i < l; i += 1) {
+        if (options[i].selected) {
+          value.push(options[i].value);
         }
-        if (variant === "left") setLeftSelectValue(value);
-        else if (variant === "right") setRightSelectValue(value);
-      };
+      }
+      if (variant === "left") setLeftSelectValue(value);
+      else if (variant === "right") setRightSelectValue(value);
+    };
 
   const handleLeftRight = (variant: "left" | "right") => () => {
     const leftNewValue: Record<string, any>[] = [];
@@ -144,29 +144,31 @@ export default function DeliveryPartnerArea() {
 
   const exportHandle = () => {
     try {
-      let csvData = right ? right : []
+      let csvData = right ? right : [];
 
-      csvData = addSno(csvData)
-      csvData = removeEsc(csvData)
+      csvData = addSno(csvData);
+      csvData = removeEsc(csvData);
       setCsvData(csvData, () => {
-        ref.current.link.click()
-      })
+        ref.current.link.click();
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
 
   return (
     <MainContainer>
       <Container>
-        <CommonToolbar 
-        title={`${partnerName} / Delivery Partner Area`} exportProps={{
-          ref,
-          data: csvData,
-          filename: `partner-area-csv`,
-          onClick: exportHandle,
-          headers: partnerAreaFields
-        }} />
+        <CommonToolbar
+          title={`${partnerName} / Delivery Partner Area`}
+          exportProps={{
+            ref,
+            data: csvData,
+            filename: `partner-area-csv`,
+            onClick: exportHandle,
+            headers: partnerAreaFields,
+          }}
+        />
         <Box mt={2}>
           <Grid
             container
@@ -236,6 +238,16 @@ export default function DeliveryPartnerArea() {
           }}
         >
           <Button
+            color="secondary"
+            variant="outlined"
+            size="small"
+            sx={{ backgroundColor: "#fff" }}
+            disabled={loading}
+            onClick={onCancel}
+          >
+            Cancel
+          </Button>
+          <Button
             type="submit"
             color="secondary"
             variant="contained"
@@ -249,16 +261,6 @@ export default function DeliveryPartnerArea() {
             }
           >
             Save
-          </Button>
-          <Button
-            color="secondary"
-            variant="outlined"
-            size="small"
-            sx={{ backgroundColor: "#fff" }}
-            disabled={loading}
-            onClick={onCancel}
-          >
-            Cancel!
           </Button>
         </Box>
       </Container>

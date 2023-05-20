@@ -8,7 +8,6 @@ import {
   addSno,
   addTaxNetAmount,
   dateTimeFormatTable,
-  formatDate,
   formatVolume,
   formatWeight,
   getFragile,
@@ -91,6 +90,8 @@ export default function FarmersOrders() {
         //format accept and cancel date
         csvData = dateTimeFormatTable(csvData, "accept_date", "accept_time");
         csvData = dateTimeFormatTable(csvData, "cancel_date", "cancel_time");
+        csvData = dateTimeFormatTable(csvData, "return_date", "return_time");
+
         // marge two column
         csvData = margeRowTable(
           csvData,
@@ -104,7 +105,7 @@ export default function FarmersOrders() {
           csvData,
           [
             "shipping_village",
-            "shipping_sub_district",
+            "shipping_subdistrict",
             "shipping_district",
             "shipping_state",
             "shipping_pincode",
@@ -116,7 +117,7 @@ export default function FarmersOrders() {
           csvData,
           [
             "billing_village",
-            "billing_sub_district",
+            "billing_subdistrict",
             "billing_district",
             "billing_state",
             "billing_pincode",
@@ -131,8 +132,6 @@ export default function FarmersOrders() {
         // format volume
         csvData = formatVolume(csvData);
 
-         // convert date
-         csvData = formatDate(csvData);
         // add tax and net amount
         csvData = addTaxNetAmount(csvData);
         //get fragile

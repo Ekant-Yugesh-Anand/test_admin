@@ -31,9 +31,11 @@ export default function ProductsListResults(props: {
   const [deleteData, setDeleteData] = React.useState<{
     id: string;
     open: boolean;
+    validate: boolean;
   }>({
     id: "",
     open: false,
+    validate:false,
   });
   const [price, setPrice] = React.useState({
     open: false,
@@ -69,7 +71,7 @@ export default function ProductsListResults(props: {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const deleteBoxClose = () => setDeleteData({ open: false, id: "" });
+  const deleteBoxClose = () => setDeleteData({ open: false, id: "", validate:false });
 
   const onDelete = async () => {
     try {
@@ -78,13 +80,13 @@ export default function ProductsListResults(props: {
       });
       if (res.status === 200) {
         await refetch();
-        enqueueSnackbar("entry successfull deleted 😊", {
+        enqueueSnackbar("Product successfully deleted", {
           variant: "success",
         });
       }
     } catch (err: any) {
       console.log(err.response);
-      enqueueSnackbar("entry not delete 😢", { variant: "error" });
+      enqueueSnackbar("Product could not be deleted", { variant: "error" });
     }
     deleteBoxClose();
   };
@@ -187,6 +189,12 @@ export default function ProductsListResults(props: {
             idAccessor="sku_id"
             refetch={refetch}
             axiosFunction={shopProducts}
+            validation={ {
+              params: "checkproduct",
+              postfix: `?sku_id=`,
+              message:"Product"
+            }}
+            
           />
         ),
       },
@@ -317,7 +325,7 @@ export default function ProductsListResults(props: {
                 size="small"
                 color="secondary"
                 onClick={() =>
-                  setDeleteData({ open: true, id: cell.row.original.sku_id })
+                  setDeleteData({ open: false, id: cell.row.original.sku_id, validate:true })
                 }
               >
                 <RiDeleteBinFill />
@@ -344,6 +352,32 @@ export default function ProductsListResults(props: {
   React.useEffect(() => {
     if (searchText) setPage(0);
   }, [searchText]);
+
+
+  const deleteValidation = React.useCallback(async () => {
+    try {
+      const validataion = await shopProducts("get", {
+        params: "checkproduct",
+        postfix: `?sku_id=${deleteData.id}`,
+      });
+      if (validataion?.data?.status == 0) {
+        setDeleteData((prev) => {
+          return { ...prev, validate: false, open: true };
+        });
+      } else {
+        enqueueSnackbar("This Product can not be deleted", {
+          variant: "error",
+        });
+        deleteBoxClose();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [deleteData]);
+
+  React.useEffect(() => {
+    deleteData.validate && deleteValidation();
+  }, [deleteData]);
 
   return (
     <>

@@ -25,9 +25,12 @@ function CropsListResutl(props: {
   const [deleteData, setDeleteData] = React.useState<{
     value: { [key: string]: any };
     open: boolean;
+    validate?: boolean;
   }>({
     value: {},
     open: false,
+    validate: false,
+
   });
   const [edit, setEdit] = React.useState<{
     value: { [key: string]: any } | null;
@@ -47,7 +50,7 @@ function CropsListResutl(props: {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const deleteBoxClose = () => setDeleteData({ open: false, value: {} });
+  const deleteBoxClose = () => setDeleteData({ open: false, value: {} , validate:false });
 
   const { isLoading, refetch, data } = useQuery(
     ["crops", postfix],
@@ -69,13 +72,13 @@ function CropsListResutl(props: {
       });
       if (res.status === 200) {
         refetch();
-        enqueueSnackbar("entry success-full deleted 😊", {
+        enqueueSnackbar("Crop successfully deleted", {
           variant: "success",
         });
       }
     } catch (err: any) {
       console.log(err.response);
-      enqueueSnackbar("entry not delete 😢", { variant: "error" });
+      enqueueSnackbar("Crop could not be deleted ", { variant: "error" });
     }
     deleteBoxClose();
   };
@@ -106,6 +109,11 @@ function CropsListResutl(props: {
             axiosFunction={crops}
             postfix={postfix}
             refetch={refetch}
+            validation={ {
+              params: "checkcrop",
+              postfix: `?crop_id=`,
+              message:"Crop"
+            }}
           />
         ),
       },
@@ -153,7 +161,7 @@ function CropsListResutl(props: {
                 size="small"
                 color="secondary"
                 onClick={() =>
-                  setDeleteData({ open: true, value: cell.row.original })
+                  setDeleteData({ open: false, validate:true, value: cell.row.original })
                 }
               >
                 <RiDeleteBinFill />
@@ -180,6 +188,32 @@ function CropsListResutl(props: {
   React.useEffect(() => {
     if (searchText) setPage(0);
   }, [searchText]);
+
+  const deleteValidation = React.useCallback(async () => {
+    try {
+      const validataion = await crops("get", {
+        params: "checkcrop",
+        postfix: `?crop_id=${deleteData.value.crop_id}`,
+      });
+      if (validataion?.data?.status == 0) {
+        setDeleteData((prev) => {
+          return { ...prev, validate: false, open: true };
+        });
+      } else {
+        enqueueSnackbar("This crop can not be deleted", {
+          variant: "error",
+        });
+        deleteBoxClose();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [deleteData]);
+
+  React.useEffect(() => {
+    deleteData.validate && deleteValidation();
+  }, [deleteData]);
+
 
   return (
     <>

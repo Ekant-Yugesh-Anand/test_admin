@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import CartListNew from "../../../components/admin/cart/cart-list";
 import {
@@ -83,6 +83,11 @@ export default function ShoppingCart(props: { deleted: string }) {
     if (deleted == "2") return "Placed Cart";
     return "Shopping Cart";
   }
+
+  useEffect(()=>{
+    setSearchText("")
+  },[deleted])
+
 
   return (
     <>

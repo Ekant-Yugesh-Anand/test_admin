@@ -30,8 +30,7 @@ export default function AllOrdersListResults(props: { searchText: string }) {
   const onCloseMoveOrder = () =>
     setMoveOrder({ open: false, values: {}, orderStatus: "0" });
 
-    const onCloseStats = () =>
-    setStats({ open: false, values: {}});  
+  const onCloseStats = () => setStats({ open: false, values: {} });
 
   const postfix = React.useMemo(() => {
     return searchText
@@ -39,13 +38,10 @@ export default function AllOrdersListResults(props: { searchText: string }) {
       : `?page=${page}&size=${size}`;
   }, [searchText, page, size]);
 
-  const { isLoading, data, refetch } = useQuery(
-    ["all-order", postfix],
-    () =>
-      shopOrders("get", {
-        postfix,
-      }),
-   
+  const { isLoading, data, refetch } = useQuery(["all-order", postfix], () =>
+    shopOrders("get", {
+      postfix,
+    })
   );
 
   const columns = React.useMemo(
@@ -80,7 +76,12 @@ export default function AllOrdersListResults(props: { searchText: string }) {
         Header: "Order Status",
         accessor: "order_status",
         width: "8%",
-        Cell: (cell: any) => <OrderStatus value={cell.value} />,
+        Cell: (cell: any) => (
+          <OrderStatus
+            returnValue={cell.row.original?.return_order_status || undefined}
+            value={cell.value}
+          />
+        ),
       },
       {
         Header: "Order Date",
@@ -113,7 +114,7 @@ export default function AllOrdersListResults(props: { searchText: string }) {
         width: "8%",
         Cell: (cell: any) => (
           <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
-            {cell.value ? `₹${(+cell.value).toFixed(2)}` :""}
+            {cell.value ? `₹${(+cell.value).toFixed(2)}` : ""}
           </Typography>
         ),
       },
@@ -254,28 +255,12 @@ export default function AllOrdersListResults(props: { searchText: string }) {
                 </IconButton>
               </Tooltip>
             </LinkRouter>
-            {/* <Tooltip title="Stats">
-              <IconButton
-                disableRipple={false}
-                size="small"
-                color="secondary"
-                onClick={() =>
-                  setStats({
-                    open: true,
-                    values: cell.row.original,
-                  })
-                }
-              >
-                <BiStats />
-              </IconButton>
-            </Tooltip> */}
           </Box>
         ),
       },
     ],
     [postfix]
   );
-
 
   const getData = React.useMemo(() => {
     if (data?.status === 200) {

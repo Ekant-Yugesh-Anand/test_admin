@@ -23,6 +23,7 @@ export default function PackagesList(props: {
   const [deleteData, setDeleteData] = React.useState({
     id: "",
     open: false,
+    validate:false
   });
 
   const [edit, setEdit] = React.useState<{
@@ -45,7 +46,7 @@ export default function PackagesList(props: {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const deleteBoxClose = () => setDeleteData({ open: false, id: "" });
+  const deleteBoxClose = () => setDeleteData({ open: false, id: "" , validate:false });
 
   const { isLoading, refetch, data } = useQuery(
     ["package", postfix],
@@ -65,13 +66,13 @@ export default function PackagesList(props: {
       });
       if (res.status === 200) {
         await refetch();
-        enqueueSnackbar("entry success-full deleted 😊", {
+        enqueueSnackbar("Package sucessfully deleted", {
           variant: "success",
         });
       }
     } catch (err: any) {
       console.log(err);
-      enqueueSnackbar("entry not delete 😢", { variant: "error" });
+      enqueueSnackbar("Package could not be deleted", { variant: "error" });
     }
     deleteBoxClose();
   };
@@ -102,6 +103,11 @@ export default function PackagesList(props: {
             refetch={refetch}
             payload={["package"]}
             axiosFunction={shopPackages}
+            validation={ {
+              params: "checkpackage",
+              postfix: `?package_id=`,
+              message:"Package"
+            }}
           />
         ),
       },
@@ -136,8 +142,9 @@ export default function PackagesList(props: {
                 color="secondary"
                 onClick={() =>
                   setDeleteData({
-                    open: true,
+                    open: false,
                     id: cell.row.original.package_id,
+                    validate:true
                   })
                 }
               >
@@ -160,6 +167,31 @@ export default function PackagesList(props: {
     if (searchText) setPage(0);
   }, [searchText]);
 
+
+  const deleteValidation = React.useCallback(async () => {
+    try {
+      const validataion = await shopPackages("get", {
+        params: "checkpackage",
+        postfix: `?package_id=${deleteData.id}`,
+      });
+      if (validataion?.data?.status == 0) {
+        setDeleteData((prev) => {
+          return { ...prev, validate: false, open: true };
+        });
+      } else {
+        enqueueSnackbar("This Package can not be deleted", {
+          variant: "error",
+        });
+        deleteBoxClose();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [deleteData]);
+
+  React.useEffect(() => {
+    deleteData.validate && deleteValidation();
+  }, [deleteData]); 
   return (
     <>
       <DataTable

@@ -12,7 +12,6 @@ import {
   addSno,
   addTaxNetAmount,
   dateTimeFormatTable,
-  formatDate,
   margeAsList,
   margeRowTable,
   queryToStr,
@@ -82,7 +81,7 @@ export default function CancelledOrders() {
           csvData,
           [
             "shipping_village",
-            "shipping_sub_district",
+            "shipping_subdistrict",
             "shipping_district",
             "shipping_state",
             "shipping_pincode",
@@ -94,7 +93,7 @@ export default function CancelledOrders() {
           csvData,
           [
             "billing_village",
-            "billing_sub_district",
+            "billing_subdistrict",
             "billing_district",
             "billing_state",
             "billing_pincode",
@@ -108,8 +107,6 @@ export default function CancelledOrders() {
 
          csvData = addComma(csvData)
 
-         // convert date 
-         csvData = formatDate(csvData)
         // set Order Status
         csvData = setExtraValue(csvData, "order_status", "Cancelled Orders");
 

@@ -102,7 +102,12 @@ export default function FarmersOrdersListResults(props: {
         Header: "Order Status",
         accessor: "order_status",
         width: "8%",
-        Cell: (cell: any) => <OrderStatus value={cell.value} />,
+        Cell: (cell: any) => (
+          <OrderStatus
+            value={cell.value}
+            returnValue={cell.row.original?.return_order_status || undefined}
+          />
+        ),
       },
       {
         Header: "Order Date",
@@ -135,7 +140,7 @@ export default function FarmersOrdersListResults(props: {
         width: "8%",
         Cell: (cell: any) => (
           <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
-            {cell.value ? `₹${(+cell.value).toFixed(2)}` :""}
+            {cell.value ? `₹${(+cell.value).toFixed(2)}` : ""}
           </Typography>
         ),
       },
@@ -145,7 +150,7 @@ export default function FarmersOrdersListResults(props: {
         width: "8%",
         Cell: (cell: any) => (
           <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
-            {cell.value && cell.value > 0  ? (
+            {cell.value && cell.value > 0 ? (
               <>
                 {cell.value} cm<sup>3</sup>
               </>
@@ -159,11 +164,11 @@ export default function FarmersOrdersListResults(props: {
         width: "8%",
         Cell: (cell: any) => (
           <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
-            {cell.value && cell.value > 0  ? (
+            {cell.value && cell.value > 0 ? (
               cell.value < 999 ? (
                 <>{cell.value} gm</>
               ) : (
-                <>{+cell.value/1000} Kg</>
+                <>{+cell.value / 1000} Kg</>
               )
             ) : null}
           </Typography>
@@ -204,7 +209,6 @@ export default function FarmersOrdersListResults(props: {
         },
       },
 
-      
       {
         Header: "Retailer Name",
         accessor: "retailer_name",
@@ -216,7 +220,7 @@ export default function FarmersOrdersListResults(props: {
       },
       {
         Header: "Action",
-       
+
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <LinkRouter

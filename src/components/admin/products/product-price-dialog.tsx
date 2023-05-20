@@ -64,7 +64,7 @@ export default function ProductPriceDialog(props: {
           if (res?.status === 200) {
             close();
             setTimeout(() => {
-              enqueueSnackbar("Product Price Updated  successfully!👍😊", {
+              enqueueSnackbar("Product Price Updated  successfully", {
                 variant: "success",
               });
             }, 200);
@@ -77,7 +77,7 @@ export default function ProductPriceDialog(props: {
           if (status === 400) {
             enqueueSnackbar(message, { variant: "error" });
           } else {
-            enqueueSnackbar("Product Price Save Failed!😢", {
+            enqueueSnackbar("Product Price Could not updated", {
               variant: "error",
             });
           }
@@ -104,7 +104,7 @@ export default function ProductPriceDialog(props: {
           if (res?.status === 200) {
             close();
             setTimeout(() => {
-              enqueueSnackbar("Product Price Saved  successfully!👍😊", {
+              enqueueSnackbar("Product Price Saved  successfully", {
                 variant: "success",
               });
             }, 200);
@@ -117,7 +117,7 @@ export default function ProductPriceDialog(props: {
           if (status === 400) {
             enqueueSnackbar(message, { variant: "error" });
           } else {
-            enqueueSnackbar("Product Price Save Failed!😢", {
+            enqueueSnackbar("Product Price could not saved", {
               variant: "error",
             });
           }
@@ -125,7 +125,6 @@ export default function ProductPriceDialog(props: {
       }
     },
   });
-
 
   const onRetrieve = async () => {
     try {

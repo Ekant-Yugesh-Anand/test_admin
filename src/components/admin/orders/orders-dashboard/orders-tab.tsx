@@ -8,14 +8,15 @@ import { MdExpandLess, MdExpandMore } from "react-icons/md";
 
 function RetailerOrdersTab(props: {
   onSetOrderStatus: (value: string) => void;
+  onSetReturn?: (value: boolean) => void;
   labelStatusList?: Array<{
     id?: string;
     label: string;
     order_status: string;
-    child?: Array<{ label: string; order_status: string }>;
+    child?: Array<{ label: string; order_status: string; return?: boolean }>;
   }>;
 }) {
-  const { onSetOrderStatus, labelStatusList } = props;
+  const { onSetOrderStatus, labelStatusList, onSetReturn } = props;
   const [value, setValue] = React.useState(
     labelStatusList ? labelStatusList[0].order_status : "21"
   );
@@ -40,8 +41,12 @@ function RetailerOrdersTab(props: {
           order_status: "1",
         },
         {
+          label: "waiting orders",
+          order_status: "2",
+        },
+        {
           label: "in process orders",
-          order_status: "2,3",
+          order_status: "3",
         },
         {
           label: "out for delivery",
@@ -54,45 +59,86 @@ function RetailerOrdersTab(props: {
         {
           id: "return-order-menu",
           label: "return orders",
-          order_status: "6",
+          order_status: "22",
           child: [
             {
-              label: "New orders",
-              order_status: "6",
+              label: "new orders",
+              order_status: "1",
+              return: true,
             },
             {
-              label: "Accepted orders",
+              label: "accepted orders",
+              order_status: "2",
+              return: true,
+            },
+            {
+              label: "waiting orders",
+              order_status: "4",
+              return: true,
+            },
+            {
+              label: " in process orders",
+              order_status: "5",
+              return: true,
+            },
+
+            {
+              label: "picked up orders",
+              order_status: "7",
+              return: true,
+            },
+            {
+              label: "resheduled orders",
               order_status: "8",
+              return: true,
             },
             {
-              label: "In process",
-              order_status: "12",
+              label: "picked up form (farmer)",
+              order_status: "9",
+              return: true,
             },
             {
-              label: "Pickup",
-              order_status: "14",
+              label: "out for pickup",
+              order_status: "11",
+              return: true,
             },
             {
-              label: "Out for pickup",
-              order_status: "16",
+              label: "returned ",
+              order_status: "11",
+              return: true,
             },
             {
-              label: "Returning",
-              order_status: "17",
+              label: "cancelled orders",
+              order_status: "3,6",
+              return: true,
             },
-            {
-              label: "Returned",
-              order_status: "18",
-            },
-            {
-              label: "Cancel",
-              order_status: "11,13,15",
-            },
+            // {
+            //   label: "refunded ",
+            //   order_status: "12",
+            //   return: true,
+            // },
+            // {
+            //   label: "restored orders",
+            //   order_status: "13,14",
+            //   return: true,
+            // },
           ],
+        },
+        {
+          label: "resheduled orders",
+          order_status: "6",
+        },
+        {
+          label: "restored orders",
+          order_status: "8,11,12",
         },
         {
           label: "cancelled orders",
           order_status: "7,9,10",
+        },
+        {
+          label: "failed order",
+          order_status: "20",
         },
       ],
     []
@@ -109,6 +155,7 @@ function RetailerOrdersTab(props: {
         [id]: e.currentTarget,
       });
     } else {
+      onSetReturn ? onSetReturn(false) : "";
       onSetOrderStatus(orderStatus);
       setValue(orderStatus);
       setSelectedIndex(-1);
@@ -147,65 +194,72 @@ function RetailerOrdersTab(props: {
         bgcolor: "background.paper",
         zIndex: 125,
         position: "fixed",
-        right: 0,
-        left: {
-          lg: 280,
-          sm: 0,
-        },
+        width: "100%",
+        
       }}
       boxShadow={1}
     >
-      <Tabs
-        textColor="secondary"
-        indicatorColor="secondary"
-        value={value}
-        centered
+      <Box
+        sx={{
+          width: "80%",
+        }}
+    
       >
-        {lists.map((item, index) => (
-          <Tab
-            key={index}
-            label={item.label}
-            id={item?.id}
-            value={item.order_status}
-            iconPosition={"end"}
-            sx={{ textTransform: "capitalize" }}
-            onClick={(e) => handleClickTab(e, item.order_status, item?.id)}
-            icon={
-              item?.id ? (
-                Boolean(anchorEl[item.id]) ? (
-                  <MdExpandLess size={20} />
-                ) : (
-                  <MdExpandMore size={20} />
-                )
-              ) : undefined
-            }
-          />
-        ))}
-      </Tabs>
-      {lists.map((item, index) =>
-        item.child && item?.id ? (
-          <Menu
-            key={item.order_status}
-            id={item?.id}
-            anchorEl={anchorEl[item.id]}
-            open={Boolean(anchorEl[item.id])}
-            onClose={handleClose}
-          >
-            {item.child.map((option, index) => (
-              <MenuItem
-                key={option.order_status}
-                selected={index === selectedIndex}
-                onClick={() => {
-                  setValue(item.order_status);
-                  handleMenuItemClick(index, option.order_status, item.id);
-                }}
-              >
-                {option.label}
-              </MenuItem>
-            ))}
-          </Menu>
-        ) : null
-      )}
+        <Tabs
+          textColor="secondary"
+          indicatorColor="secondary"
+          value={value}
+          variant="scrollable"
+          scrollButtons
+          allowScrollButtonsMobile
+        >
+          {lists.map((item, index) => (
+            <Tab
+              key={index}
+              label={item.label}
+              id={item?.id}
+              value={item.order_status}
+              iconPosition={"end"}
+              sx={{ textTransform: "capitalize" }}
+              onClick={(e) => handleClickTab(e, item.order_status, item?.id)}
+              icon={
+                item?.id ? (
+                  Boolean(anchorEl[item.id]) ? (
+                    <MdExpandLess size={20} />
+                  ) : (
+                    <MdExpandMore size={20} />
+                  )
+                ) : undefined
+              }
+            />
+          ))}
+        </Tabs>
+        {lists.map((item, index) =>
+          item.child && item?.id ? (
+            <Menu
+              key={item.order_status}
+              id={item?.id}
+              anchorEl={anchorEl[item.id]}
+              open={Boolean(anchorEl[item.id])}
+              onClose={handleClose}
+            >
+              {item.child.map((option, index) => (
+                <MenuItem
+                  key={index}
+                  selected={index === selectedIndex}
+                  onClick={() => {
+                    option.return ? onSetReturn && onSetReturn(true) : "";
+                    setValue(item.order_status);
+                    handleMenuItemClick(index, option.order_status, item.id);
+                  }}
+                >
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Menu>
+          ) : null
+        )}
+      </Box>
     </Box>
   );
 }

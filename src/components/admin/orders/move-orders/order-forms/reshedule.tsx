@@ -63,9 +63,9 @@ export default function ReScheduleOrder(props: {
             agent_id:orders.agent_id,
             order_status: 3,
             reschedule:"yes",
-            // reschedule_date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
             reschedule_reason: getReschedule(values.reschedule_reason),
             user: "admin",
+            type:"reschedule"
           }),
         });
         if (res?.status === 200) {

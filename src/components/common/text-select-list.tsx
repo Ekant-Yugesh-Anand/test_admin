@@ -85,7 +85,7 @@ export default function TextSelectList(props: {
   return (
     <Box display="flex" flexDirection="column" gap={2}>
       <RowSearch
-        placeholder={`record ${options.length}`}
+        placeholder={`Record ${options.length}`}
         value={searchText}
         onChange={onSearch}
       />

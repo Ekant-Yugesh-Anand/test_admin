@@ -49,6 +49,7 @@ export default function CuponDialog(props: {
       order_value: coupon?.order_value || "",
       user_qty: coupon?.user_qty || "",
       description: coupon?.description || "",
+      variant:variant
     },
     validationSchema: couponSchema,
     enableReinitialize: true,

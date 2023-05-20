@@ -49,30 +49,19 @@ export default function NotificationLogList(props: { searchText: string }) {
         Header: "S No.",
         accessor: (_row: any, i: number) => i + 1,
         Cell: (cell: any) => <SerialNumber cell={cell} page={0} size={size} />,
-        width: "5%",
+        width:"5%",
       },
 
       {
         Header: "Log id",
         accessor: "log_id",
-        width: "8%",
+        width:"5%",
       },
-
-      {
-        Header: "Request",
-        accessor: "request",
-        width: "40%",
-      },
-      {
-        Header: "Response",
-        accessor: "response",
-        width: "40%",
-      },
-
       {
         Header: "Date",
         accessor: "doc",
-        width: "7%",
+        width:"10%",
+
         Cell: (cell: any) => (
           <>
             <Typography textAlign={"center"} fontSize={"small"}>
@@ -82,6 +71,26 @@ export default function NotificationLogList(props: { searchText: string }) {
               {dayjs(cell.value).format("hh:mm a")}
             </Typography>
           </>
+        ),
+      },
+
+      {
+        Header: "Request",
+        accessor: "request",
+        width:"40%",
+      },
+      {
+        Header: "Response",
+        accessor: "response",
+        width:"40%",
+        Cell: (cell: any) => (
+          <Typography
+            textAlign={"center"}
+            fontSize={"small"}
+            className="max-w-[500px] break-words "
+          >
+            {cell.value}
+          </Typography>
         ),
       },
     ],

@@ -20,7 +20,6 @@ import { useNavigate } from "react-router-dom";
 import { MdProductionQuantityLimits } from "react-icons/md";
 
 export default function SubCategoriesList(props: {
-
   addOpen: boolean;
   sortOpen: boolean;
   categoryId: string;
@@ -28,14 +27,16 @@ export default function SubCategoriesList(props: {
   addClose: () => void;
   onSortClose: () => void;
 }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { page, setPage, size, setSize } = usePaginate();
   const [deleteData, setDeleteData] = React.useState<{
     value: Record<string, any>;
     open: boolean;
+    validate?: boolean;
   }>({
     value: {},
     open: false,
+    validate: false,
   });
   const [edit, setEdit] = React.useState<{
     value?: Record<string, any>;
@@ -58,7 +59,7 @@ export default function SubCategoriesList(props: {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const deleteBoxClose = () => setDeleteData({ open: false, value: {} });
+  const deleteBoxClose = () => setDeleteData({ open: false, value: {}, validate:false });
 
   const { isLoading, refetch, data } = useQuery(
     ["sub-categories", postfix],
@@ -76,13 +77,13 @@ export default function SubCategoriesList(props: {
       });
       if (res.status === 200) {
         refetch();
-        enqueueSnackbar("entry successfully deleted ", {
+        enqueueSnackbar("Subcategory successfully deleted ", {
           variant: "success",
         });
       }
     } catch (err: any) {
       console.log(err.response);
-      enqueueSnackbar("entry could not delete", { variant: "error" });
+      enqueueSnackbar("Subcategory could not be deleted", { variant: "error" });
     }
     deleteBoxClose();
   };
@@ -100,7 +101,7 @@ export default function SubCategoriesList(props: {
       {
         Header: "Subcategory ID",
         accessor: "category_id",
-        width:"8%"
+        width: "8%",
       },
       {
         Header: "Status",
@@ -112,6 +113,11 @@ export default function SubCategoriesList(props: {
             idAccessor="category_id"
             axiosFunction={subCategories}
             refetch={refetch}
+            validation={ {
+              params: "checksubcategory",
+              postfix: `?subcategory_id=`,
+              message:"Subcategory"
+            }}
           />
         ),
       },
@@ -157,26 +163,29 @@ export default function SubCategoriesList(props: {
                 size="small"
                 color="secondary"
                 onClick={() =>
-                  setDeleteData({ open: true, value: cell.row.original })
+                  setDeleteData({
+                    open: false,
+                    validate: true,
+                    value: cell.row.original,
+                  })
                 }
               >
                 <RiDeleteBinFill />
               </IconButton>
             </Tooltip>
-         
-              <Tooltip title="Products">
-                <IconButton
-                  disableRipple={false}
-                  size="small"
-                  color="secondary"
-                  onClick={()=>
-                    navigate(`${cell.row.original.category_id}/products`)
-                  }
-                >
-                  <MdProductionQuantityLimits />
-                </IconButton>
-              </Tooltip>
-                 
+
+            <Tooltip title="Products">
+              <IconButton
+                disableRipple={false}
+                size="small"
+                color="secondary"
+                onClick={() =>
+                  navigate(`${cell.row.original.category_id}/products`)
+                }
+              >
+                <MdProductionQuantityLimits />
+              </IconButton>
+            </Tooltip>
           </Box>
         ),
       },
@@ -198,6 +207,32 @@ export default function SubCategoriesList(props: {
   React.useEffect(() => {
     if (searchText) setPage(0);
   }, [searchText]);
+
+
+  const deleteValidation = React.useCallback(async () => {
+    try {
+      const validataion = await subCategories("get", {
+        params: "checksubcategory",
+        postfix: `?subcategory_id=${deleteData.value.category_id}`,
+      });
+      if (validataion?.data?.status == 0) {
+        setDeleteData((prev) => {
+          return { ...prev, validate: false, open: true };
+        });
+      } else {
+        enqueueSnackbar("This Subcategory can not be deleted", {
+          variant: "error",
+        });
+        deleteBoxClose();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [deleteData]);
+
+  React.useEffect(() => {
+    deleteData.validate && deleteValidation();
+  }, [deleteData]);
 
   return (
     <>

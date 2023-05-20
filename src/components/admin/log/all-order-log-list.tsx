@@ -26,7 +26,7 @@ export default function AllOrderLogList(props: { searchText: string }) {
     ["order-log", postfix],
     () =>
       shopOrderLog("get", {
-        params:searchText ? "search" :"",
+        params: searchText ? "search" : "",
         postfix,
       }),
     {
@@ -97,6 +97,18 @@ export default function AllOrderLogList(props: { searchText: string }) {
       {
         Header: "Logged By",
         accessor: "user",
+
+        Cell: (cell: any) => (
+          <>
+            <Typography textAlign={"center"} fontSize={"small"}>
+              {cell.value}
+            </Typography>
+          </>
+        ),
+      },
+      {
+        Header: "Type",
+        accessor: "type",
 
         Cell: (cell: any) => (
           <>

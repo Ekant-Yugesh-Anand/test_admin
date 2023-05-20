@@ -3,11 +3,11 @@ import { Typography, Box, Button, CircularProgress } from "@mui/material";
 import { useFormik } from "formik";
 import { useSnackbar } from "notistack";
 import { useQuery } from "@tanstack/react-query";
-import { deliveryPartners, shopOrders } from "../../../../../http";
+import { deliveryPartners,  shopOrdersReturn } from "../../../../../http";
 import AsyncAutocomplete from "../../../../form/async-autocomplete";
 import moveOrdersSchemas from "../schemas";
 
-export default function Accept(props: {
+export default function ChooseManager(props: {
   onClose: () => void;
   orders: Record<string, any>;
   refetch: Function;
@@ -18,18 +18,18 @@ export default function Accept(props: {
   const { values, errors, touched, handleBlur, handleSubmit, setFieldValue } =
     useFormik({
       initialValues: {
-        return_partner_id: "",
+        partner_id: "",
       },
       validationSchema: moveOrdersSchemas[8],
       async onSubmit(values) {
         try {
           setLoading(true);
-          const res = await shopOrders("post", {
+          const res = await shopOrdersReturn("post", {
             params: "status",
             data: JSON.stringify({
               ...values,
               order_id: orders.order_id,
-              order_status: 8,
+              return_order_status: 4,
             }),
           });
           if (res?.status === 200) {
@@ -77,7 +77,7 @@ export default function Accept(props: {
   return (
     <Box mt={2}>
       <Typography my={1} variant={"h6"}>
-        Move order accept
+        Choose Manager
       </Typography>
       <form onSubmit={handleSubmit}>
         <AsyncAutocomplete
@@ -86,7 +86,7 @@ export default function Accept(props: {
           label="Delivery Partner"
           loading={isLoading}
           options={partnerOptions}
-          value={values.return_partner_id}
+          value={values.partner_id}
           objFilter={{
             title: "partner_name",
             value: "partner_id",
@@ -94,11 +94,11 @@ export default function Accept(props: {
           onChangeOption={(value) => setFieldValue("return_partner_id", value)}
           TextInputProps={{
             error:
-              errors.return_partner_id && touched.return_partner_id
+              errors.partner_id && touched.partner_id
                 ? true
                 : false,
-            helperText: touched.return_partner_id
-              ? errors.return_partner_id
+            helperText: touched.partner_id
+              ? errors.partner_id
               : "",
             onBlur: handleBlur,
           }}

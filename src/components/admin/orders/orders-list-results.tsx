@@ -5,7 +5,7 @@ import { FaEye, FaFileInvoice } from "react-icons/fa";
 import { MdOutlineDriveFileMove } from "react-icons/md";
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { queryToStr } from "../utils";
-import { shopOrders } from "../../../http";
+import { shopOrders, shopOrdersReturn } from "../../../http";
 import DataTable from "../../table/data-table";
 import LinkRouter from "../../../routers/LinkRouter";
 import TablePagination from "../../table/table-pagination";
@@ -23,7 +23,7 @@ export default function OrdersListResults(props: {
   orderStatus: string;
   searchText: string;
   otherQuery?: { [key: string]: any };
-  moveVariant?: "return" | "normal";
+  variant?: "return" | "normal";
   moveCellShow?: boolean;
 }) {
   const { page, setPage, size, setSize } = usePaginate();
@@ -33,7 +33,7 @@ export default function OrdersListResults(props: {
     params,
     otherQuery,
     postfix: otherPostfix,
-    moveVariant,
+    variant,
     moveCellShow,
   } = props;
   const [moveOrder, setMoveOrder] = React.useState({
@@ -42,23 +42,41 @@ export default function OrdersListResults(props: {
   });
 
   const postfix = React.useMemo(() => {
-    const x = queryToStr({
-      ...otherQuery,
-      page,
-      size,
-      order_status: orderStatus,
-    });
+    const x = queryToStr(
+      variant !== "return"
+        ? {
+            ...otherQuery,
+            page,
+            size,
+            order_status: orderStatus,
+          }
+        : {
+            ...otherQuery,
+            page,
+            size,
+            return_order_status: orderStatus,
+          }
+    );
     return searchText ? `${searchText}&${x}` : `?${x}`;
   }, [searchText, page, size, orderStatus]);
 
   const { isLoading, data, refetch } = useQuery(
-    [`order-${orderStatus}`, postfix],
+    [
+      variant !== "return"
+        ? `order-${orderStatus}`
+        : `return-order-${orderStatus}`,
+      postfix,
+    ],
     () =>
-      shopOrders("get", {
-        params,
-        postfix: otherPostfix ? `${postfix}&${otherPostfix}` : postfix,
-      }),
-  
+      variant !== "return"
+        ? shopOrders("get", {
+            params,
+            postfix: otherPostfix ? `${postfix}&${otherPostfix}` : postfix,
+          })
+        : shopOrdersReturn("get", {
+            params,
+            postfix: otherPostfix ? `${postfix}&${otherPostfix}` : postfix,
+          })
   );
 
   const onCloseMoveOrder = () => setMoveOrder({ open: false, values: {} });
@@ -95,7 +113,12 @@ export default function OrdersListResults(props: {
         Header: "Order Status",
         accessor: "order_status",
         width: "8%",
-        Cell: (cell: any) => <OrderStatus value={cell.value} />,
+        Cell: (cell: any) => (
+          <OrderStatus
+            value={cell.value}
+            returnValue={cell.row.original?.return_order_status || undefined}
+          />
+        ),
       },
       {
         Header: "Order Date",
@@ -129,7 +152,7 @@ export default function OrdersListResults(props: {
         width: "8%",
         Cell: (cell: any) => (
           <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
-            {cell.value ? `₹${(+cell.value).toFixed(2)}` :""}
+            {cell.value ? `₹${(+cell.value).toFixed(2)}` : ""}
           </Typography>
         ),
       },
@@ -170,7 +193,7 @@ export default function OrdersListResults(props: {
         Cell: (cell: any) => {
           return (
             <>
-              <Typography  textAlign="center" fontSize={"small"}>
+              <Typography textAlign="center" fontSize={"small"}>
                 {cell.value}
               </Typography>
 
@@ -229,7 +252,7 @@ export default function OrdersListResults(props: {
                 <MdOutlineDriveFileMove />
               </IconButton>
             </Tooltip>
-            
+
             <LinkRouter
               to={`/orders/order-details/${cell.row.original.order_id}?order_status=${orderStatus}`}
             >
@@ -256,9 +279,7 @@ export default function OrdersListResults(props: {
                 </IconButton>
               </Tooltip>
             </LinkRouter>
-            <LinkRouter
-              to={`/orders/log/${cell.row.original.order_id}`}
-            >
+            <LinkRouter to={`/orders/log/${cell.row.original.order_id}`}>
               <Tooltip title="Order Logs">
                 <IconButton
                   disableRipple={false}
@@ -273,13 +294,14 @@ export default function OrdersListResults(props: {
         ),
       },
     ],
-    [postfix]
+    [postfix, variant]
   );
 
   const getData = React.useMemo(() => {
     if (data?.status === 200) {
       return data.data;
     }
+
     return {
       totalItems: 0,
       totalPages: 1,
@@ -296,7 +318,11 @@ export default function OrdersListResults(props: {
       <DataTable
         loading={isLoading}
         columns={columns}
-        data={getData.orders}
+        data={
+          variant !== "return"
+            ? getData?.orders || []
+            : getData?.return_orders || []
+        }
         showNotFound={getData.totalItems === 0}
         components={{
           pagination: (
@@ -312,7 +338,7 @@ export default function OrdersListResults(props: {
         }}
       />
       {moveOrder.open &&
-        (moveVariant === "return" ? (
+        (variant === "return" ? (
           <ReturnMoveOrdersDialog
             open={moveOrder.open}
             orderStatus={orderStatus}

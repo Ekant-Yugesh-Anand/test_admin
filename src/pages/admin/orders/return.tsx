@@ -10,7 +10,6 @@ import {
   addSno,
   addTaxNetAmount,
   dateTimeFormatTable,
-  formatDate,
   formatVolume,
   formatWeight,
   getFragile,
@@ -25,12 +24,11 @@ import OrdersListResults from "../../../components/admin/orders/orders-list-resu
 import useStateWithCallback from "../../../hooks/useStateWithCallback";
 import { setPageLoading } from "../../../redux/slices/admin-slice";
 import { useDispatch } from "react-redux";
-import { shopOrders } from "../../../http";
-import { getStrOrderStatus } from "../../../constants/messages";
 import { ordersFields } from "../../../constants";
+import { shopOrdersReturn } from "../../../http/server-api/server-apis";
 
 export default function Return() {
-  const [orderStatus, setOrderStatus] = React.useState("6");
+  const [orderStatus, setOrderStatus] = React.useState("1");
   const [searchText, setSearchText] = React.useState("");
   const { state: csvData, updateState: setCsvData } = useStateWithCallback<
     Array<Record<string, any>>
@@ -44,11 +42,11 @@ export default function Return() {
           queryToStr({
             date_from: dates.from.format("YYYY-MM-DD"),
             date_to: dates.to.format("YYYY-MM-DD"),
-            ...(value ? { search_orders: value } : {}),
+            ...(value ? { search: value } : {}),
           })
       );
     } else {
-      setSearchText(value ? `?search_orders=${value}` : "");
+      setSearchText(value ? `?search=${value}` : "");
     }
   };
 
@@ -56,36 +54,49 @@ export default function Return() {
     () => [
       {
         label: "new orders",
-        order_status: "6",
+        order_status: "1",
       },
       {
         label: "accepted orders",
+        order_status: "2",
+      },
+      {
+        label: "waiting orders",
+        order_status: "4",
+      },
+      {
+        label: " in process orders",
+        order_status: "5",
+      },
+
+      {
+        label: "out for picked up orders",
+        order_status: "7",
+      },
+      {
+        label: "resheduled orders",
         order_status: "8",
       },
       {
-        label: "in process",
-        order_status: "12",
+        label: "picked up form (farmer)",
+        order_status: "9",
       },
       {
-        label: "pickup",
-        order_status: "14",
+        label: "returned ",
+        order_status: "11",
       },
       {
-        label: "out for pickup",
-        order_status: "16",
+        label: "cancelled orders",
+        order_status: "3,6",
       },
-      {
-        label: "returning",
-        order_status: "17",
-      },
-      {
-        label: "returned",
-        order_status: "18",
-      },
-      {
-        label: "cancel",
-        order_status: "11,13,15",
-      },
+      // {
+      //   label: "refunded ",
+      //   order_status: "12",
+      // },
+      // {
+      //   label: "restored orders",
+      //   order_status: "13,14",
+      // },
     ],
     []
   );
@@ -95,14 +106,14 @@ export default function Return() {
   const exportHandler = async () => {
     try {
       dispatch(setPageLoading(true));
-      const res = await shopOrders("get", {
-        params: "csv",
+      const res = await shopOrdersReturn("get", {
+        params: "agent/csv",
         postfix: searchText
-          ? `${searchText}&order_status=${orderStatus}`
-          : `?order_status=${orderStatus}`,
+          ? `${searchText}&return_order_status=${orderStatus}`
+          : `?return_order_status=${orderStatus}`,
       });
       if (res?.status === 200) {
-        let csvData = res.data.orders || [];
+        let csvData = res.data || [];
         // indexing
         csvData = addSno(csvData);
         // for order date
@@ -121,6 +132,7 @@ export default function Return() {
         );
         csvData = dateTimeFormatTable(csvData, "accept_date", "accept_time");
         csvData = dateTimeFormatTable(csvData, "cancel_date", "cancel_time");
+        csvData = dateTimeFormatTable(csvData, "return_date", "return_time");
         // order readable from
 
         // marge two column
@@ -136,7 +148,7 @@ export default function Return() {
           csvData,
           [
             "shipping_village",
-            "shipping_sub_district",
+            "shipping_subdistrict",
             "shipping_district",
             "shipping_state",
             "shipping_pincode",
@@ -148,7 +160,7 @@ export default function Return() {
           csvData,
           [
             "billing_village",
-            "billing_sub_district",
+            "billing_subdistrict",
             "billing_district",
             "billing_state",
             "billing_pincode",
@@ -165,10 +177,7 @@ export default function Return() {
         //get fragile
         csvData = getFragile(csvData);
 
-         // convert date
-         csvData = formatDate(csvData);
-
-          // format weight
+        // format weight
         csvData = formatWeight(csvData);
         // format volume
         csvData = formatVolume(csvData);
@@ -200,25 +209,27 @@ export default function Return() {
         labelStatusList={labelLists}
       />
       <MainContainer>
-        <OrdersToolbar
-          onSearch={searchHandler}
-          exportProps={{
-            ref,
-            data: csvData,
-            headers: ordersFields(orderStatus),
-            filename: `return-orders-csv`,
-            onClick: exportHandler,
-          }}
-        >
-          Return Orders
-        </OrdersToolbar>
-        <Box sx={{ mt: 3 }}>
-          <OrdersListResults
-            searchText={searchText}
-            orderStatus={orderStatus}
-            moveVariant="return"
-            moveCellShow
-          />
+        <Box sx={{ mt: 10 }}>
+          <OrdersToolbar
+            onSearch={searchHandler}
+            exportProps={{
+              ref,
+              data: csvData,
+              headers: ordersFields(orderStatus),
+              filename: `return-orders-csv`,
+              onClick: exportHandler,
+            }}
+          >
+            Return Orders
+          </OrdersToolbar>
+          <Box sx={{ mt: 3 }}>
+            <OrdersListResults
+              searchText={searchText}
+              orderStatus={orderStatus}
+              variant="return"
+              moveCellShow
+            />
+          </Box>
         </Box>
       </MainContainer>
     </>

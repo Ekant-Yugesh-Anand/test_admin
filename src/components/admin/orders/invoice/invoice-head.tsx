@@ -59,12 +59,12 @@ export default function InvoiceHead(props: { order: Record<any, string> }) {
         </Typography>
         <Typography variant="body2" color="text.primary">
           <b>GST Registration No: </b>
-          &nbsp;{order?.retailer_gst_number}
+          &nbsp;{order?.retailer_gstno}
         </Typography>
-        <Typography variant="body2" color="text.primary">
+        {/* <Typography variant="body2" color="text.primary">
           <b>Pan No: </b>
           &nbsp;{order?.retailer_pan_no}
-        </Typography>
+        </Typography> */}
       </Grid>
       <Grid item xs={4}>
         <Typography variant="body2" color="text.primary">
@@ -73,27 +73,34 @@ export default function InvoiceHead(props: { order: Record<any, string> }) {
           {order?.billing_name}
         </Typography>
         <Typography variant="body2" color="text.primary">
-          {order?.billing_address} {order?.billing_sub_district},{" "}
-          {order?.billing_district}
+          {order?.billing_address}
+        </Typography>
+        
+        <Typography variant="body2" color="text.primary">
+          {order?.billing_village}, {order?.billing_subdistrict},
+          {order?.billing_district},
           &nbsp;{order?.billing_state}, {order?.billing_pincode}
         </Typography>
         <Typography variant="body2" color="text.primary">
-          <b>Phone</b> : {order?.billing_phone_no}
+          <b>Phone</b> : {order?.billing_phoneno}
         </Typography>
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={4} >
         <Typography variant="body2" color="text.primary">
           <b>Shipping Address </b>
           <br />
           {order?.shipping_name}
         </Typography>
         <Typography variant="body2" color="text.primary">
-          {order?.shipping_address} {order?.shipping_sub_district},{" "}
-          {order?.shipping_district}
+          {order?.shipping_address}
+        </Typography>
+        <Typography variant="body2" color="text.primary">
+          {order?.shipping_village},{order?.shipping_subdistrict}, 
+          {order?.shipping_district},
           &nbsp;{order?.shipping_state}, {order?.shipping_pincode}
         </Typography>
         <Typography variant="body2" color="text.primary">
-          <b>Phone</b> : {order?.shipping_phone_no}
+          <b>Phone</b> : {order?.shipping_phoneno}
         </Typography>
       </Grid>
     </Grid>

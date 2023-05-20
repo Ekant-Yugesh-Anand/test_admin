@@ -19,6 +19,7 @@ import DeliveryPartnerForm, {
 } from "../../../../components/admin/delivery-partner/delivery-partner-form";
 import { deliveryPartnerSchema } from "../../../../components/admin/delivery-partner/schemas";
 import { filterPhoneNo } from "../../../../components/admin/utils";
+import CommonToolbar from "../../../../components/admin/common-toolbar";
 
 export default function CreateRetailers() {
   const { enqueueSnackbar } = useSnackbar();
@@ -67,7 +68,7 @@ export default function CreateRetailers() {
   return (
     <MainContainer>
       <Container>
-        <Typography variant="h5">Add New Partner</Typography>
+        <CommonToolbar title="Add New Partner" />
         <Card className="lg:col-span-2">
           <CardContent sx={{ pt: 2 }}>
             <form onSubmit={handleSubmit}>

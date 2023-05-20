@@ -152,7 +152,59 @@ export const productImportField = [
     key: "ingredient_id",
   },
   {
+    label: "chemical_id",
+    key: "chemical_id",
+  },
+  {
     label: "hsn_code",
     key: "hsn_code",
+  },
+  {
+    label: "mrp",
+    key: "mrp",
+  },
+  {
+    label: "mrp",
+    key: "mrp",
+  },
+  {
+    label: "price",
+    key: "price",
+  },
+  {
+    label: "gst",
+    key: "igst",
+  },
+  {
+    label: "weight",
+    key: "weight",
+  },
+  {
+    label: "package",
+    key: "package",
+  },
+  {
+    label: "fragile",
+    key: "fragile",
+  },
+  {
+    label: "units_per_case",
+    key: "units_per_case",
+  },
+  {
+    label: "dimension_width",
+    key: "dimension_width",
+  },
+  {
+    label: "dimension_length",
+    key: "dimension_length",
+  },
+  {
+    label: "dimension_height",
+    key: "dimension_height",
+  },
+  {
+    label: "totalweight",
+    key: "totalweight",
   },
 ];

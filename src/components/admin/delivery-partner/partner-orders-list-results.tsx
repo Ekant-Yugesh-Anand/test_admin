@@ -1,5 +1,5 @@
 import React from "react";
-import { shopOrders } from "../../../http";
+import { shopOrders, shopOrdersReturn } from "../../../http";
 import { useQuery } from "@tanstack/react-query";
 import { Box, CircularProgress } from "@mui/material";
 import { queryToStr } from "../utils";
@@ -11,35 +11,54 @@ function PartnerOrdersListResults(props: {
   searchText: string;
   orderStatus: string | undefined;
   partnerId: string;
+  returnOrder: boolean;
 }) {
   const [page, setPage] = React.useState(0);
   const [size, setSize] = React.useState("4");
 
-  const { orderStatus, partnerId, searchText } = props;
+  const { orderStatus, partnerId, searchText, returnOrder } = props;
   const postfix = React.useMemo(() => {
-    const x = queryToStr(orderStatus ? {
-      page,
-      size,
-      order_status: orderStatus,
-      partner_id: partnerId,
-    }:{
-      page,
-      size,
-      partner_id: partnerId,
-    });
+    const x = queryToStr(
+      orderStatus
+        ? returnOrder
+          ? {
+              page,
+              size,
+              return_order_status: orderStatus,
+              partner_id: partnerId,
+            }
+          : {
+              page,
+              size,
+              order_status: orderStatus,
+              partner_id: partnerId,
+            }
+        : {
+            page,
+            size,
+            partner_id: partnerId,
+          }
+    );
     return searchText ? `${searchText}&${x}` : `?${x}`;
-  }, [page, size, orderStatus, searchText]);
+  }, [page, size, orderStatus, searchText, returnOrder]);
 
   const { isLoading, data } = useQuery(
-    [`partner-orders-${orderStatus}`, postfix],
+    [
+      returnOrder
+        ? `partner-return-orders-${orderStatus}`
+        : `partner-orders-${orderStatus}`,
+      postfix,
+    ],
     () =>
-      shopOrders("get", {
-        params: "partner",
-        postfix,
-      }),
-    {
-      keepPreviousData: true,
-    }
+      returnOrder
+        ? shopOrdersReturn("get", {
+            params: "manager",
+            postfix,
+          })
+        : shopOrders("get", {
+            params: "partner",
+            postfix,
+          })
   );
 
   const getData = React.useMemo(() => {
@@ -48,6 +67,7 @@ function PartnerOrdersListResults(props: {
       totalItems: 0,
       totalPages: 1,
       orders: [],
+      return_orders: [],
     };
   }, [data]);
 
@@ -75,6 +95,13 @@ function PartnerOrdersListResults(props: {
           <CircularProgress color="secondary" sx={{ alignSelf: "center" }} />
         ) : getData.totalItems === 0 ? (
           <RawDataNotFound />
+        ) : returnOrder ? (
+          getData.return_orders?.map(
+            (
+              item: { [key: string]: any } | undefined,
+              index: React.Key | null | undefined
+            ) => <OrderCard key={index} order={item} />
+          )
         ) : (
           getData.orders.map(
             (

@@ -41,6 +41,9 @@ export const shopLanguages = baseFunc("shop_languages")
 export const shopAreas = baseFunc("shop_areas");
 // list of all the endpoints of shop_orders
 export const shopOrders = baseFunc("shop_orders");
+// list of all the endpoints of shop_orders_return
+export const shopOrdersReturn = baseFunc("shop_orderreturn");
+
 export const shopOrderLog = baseFunc("shop_orderlog")
 // list of all the endpoints of shop_ordercart
 export const shopCart = baseFunc("shop_ordercart");
@@ -75,6 +78,8 @@ export const shopBanner = baseFunc("shop_banners");
 export const shopRefreshToken = baseFunc("shop_tokenrefresh")
 // notification api
 export const shopAdmin = baseFunc("shop_admin")
+// list of all endpoints of chemical 
+export const shopChemical = baseFunc("shop_chemicals")
 
 
 

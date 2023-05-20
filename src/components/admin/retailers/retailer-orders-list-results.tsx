@@ -1,5 +1,5 @@
 import React from "react";
-import { shopOrders } from "../../../http";
+import { shopOrders, shopOrdersReturn } from "../../../http";
 import { useQuery } from "@tanstack/react-query";
 import { Box, CircularProgress } from "@mui/material";
 import { queryToStr } from "../utils";
@@ -8,6 +8,7 @@ import RawDataNotFound from "../raw-data-not-found";
 import TablePagination from "../../table/table-pagination";
 
 function RetailerOrdersListResults(props: {
+  returnOrder: boolean;
   searchText: string;
   orderStatus?: string | undefined;
   retailerId: string;
@@ -15,40 +16,59 @@ function RetailerOrdersListResults(props: {
   const [page, setPage] = React.useState(0);
   const [size, setSize] = React.useState("4");
 
-  const { orderStatus, retailerId, searchText } = props;
+  const { orderStatus, retailerId, searchText, returnOrder } = props;
   const postfix = React.useMemo(() => {
-    
-    const x = queryToStr(orderStatus ? {
-      page,
-      size,
-      order_status: orderStatus,
-      retailer_id: retailerId,
-    } : {
-      page,
-      size,
-      retailer_id: retailerId,
-    });
+    const x = queryToStr(
+      orderStatus
+        ? returnOrder
+          ? {
+              page,
+              size,
+              return_order_status: orderStatus,
+              retailer_id: retailerId,
+            }
+          : {
+              page,
+              size,
+              order_status: orderStatus,
+              retailer_id: retailerId,
+            }
+        : {
+            page,
+            size,
+            retailer_id: retailerId,
+          }
+    );
     return searchText ? `${searchText}&${x}` : `?${x}`;
-  }, [page, size, orderStatus, searchText]);
+  }, [page, size, orderStatus, searchText, returnOrder]);
 
   const { isLoading, data } = useQuery(
-    [`retailer-orders-${orderStatus}`, postfix],
+    [
+      returnOrder
+        ? `retailer-return-orders-${orderStatus}`
+        : `retailer-orders-${orderStatus}`,
+      postfix,
+    ],
     () =>
-      shopOrders("get", {
-        params: "retailer",
-        postfix,
-      }),
-    {
-      keepPreviousData: true,
-    }
+      returnOrder
+        ? shopOrdersReturn("get", {
+            params: "retailer",
+            postfix,
+          })
+        : shopOrders("get", {
+            params: "retailer",
+            postfix,
+          })
   );
 
   const getData = React.useMemo(() => {
     if (data?.status === 200) return data.data;
+
     return {
       totalItems: 0,
       totalPages: 1,
       orders: [],
+      return_orders: [],
     };
   }, [data]);
 
@@ -64,6 +84,7 @@ function RetailerOrdersListResults(props: {
     }
   }, [searchText]);
 
+
   return (
     <>
       <Box
@@ -76,8 +97,15 @@ function RetailerOrdersListResults(props: {
           <CircularProgress color="secondary" sx={{ alignSelf: "center" }} />
         ) : getData.totalItems === 0 ? (
           <RawDataNotFound />
+        ) : returnOrder ? (
+          getData.return_orders?.map(
+            (
+              item: { [key: string]: any } | undefined,
+              index: React.Key | null | undefined
+            ) => <OrderCard key={index} order={item} />
+          )
         ) : (
-          getData.orders.map(
+          getData.orders?.map(
             (
               item: { [key: string]: any } | undefined,
               index: React.Key | null | undefined

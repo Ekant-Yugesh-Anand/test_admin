@@ -1,9 +1,8 @@
 import React from "react";
 import { Typography, Box, Button, CircularProgress } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { shopAreas, shopDeliveryAgent, shopOrders } from "../../../../../http";
+import { shopAreas,  shopOrders } from "../../../../../http";
 import { useQuery } from "@tanstack/react-query";
-import { queryToStr } from "../../../utils";
 import { useFormik } from "formik";
 import moveOrdersSchemas from "../schemas";
 import AsyncAutocomplete from "../../../../form/async-autocomplete";

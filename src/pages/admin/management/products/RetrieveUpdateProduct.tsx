@@ -112,6 +112,7 @@ export default function EditProducts() {
           image_url,
           crop_id,
           ingredient_id,
+          chemical_id
           
         } = res.data[0];
         setData({
@@ -129,7 +130,8 @@ export default function EditProducts() {
           technical_formula,
           doses,
           application,
-          target_crop
+          target_crop,
+          chemical_id
         });
         setFile(image_url);
       }

@@ -91,7 +91,7 @@ const billingLabel = [
   { label: "Name", accessor: "billing_name" },
   { label: "Village", accessor: "billing_village" },
   { label: "District", accessor: "billing_district" },
-  { label: "Sub District", accessor: "billing_sub_district" },
+  { label: "Sub District", accessor: "billing_subdistrict" },
   { label: "State", accessor: "billing_state" },
   { label: "Pincode", accessor: "billing_pincode" },
 ];
@@ -100,7 +100,7 @@ const shippingLabel = [
   { label: "Name", accessor: "shipping_name" },
   { label: "Village", accessor: "shipping_village" },
   { label: "District", accessor: "shipping_district" },
-  { label: "Sub District", accessor: "shipping_sub_district" },
+  { label: "Sub District", accessor: "shipping_subdistrict" },
   { label: "State", accessor: "shipping_state" },
   { label: "Pincode", accessor: "shipping_pincode" },
 ];
@@ -133,6 +133,47 @@ const resheduleLabel = [
   { label: "Reshedule reason", accessor: "reschedule_reason" },
   { label: "Reshedule other reason", accessor: "reschedule_other_reason" },
 ];
+const returnResheduleLabel = [
+  { label: "Reshedule", accessor: "return_reschedule" },
+  {
+    label: "Reshedule Date",
+    accessor: "return_reschedule_date",
+    Cell: (cell: any) => (
+      <>
+        {cell.value ? (
+          <>
+            {" "}
+            {dayjs(cell.value).format("D-MMM-YYYY")}{" "}
+            {dayjs(cell.value).format("hh:mm a")}{" "}
+          </>
+        ) : null}
+      </>
+    ),
+  },
+  { label: "Reshedule reason", accessor: "return_reschedule_reason" },
+  {
+    label: "Reshedule other reason",
+    accessor: "return_reschedule_other_reason",
+  },
+];
+
+const returnRetailerCancelledReason = [
+  { label: "Retailer Cancel Reason", accessor: "return_retailer_cancelreason" },
+  { label: "Retailer Cancel type", accessor: "return_retailer_canceltype" },
+  {
+    label: "Retailer Cancel Other Reason",
+    accessor: "return_retailer_cancelotherreason",
+  },
+
+];
+const returnPartnerCancelReason =[
+  { label: "Partner Cancel Reason", accessor: "return_partner_cancelreason" },
+  { label: "Partner Cancel type", accessor: "return_partner_canceltype" },
+  {
+    label: "Partner Cancel Other Reason",
+    accessor: "return_partner_cancelotherreason",
+  },
+]
 const returnLabel = [
   { label: "Return reason", accessor: "return_reason_name" },
   { label: "Return Type", accessor: "return_type" },
@@ -245,13 +286,26 @@ export default function OrderDetails() {
       extraLabel.push({ title: "Reschedule", labelObj: resheduleLabel });
     if (order.boucher_amount)
       extraLabel.push({ title: "Coupon", labelObj: paymentLabel });
-    if (order.return_type) {
+    if (order.return_order_status) {
       extraLabel.push({ title: "Return", labelObj: returnLabel });
       extraLabel.push({
-        title: "Return Partner",
+        title: "Return Delivery Partner",
         labelObj: returnPartnerLabel,
       });
-      extraLabel.push({ title: "Return Agent", labelObj: returnAgentLabel });
+      extraLabel.push({
+        title: "Return Delivery Agent",
+        labelObj: returnAgentLabel,
+      });
+      if (order.return_order_status == 8)
+        extraLabel.push({
+          title: "Return Reshedule ",
+          labelObj: returnResheduleLabel,
+        });
+      if (order.return_order_status == 3 || order.return_order_status == 6 ) 
+        extraLabel.push({
+          title: "Return Cancelled ",
+          labelObj: order.return_order_status == 3 ? returnRetailerCancelledReason : returnPartnerCancelReason,
+        });
     }
     return extraLabel;
   };
@@ -304,6 +358,7 @@ export default function OrderDetails() {
           flexDirection={"column"}
           gap={2}
           p={1}
+          mx={5}
           component="div"
           ref={componentRef}
         >

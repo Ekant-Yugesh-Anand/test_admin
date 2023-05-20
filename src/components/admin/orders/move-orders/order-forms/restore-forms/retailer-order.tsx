@@ -1,6 +1,6 @@
 import React from "react";
 import { useSnackbar } from "notistack";
-import { Box, Typography, Button, CircularProgress } from "@mui/material";
+import { Box,  Button, CircularProgress } from "@mui/material";
 import { shopAreas, shopOrders } from "../../../../../../http";
 import { useFormik } from "formik";
 import moveOrdersSchemas from "../../schemas";
@@ -15,33 +15,6 @@ export default function RetailerOrder(props: {
   const { onClose, orders, refetch } = props;
   const [loading, setLoading] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
-
-  const onSave = async () => {
-    try {
-      setLoading(true);
-      const res = await shopOrders("post", {
-        params: "status",
-        data: JSON.stringify({
-          order_id: orders.order_id,
-          order_status: 0,
-          user: "admin",
-        }),
-      });
-      if (res?.status === 200) {
-        onClose();
-        refetch();
-        enqueueSnackbar("order moved successfully!", {
-          variant: "success",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      enqueueSnackbar("order move failed!", {
-        variant: "error",
-      });
-    }
-    setLoading(false);
-  };
 
   const { values, errors, touched, handleBlur, handleSubmit, setFieldValue } =
     useFormik({
@@ -61,6 +34,8 @@ export default function RetailerOrder(props: {
               order_id: orders.order_id,
               order_status: 1,
               user: "admin",
+              type:"restore"
+
             }),
           });
           if (res?.status === 200) {

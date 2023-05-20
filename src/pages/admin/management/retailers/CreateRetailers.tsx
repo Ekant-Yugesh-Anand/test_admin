@@ -19,6 +19,7 @@ import { retailerSchema } from "../../../../components/admin/retailers/schemas";
 import React from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { filterPhoneNo } from "../../../../components/admin/utils";
+import CommonToolbar from "../../../../components/admin/common-toolbar";
 
 export default function CreateRetailers() {
   const { enqueueSnackbar } = useSnackbar();
@@ -66,7 +67,7 @@ export default function CreateRetailers() {
   return (
     <MainContainer>
       <Container>
-        <Typography variant="h5">Add New Retailer</Typography>
+      <CommonToolbar title="Add New Retailer" />
         <Card className="lg:col-span-2">
           <CardContent sx={{ pt: 2 }}>
             <form onSubmit={handleSubmit}>

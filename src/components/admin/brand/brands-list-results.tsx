@@ -70,13 +70,13 @@ function BrandsListResults(props: {
       });
       if (res.status === 200) {
         refetch();
-        enqueueSnackbar("entry success-full deleted 😊", {
+        enqueueSnackbar("entry success-full deleted ", {
           variant: "success",
         });
       }
     } catch (err: any) {
       console.log(err.response);
-      enqueueSnackbar("entry not delete 😢", { variant: "error" });
+      enqueueSnackbar("entry not delete ", { variant: "error" });
     }
     deleteBoxClose();
   };
@@ -107,6 +107,11 @@ function BrandsListResults(props: {
             axiosFunction={brands}
             postfix={postfix}
             refetch={refetch}
+             validation={ {
+              params: "checkbrand",
+              postfix: `?brand_id=`,
+              message:"Brand"
+            }}
           />
         ),
       },
@@ -118,7 +123,7 @@ function BrandsListResults(props: {
           <Box display="flex" justifyContent={"center"}>
             <ShopAvatar
               src={cell.value}
-              sx={{ width: 50, height: 50 }}
+              sx={{ width: 60, height: 60 }}
               variant="rounded"
               download
             />

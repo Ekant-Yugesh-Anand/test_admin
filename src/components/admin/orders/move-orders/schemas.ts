@@ -35,7 +35,7 @@ const moveOrdersSchemas = {
     other_reason: Yup.string().min(2).required(emptyText("other reason")),
   }),
   "8": Yup.object({
-    return_partner_id: Yup.number().required(emptyText("partner")),
+    partner_id: Yup.number().required(emptyText("partner")),
   }),
   "9": Yup.object({
     reason_id: Yup.number().required(emptyText("reason")),
@@ -52,6 +52,12 @@ const moveOrdersSchemas = {
   "18": Yup.object({
     refund_amount: Yup.string().required(emptyText("refund amount")),
   }),
+  //return-order-new-form
+  "19": Yup.object({
+    cancelreason: Yup.number().required(emptyText("reason")),
+    return_retailer_cancelotherreason: Yup.string().min(2).required(emptyText("other reason")),
+  }),
+
 };
 
 export default moveOrdersSchemas;

@@ -18,15 +18,16 @@ function IngredintsListResult(props: {
   searchText: string;
   addOpen: boolean;
   addClose: () => void;
-
 }) {
   const { page, setPage, size, setSize } = usePaginate();
   const [deleteData, setDeleteData] = React.useState<{
     value: { [key: string]: any };
     open: boolean;
+    validate: boolean;
   }>({
     value: {},
     open: false,
+    validate: false,
   });
   const [edit, setEdit] = React.useState<{
     value: { [key: string]: any } | null;
@@ -46,7 +47,8 @@ function IngredintsListResult(props: {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const deleteBoxClose = () => setDeleteData({ open: false, value: {} });
+  const deleteBoxClose = () =>
+    setDeleteData({ open: false, value: {}, validate: false });
 
   const { isLoading, refetch, data } = useQuery(
     ["ingredients", postfix],
@@ -68,13 +70,13 @@ function IngredintsListResult(props: {
       });
       if (res.status === 200) {
         refetch();
-        enqueueSnackbar("entry success-full deleted 😊", {
+        enqueueSnackbar("Ingredient sucessfully deleted ", {
           variant: "success",
         });
       }
     } catch (err: any) {
       console.log(err.response);
-      enqueueSnackbar("entry not delete 😢", { variant: "error" });
+      enqueueSnackbar("Ingredient could not be deleted", { variant: "error" });
     }
     deleteBoxClose();
   };
@@ -90,9 +92,9 @@ function IngredintsListResult(props: {
         width: "5%",
       },
       {
-        Header:"Ingrdient ID",
+        Header: "Ingrdient ID",
         accessor: "ingredient_id",
-        width:"8%"
+        width: "8%",
       },
       {
         Header: "Status",
@@ -105,6 +107,11 @@ function IngredintsListResult(props: {
             axiosFunction={shopIngredients}
             postfix={postfix}
             refetch={refetch}
+            validation={ {
+              params: "checkingredient",
+              postfix: `?ingredient_id=`,
+              message:"Ingredient"
+            }}
           />
         ),
       },
@@ -150,7 +157,11 @@ function IngredintsListResult(props: {
                 size="small"
                 color="secondary"
                 onClick={() =>
-                  setDeleteData({ open: true, value: cell.row.original })
+                  setDeleteData({
+                    open: false,
+                    value: cell.row.original,
+                    validate: true,
+                  })
                 }
               >
                 <RiDeleteBinFill />
@@ -177,6 +188,31 @@ function IngredintsListResult(props: {
   React.useEffect(() => {
     if (searchText) setPage(0);
   }, [searchText]);
+
+  const deleteValidation = React.useCallback(async () => {
+    try {
+      const validataion = await shopIngredients("get", {
+        params: "checkingredient",
+        postfix: `?ingredient_id=${deleteData.value.ingredient_id}`,
+      });
+      if (validataion?.data?.status == 0) {
+        setDeleteData((prev) => {
+          return { ...prev, validate: false, open: true };
+        });
+      } else {
+        enqueueSnackbar("This Ingredient can not delete", {
+          variant: "error",
+        });
+        deleteBoxClose();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [deleteData]);
+
+  React.useEffect(() => {
+    deleteData.validate && deleteValidation();
+  }, [deleteData]);
 
   return (
     <>
@@ -221,7 +257,6 @@ function IngredintsListResult(props: {
           variant="add"
         />
       )}
-     
     </>
   );
 }

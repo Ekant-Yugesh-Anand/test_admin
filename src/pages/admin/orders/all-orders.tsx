@@ -13,7 +13,6 @@ import {
   addSno,
   addTaxNetAmount,
   dateTimeFormatTable,
-  formatDate,
   formatVolume,
   formatWeight,
   getFragile,
@@ -89,6 +88,8 @@ export default function AllOrders() {
         );
         csvData = dateTimeFormatTable(csvData, "accept_date", "accept_time");
         csvData = dateTimeFormatTable(csvData, "cancel_date", "cancel_time");
+        csvData = dateTimeFormatTable(csvData, "return_date", "return_time");
+
 
         // marge two column
         csvData = margeRowTable(
@@ -103,7 +104,7 @@ export default function AllOrders() {
           csvData,
           [
             "shipping_village",
-            "shipping_sub_district",
+            "shipping_subdistrict",
             "shipping_district",
             "shipping_state",
             "shipping_pincode",
@@ -115,7 +116,7 @@ export default function AllOrders() {
           csvData,
           [
             "billing_village",
-            "billing_sub_district",
+            "billing_subdistrict",
             "billing_district",
             "billing_state",
             "billing_pincode",
@@ -131,8 +132,6 @@ export default function AllOrders() {
         //get fragile
         csvData = getFragile(csvData);
 
-        // convert date
-        csvData = formatDate(csvData);
         // format weight
         csvData = formatWeight(csvData);
         // format volume

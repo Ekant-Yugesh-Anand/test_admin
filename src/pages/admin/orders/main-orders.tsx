@@ -13,7 +13,6 @@ import {
   addSno,
   addTaxNetAmount,
   dateTimeFormatTable,
-  formatDate,
   formatVolume,
   formatWeight,
   getFragile,
@@ -95,6 +94,8 @@ export default function MainOrders(props: {
         );
         csvData = dateTimeFormatTable(csvData, "accept_date", "accept_time");
         csvData = dateTimeFormatTable(csvData, "cancel_date", "cancel_time");
+        csvData = dateTimeFormatTable(csvData, "return_date", "return_time");
+
         // marge two column
         csvData = margeRowTable(
           csvData,
@@ -107,7 +108,7 @@ export default function MainOrders(props: {
           csvData,
           [
             "shipping_village",
-            "shipping_sub_district",
+            "shipping_subdistrict",
             "shipping_district",
             "shipping_state",
             "shipping_pincode",
@@ -119,7 +120,7 @@ export default function MainOrders(props: {
           csvData,
           [
             "billing_village",
-            "billing_sub_district",
+            "billing_subdistrict",
             "billing_district",
             "billing_state",
             "billing_pincode",
@@ -132,8 +133,6 @@ export default function MainOrders(props: {
 
         csvData = addComma(csvData);
 
-        // convert date
-        csvData = formatDate(csvData);
         // convert weight
         csvData = formatWeight(csvData);
         // format volume

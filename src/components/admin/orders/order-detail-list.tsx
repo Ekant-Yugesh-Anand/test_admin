@@ -88,7 +88,7 @@ export default function OrderDetailsList(props: {
         accessor: "fragile",
         width: "5%",
         Cell: (cell: any) => (
-          <TextCenter>{cell.value == 0 ? "No" : "Yes"}</TextCenter>
+          <TextCenter>{cell.value == 1 ? "Yes" : "No"}</TextCenter>
         ),
       },
       {

@@ -9,9 +9,11 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  IconButton,
 } from "@mui/material";
 import * as OrderForms from "./order-forms";
 import * as ReturnOrderForms from "./return-order-forms";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Option = styled(MenuItem)({
   fontSize: "small",
@@ -28,32 +30,29 @@ export default function ReturnMoveOrdersDialog(props: {
   const [select, setSelect] = React.useState("");
   const orderStatusList = React.useMemo(
     () => [
-      { title: "New", value: "6" },
-      { title: "Accept", value: "8" },
-      { title: "In Process", value: "12" },
-      { title: "Pickup", value: "14" },
-      { title: "Out of pickup", value: "16" },
-      { title: "Returning", value: "17" },
-      { title: "Returned", value: "18" },
-      { title: "Cancel return order by retailer", value: "11" },
-      { title: "Cancel return order by delivery partner", value: "13" },
-      { title: "Cancel return order by delivery agent", value: "15" },
+      
+
+      { title: "Accept order", value: "2" },
+      // { title: "Restore order from Retailer", value: "5" },
+      { title: "In process order", value: "6" },
+      // { title: "Restore order from Partner", value: "8" },
+      { title: "Out for pickup", value: "9" },
+      { title: "Reschedule Order", value: "10" },
+      { title: "Picked up from farmer", value: "11" },
+      { title: "Returned order", value: "12" },
+      { title: "Cancel from Retailer", value: "4" },
+      { title: "Cancel from Partner", value: "7" },
+
+
+      // { title: "Choose Manger", value: "3" },
+      // { title: "Refund Order", value: "17" },
     ],
     []
   );
 
   const orderStatusOnForms = React.useMemo<Record<string, any>>(
     () => ({
-      "6": (
-        <ReturnOrderForms.MoveOnReason
-          key={0}
-          onClose={onClose}
-          orders={orders}
-          refetch={refetch}
-          variant="farmer"
-        />
-      ),
-      "8": (
+      "2": (
         <ReturnOrderForms.Accept
           key={1}
           onClose={onClose}
@@ -61,46 +60,64 @@ export default function ReturnMoveOrdersDialog(props: {
           refetch={refetch}
         />
       ),
-      "12": (
-        <ReturnOrderForms.InProcess
+      "3": (
+        <ReturnOrderForms.ChooseManger
+          key={2}
+          onClose={onClose}
+          orders={orders}
+          refetch={refetch}
+        />
+      ),
+      "4": (
+        <ReturnOrderForms.CancelFromRetailer
           key={3}
           onClose={onClose}
           orders={orders}
           refetch={refetch}
         />
       ),
-      "14": (
-        <ReturnOrderForms.MoveOnOrderStatus
-          key={11}
-          title="Move Pickup"
-          orderStatus={14}
+      "5": (
+        <ReturnOrderForms.RestoreFromRetailer
+          key={4}
           onClose={onClose}
           orders={orders}
           refetch={refetch}
         />
       ),
-      "16": (
-        <ReturnOrderForms.MoveOnOrderStatus
-          key={11}
-          title="Move Out For Pickup"
-          orderStatus={16}
+      "6": (
+        <ReturnOrderForms.InProcess
+          key={5}
           onClose={onClose}
           orders={orders}
           refetch={refetch}
         />
       ),
-      "17": (
-        <ReturnOrderForms.MoveOnOrderStatus
-          key={11}
-          title="Move Returning"
-          orderStatus={17}
+      "7": (
+        <ReturnOrderForms.CancelFromPartner
+          key={6}
           onClose={onClose}
           orders={orders}
           refetch={refetch}
         />
       ),
-      "18": (
-        <ReturnOrderForms.Returned
+      "8": (
+        <ReturnOrderForms.RestoreFromPartner
+          key={7}
+          onClose={onClose}
+          orders={orders}
+          refetch={refetch}
+        />
+      ),
+      "9": (
+        <ReturnOrderForms.OutForPickup
+          key={8}
+          onClose={onClose}
+          orders={orders}
+          refetch={refetch}
+        />
+      ),
+      "10": (
+        <ReturnOrderForms.Reschedule
           key={9}
           onClose={onClose}
           orders={orders}
@@ -108,30 +125,28 @@ export default function ReturnMoveOrdersDialog(props: {
         />
       ),
       "11": (
-        <ReturnOrderForms.MoveOnReason
+        <ReturnOrderForms.PickedUpFromFarmer
           key={10}
           onClose={onClose}
           orders={orders}
           refetch={refetch}
-          variant="retailer"
         />
       ),
-      "13": (
-        <ReturnOrderForms.MoveOnReason
+      "12": (
+        <ReturnOrderForms.Returned
           key={11}
           onClose={onClose}
           orders={orders}
           refetch={refetch}
-          variant="delivery-partner"
         />
       ),
-      "15": (
-        <ReturnOrderForms.MoveOnReason
-          key={12}
+
+      "17": (
+        <ReturnOrderForms.Refunded
+          key={11}
           onClose={onClose}
           orders={orders}
           refetch={refetch}
-          variant="delivery-agent"
         />
       ),
     }),
@@ -140,7 +155,21 @@ export default function ReturnMoveOrdersDialog(props: {
 
   return (
     <Dialog open={open} fullWidth onClose={onClose}>
-      <DialogTitle>Move Orders</DialogTitle>
+      <DialogTitle>Move Orders ( Return )</DialogTitle>
+      <IconButton
+        aria-label="close"
+        onClick={onClose}
+        sx={{
+          position: "absolute",
+          right: 10,
+          top: 10,
+          fontSize: "25px",
+          fontWeight: "800",
+          cursor: "pointer",
+        }}
+      >
+        <AiOutlineClose />
+      </IconButton>
       <DialogContent>
         <Box
           sx={{
@@ -148,7 +177,7 @@ export default function ReturnMoveOrdersDialog(props: {
             margin: "auto",
           }}
         >
-          <FormControl fullWidth sx={{ mt: 1 }} size="small">
+          <FormControl fullWidth size="small">
             <InputLabel id="demo-select-small" color="secondary">
               Move Orders
             </InputLabel>
@@ -165,11 +194,11 @@ export default function ReturnMoveOrdersDialog(props: {
                 <em>None</em>
               </Option>
               {orderStatusList.map((item, index) =>
-                orderStatus !== item.value ? (
+                // orderStatus !== item.value ? (
                   <Option value={item.value.toString()} key={index}>
                     {item.title}
                   </Option>
-                ) : null
+                // ) : null
               )}
             </Select>
           </FormControl>

@@ -25,7 +25,7 @@ const label1 = [
     title: "Farmer address",
     accessor: [
       "shipping_village ,",
-      "shipping_sub_district ,",
+      "shipping_subdistrict ,",
       "shipping_district ,",
       "shipping_state  - ",
       "shipping_pincode",
@@ -186,7 +186,7 @@ function OrderCard(props: { order?: { [key: string]: any } }) {
               <Grid item lg={12}>
                 <Box sx={{ display: "flex", gap: 1 }}>
                   <LabelText>Order status:</LabelText>
-                  <OrderStatus retailer={true} value={order?.order_status} />
+                  <OrderStatus retailer={true} returnValue={order?.return_order_status} value={order?.order_status} />
                 </Box>
               </Grid>
 

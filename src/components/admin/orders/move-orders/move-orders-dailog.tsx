@@ -2,6 +2,7 @@ import React from "react";
 import {
   Dialog,
   DialogContent,
+  IconButton,
   DialogTitle,
   Box,
   Select,
@@ -12,6 +13,7 @@ import {
 } from "@mui/material";
 import * as OrderForms from "./order-forms";
 import * as ReturnOrderForms from "./return-order-forms";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Option = styled(MenuItem)({
   fontSize: "small",
@@ -24,14 +26,10 @@ export default function MoveOrdersDialog(props: {
   onClose: () => void;
   refetch: Function;
 }) {
-
-
   const { open, onClose, orderStatus, orders, refetch } = props;
   const [select, setSelect] = React.useState("");
   const orderStatusList = React.useMemo(() => {
-    const defaultList = [
-      { title: "New", value: "0" },
-    ];
+    const defaultList = [{ title: "New", value: "0" }];
 
     if (orderStatus === "0") {
       return [
@@ -48,7 +46,6 @@ export default function MoveOrdersDialog(props: {
     }
     if (orderStatus === "3") {
       return [
-      
         { title: "Out for Delivery", value: "4" },
         { title: "Cancelled from Farmer", value: "7" },
         { title: "Cancelled from Retailer", value: "9" },
@@ -66,14 +63,11 @@ export default function MoveOrdersDialog(props: {
       ];
     }
     if (orderStatus === "5") {
-      return [
-      ];
+      return [];
     }
 
     if (orderStatus == "7,9,10" || 7 || 9 || 10) {
-      return [
-        { title: "Restore Order", value:12 },
-      ];
+      return [{ title: "Restore Order", value: 12 }];
     }
 
     return defaultList;
@@ -189,6 +183,20 @@ export default function MoveOrdersDialog(props: {
   return (
     <Dialog open={open} fullWidth onClose={onClose}>
       <DialogTitle>Move Orders</DialogTitle>
+      <IconButton
+        aria-label="close"
+        onClick={onClose}
+        sx={{
+          position: "absolute",
+          right: 10,
+          top: 10,
+          fontSize: "25px",
+          fontWeight: "800",
+          cursor: "pointer",
+        }}
+      >
+        <AiOutlineClose />
+      </IconButton>
       <DialogContent>
         <Box
           sx={{
@@ -196,7 +204,7 @@ export default function MoveOrdersDialog(props: {
             margin: "auto",
           }}
         >
-          <FormControl fullWidth sx={{ mt: 1 }} size="small">
+          <FormControl fullWidth size="small">
             <InputLabel id="demo-select-small" color="secondary">
               Move Orders
             </InputLabel>

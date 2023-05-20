@@ -1,9 +1,13 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Box, Card, CardContent  } from "@mui/material";
+import { Box, Card, CardContent } from "@mui/material";
 import { MainContainer } from "../../../../../components/layout";
 import { useQuery } from "@tanstack/react-query";
-import { deliveryPartners, shopOrders } from "../../../../../http";
+import {
+  deliveryPartners,
+  shopOrders,
+  shopOrdersReturn,
+} from "../../../../../http";
 import OrdersTab from "../../../../../components/admin/orders/orders-dashboard/orders-tab";
 import PartnerOrdersListResults from "../../../../../components/admin/delivery-partner/partner-orders-list-results";
 import OrdersToolbar, {
@@ -16,7 +20,6 @@ import {
   addSno,
   addTaxNetAmount,
   dateTimeFormatTable,
-  formatDate,
   formatVolume,
   formatWeight,
   getFragile,
@@ -33,6 +36,8 @@ export default function PartnerOrders() {
   const { partner_id } = useParams();
   const [orderStatus, setOrderStatus] = React.useState("21");
   const [searchText, setSearchText] = React.useState("");
+  const [returnOrder, setReturnOrder] = React.useState(false);
+
   const { state: csvData, updateState: setCsvData } = useStateWithCallback<
     Array<Record<string, any>>
   >([]);
@@ -55,11 +60,21 @@ export default function PartnerOrders() {
           queryToStr({
             date_from: dates.from.format("YYYY-MM-DD"),
             date_to: dates.to.format("YYYY-MM-DD"),
-            ...(value ? { search_orders: value } : {}),
+            ...(value
+              ? returnOrder
+                ? { search: value }
+                : { search_orders: value }
+              : {}),
           })
       );
     } else {
-      setSearchText(value ? `?search_orders=${value}` : "");
+      setSearchText(
+        value
+          ? returnOrder
+            ? `?search=${value}`
+            : `?search_orders=${value}`
+          : ""
+      );
     }
   };
 
@@ -67,21 +82,31 @@ export default function PartnerOrders() {
     try {
       dispatch(setPageLoading(true));
       const x = queryToStr(
-        orderStatus != "21"
+        orderStatus == "21"
           ? {
-              order_status: orderStatus,
+              partner_id,
+            }
+          : returnOrder
+          ? {
+              return_order_status: orderStatus,
               partner_id,
             }
           : {
+              order_status: orderStatus,
               partner_id,
             }
       );
-      const res = await shopOrders("get", {
-        params: "partnercsv",
-        postfix: searchText ? `${searchText}&${x}` : `?${x}`,
-      });
+      const res = returnOrder
+        ? await shopOrdersReturn("get", {
+            params: "manager/csv",
+            postfix: searchText ? `${searchText}&${x}` : `?${x}`,
+          })
+        : await shopOrders("get", {
+            params: "partnercsv",
+            postfix: searchText ? `${searchText}&${x}` : `?${x}`,
+          });
       if (res?.status === 200) {
-        let csvData = res.data.orders || [];
+        let csvData = returnOrder ? res.data || [] : res.data.orders || [];
         // indexing
         csvData = addSno(csvData);
         // for order date
@@ -101,6 +126,8 @@ export default function PartnerOrders() {
 
         csvData = dateTimeFormatTable(csvData, "accept_date", "accept_time");
         csvData = dateTimeFormatTable(csvData, "cancel_date", "cancel_time");
+        csvData = dateTimeFormatTable(csvData, "return_date", "return_time");
+
         // marge two column
         csvData = margeRowTable(
           csvData,
@@ -112,7 +139,7 @@ export default function PartnerOrders() {
           csvData,
           [
             "shipping_village",
-            "shipping_sub_district",
+            "shipping_subdistrict",
             "shipping_district",
             "shipping_state",
             "shipping_pincode",
@@ -124,7 +151,7 @@ export default function PartnerOrders() {
           csvData,
           [
             "billing_village",
-            "billing_sub_district",
+            "billing_subdistrict",
             "billing_district",
             "billing_state",
             "billing_pincode",
@@ -137,9 +164,6 @@ export default function PartnerOrders() {
 
         csvData = addComma(csvData);
 
-        // convert date
-        csvData = formatDate(csvData);
-
         // convert weight
         csvData = formatWeight(csvData);
 
@@ -151,11 +175,7 @@ export default function PartnerOrders() {
 
         // set Order Status
 
-        csvData = setOrderStatusValue(
-          csvData,
-          "order_status",
-          orderStatus
-        );
+        csvData = setOrderStatusValue(csvData, "order_status", orderStatus);
         // csvData = orderStatusReadable(csvData);
         // remove esc
         csvData = removeEsc(csvData);
@@ -173,7 +193,10 @@ export default function PartnerOrders() {
 
   return (
     <>
-      <OrdersTab onSetOrderStatus={setOrderStatus} />
+      <OrdersTab
+        onSetOrderStatus={setOrderStatus}
+        onSetReturn={setReturnOrder}
+      />
       <MainContainer>
         <Box mt={10}>
           <OrdersToolbar
@@ -182,7 +205,9 @@ export default function PartnerOrders() {
               ref,
               data: csvData,
               headers: ordersFields(orderStatus),
-              filename: `partner-order-csv`,
+              filename: returnOrder
+                ? `return-partner-order-csv`
+                : `partner-order-csv`,
               onClick: exportHandler,
             }}
           >
@@ -194,6 +219,7 @@ export default function PartnerOrders() {
                 searchText={searchText}
                 orderStatus={orderStatus != "21" ? orderStatus : undefined}
                 partnerId={partner_id as string}
+                returnOrder={returnOrder}
               />
             </CardContent>
           </Card>

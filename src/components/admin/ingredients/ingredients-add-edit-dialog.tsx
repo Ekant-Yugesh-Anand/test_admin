@@ -54,9 +54,12 @@ export default function IngredientAddEditDialog(props: {
       console.log(error);
       setTimeout(
         () =>
-          enqueueSnackbar( error.response?.data?.message || "Ingredients update failed!😢", {
-            variant: "error",
-          }),
+          enqueueSnackbar(
+            error.response?.data?.message || "Ingredients update failed!😢",
+            {
+              variant: "error",
+            }
+          ),
         200
       );
     }
@@ -70,23 +73,25 @@ export default function IngredientAddEditDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar("Ingredients added successfully!👍😊", {
+            enqueueSnackbar("Ingredients added successfully", {
               variant: "success",
             }),
           200
         );
         reload();
       }
-    } catch (error:any) {
+    } catch (error: any) {
       console.log(error);
       setTimeout(
         () =>
-          enqueueSnackbar(error.response?.data?.message ||"Ingredients add failed!😢", {
-            variant: "error",
-          }),
+          enqueueSnackbar(
+            error.response?.data?.message || "Ingredients add failed!",
+            {
+              variant: "error",
+            }
+          ),
         200
       );
-
     }
   };
 
@@ -119,11 +124,15 @@ export default function IngredientAddEditDialog(props: {
             }
           }
         } else {
-          setTimeout(() => {
-            enqueueSnackbar(emptyText("ingredients image"), {
-              variant: "error",
+          if (variant === "edit") {
+            await putRequest({
+              ...values,
             });
-          }, 200);
+          } else {
+            await postRequest({
+              ...values,
+            });
+          }
         }
         setLoading(false);
       },

@@ -10,7 +10,7 @@ const label: { [key: string]: any } = {
     color: "#e90e69",
   },
   "2": {
-    name: "in-process",
+    name: "Waiting for delivery manager (Choose Manger)",
     color: "#a414dd",
   },
   "3": {
@@ -26,7 +26,7 @@ const label: { [key: string]: any } = {
     color: "#1896ea",
   },
   "6": {
-    name: "return from farmer",
+    name: "resheduled",
     color: "#0ee932",
   },
   "7": {
@@ -34,7 +34,7 @@ const label: { [key: string]: any } = {
     color: "#e90e24",
   },
   "8": {
-    name: "return in process",
+    name: "restored from farmer",
     color: "#0ee932",
   },
   "9": {
@@ -46,62 +46,100 @@ const label: { [key: string]: any } = {
     color: "#0ee932",
   },
   "11": {
-    name: "cancel return",
+    name: "restored from retailer",
     color: "#e90e69",
   },
   "12": {
-    name: "return in process",
+    name: "restored from manager",
+    color: "#0ee932",
+  },
+  "20": {
+    name: "payment failed",
+    color: "#FF0000",
+  },
+};
+
+const returnLabel: { [key: string]: any } = {
+  "1": {
+    name: "return initated",
+    color: "#120ee9",
+  },
+  "2": {
+    name: "return accepted (retailer)",
+    color: "#e90e69",
+  },
+  "3": {
+    name: "Return cancelled from retailer",
+    color: "#a414dd",
+  },
+  "4": {
+    name: "Waiting for delivery manager",
+    color: "#a414dd",
+  },
+  "5": {
+    name: "Return in process",
+    color: "#d77b11",
+  },
+  "6": {
+    name: "Return cancelled from delivery manager",
+    color: "#1896ea",
+  },
+  "7": {
+    name: "Out for pick up order",
+    color: "#0ee932",
+  },
+  "8": {
+    name: "return resheduled",
+    color: "#e90e24",
+  },
+  "9": {
+    name: "return picked up from farmer",
+    color: "#0ee932",
+  },
+  "11": {
+    name: "returned",
+    color: "#d77b11",
+  },
+  "12": {
+    name: "refunded",
     color: "#0ee932",
   },
   "13": {
-    name: "cancel return",
+    name: "returned restored from retailer",
     color: "#e90e69",
   },
   "14": {
-    name: "return in process",
+    name: "returned restored from manager",
     color: "#0ee932",
   },
-  "15": {
-    name: "cancel return",
-    color: "#e90e69",
-  },
-  "16": {
-    name: "return in process",
-    color: "#0ee932",
-  },
-  "17": {
-    name: "returned",
-    color: "#120ee9",
-  },
-  "18": {
-    name: "refunded",
-    color: "#a414dd",
-  },
-  "20":{
-    name:"failed",
-    color:"#FF0000"
-  }
 };
 
 export default function OrderStatus(props: {
-  value: number,
-  retailer?: boolean
-
+  value: number;
+  retailer?: boolean;
+  returnValue?: number;
 }) {
-  const { value , retailer} = props;
+  const { value, retailer, returnValue } = props;
+
+  // console.log(returnValue)
 
   return (
     <Box textAlign={"center"}>
       <Typography
-        fontSize={retailer ? "medium":  "small"}
+        fontSize={retailer ? "medium" : "small"}
         fontWeight="bold"
-        fontStyle={retailer ? "normal":"oblique"}
-        textTransform={retailer ? "capitalize":"inherit"}
+        fontStyle={retailer ? "normal" : "oblique"}
+        textTransform={retailer ? "capitalize" : "inherit"}
         sx={{
-          color: label[value.toString()]?.color,
+          color: returnValue
+            ? returnLabel[returnValue.toString()]?.color
+            : label[value.toString()]?.color,
+          textTransform: "capitalize",
         }}
       >
-        {label[value.toString()]?.name}
+        {returnValue
+          ? returnLabel[returnValue.toString()]?.name
+          : label[value.toString()]?.name}
       </Typography>
     </Box>
   );

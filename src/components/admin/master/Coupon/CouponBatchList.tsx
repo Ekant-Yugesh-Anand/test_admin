@@ -3,7 +3,7 @@ import { useSnackbar } from "notistack";
 import { FaArrowRight, FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinFill } from "react-icons/ri";
 import { useQuery } from "@tanstack/react-query";
-import { Box, IconButton, Tooltip } from "@mui/material";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import usePaginate from "../../../../hooks/usePaginate";
 import { shopReason } from "../../../../http";
 import SerialNumber from "../../serial-number";
@@ -15,7 +15,7 @@ import { shopCoupons } from "../../../../http/server-api/server-apis";
 import CouponDialog from "../form-dialog/CouponDialog";
 import LinkRouter from "../../../../routers/LinkRouter";
 import { IoLanguage } from "react-icons/io5";
-
+import dayjs from "dayjs";
 
 export default function CouponBatchList(props: {
   searchText: string;
@@ -27,8 +27,8 @@ export default function CouponBatchList(props: {
     open: false,
     data: {
       deleted: 1,
-      batch_name: ""
-    }
+      batch_name: "",
+    },
   });
 
   const [edit, setEdit] = React.useState<{
@@ -51,30 +51,31 @@ export default function CouponBatchList(props: {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const deleteBoxClose = () => setDeleteData({
-    open: false, data: {
-      deleted: 1,
-      batch_name: ""
-    }
-  });
+  const deleteBoxClose = () =>
+    setDeleteData({
+      open: false,
+      data: {
+        deleted: 1,
+        batch_name: "",
+      },
+    });
 
   const { isLoading, refetch, data } = useQuery(
     ["reason", postfix],
     () =>
       shopCoupons("get", {
         postfix,
-        params: searchText ? "": "batches"
+        params: searchText ? "" : "batches",
       }),
     {
       refetchOnWindowFocus: false,
     }
   );
 
-
   const onDelete = async () => {
     try {
       const res: any = await shopCoupons("delete", {
-        data: JSON.stringify(deleteData.data)
+        data: JSON.stringify(deleteData.data),
       });
       if (res.status === 200) {
         await refetch();
@@ -101,18 +102,37 @@ export default function CouponBatchList(props: {
       },
       { Header: "Batch Name", accessor: "batch_name" },
       { Header: "Coupon Type", accessor: "coupon_type" },
-       { Header: "Description", accessor: "description" },
+      { Header: "Description", accessor: "description" },
       { Header: "Min. Order Amount", accessor: "order_value" },
       { Header: "Generated Coupon", accessor: "coupon_quantity" },
       { Header: "Coupon Amount", accessor: "price" },
-      { Header: "Valid From", accessor: "valid_from" },
-      { Header: "Valid Till", accessor: "valid_till" },
+      {
+        Header: "Valid From",
+        accessor: "valid_from",
+        Cell: (cell: any) => (
+          <>
+            <Typography textAlign={"center"} fontSize={"small"}>
+              {dayjs(cell.value).format("DD-MMM-YYYY")}
+            </Typography>
+          </>
+        ),
+      },
+      {
+        Header: "Valid Till",
+        accessor: "valid_till",
+        Cell: (cell: any) => (
+          <>
+            <Typography textAlign={"center"} fontSize={"small"}>
+              {dayjs(cell.value).format("DD-MMM-YYYY")}
+            </Typography>
+          </>
+        ),
+      },
       {
         Header: "Action",
         width: "15%",
         Cell: (cell: any) => (
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-          
             <LinkRouter to={`${cell.row.original.batch_name}`}>
               <Tooltip title="Coupons">
                 <IconButton
@@ -161,8 +181,8 @@ export default function CouponBatchList(props: {
                     open: true,
                     data: {
                       deleted: 1,
-                      batch_name: cell.row.original.batch_name
-                    }
+                      batch_name: cell.row.original.batch_name,
+                    },
                   })
                 }
               >

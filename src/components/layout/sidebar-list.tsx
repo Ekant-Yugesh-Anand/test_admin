@@ -48,7 +48,7 @@ import { RiShoppingBag3Fill } from "react-icons/ri";
 import { VscNewFile, VscReferences } from "react-icons/vsc";
 import { TiTicket } from "react-icons/ti";
 import { FcProcess } from "react-icons/fc";
-import { GiStorkDelivery, GiWheat } from "react-icons/gi";
+import { GiChemicalTank, GiStorkDelivery, GiWheat } from "react-icons/gi";
 import { HiChartPie } from "react-icons/hi";
 import { SiReason } from "react-icons/si";
 import { IoLanguage, IoNotificationsSharp } from "react-icons/io5";
@@ -88,6 +88,11 @@ const sideBarMainList = [
         href: "/management/ingredients",
         title: "Ingredients",
         icon: <BsUiRadiosGrid />,
+      },
+      {
+        href: "/management/chemical",
+        title: "Chemicals",
+        icon: <GiChemicalTank />,
       },
       {
         href: "/management/products",

@@ -124,7 +124,7 @@ export default function RetailerDashboard() {
         postfix={"?".concat(queryToStr({ page: 0, size: 10, retailer_id }))}
       />
       <Box sx={{ my: 2 }}>
-        <Typography variant={"h6"}>Retailer Action</Typography>
+        <Typography variant={"h6"}>Retailer's Action</Typography>
       </Box>
       <Grid container spacing={2} sx={{ mt: 2 }}>
         {layerTwo.map((item, index) => (

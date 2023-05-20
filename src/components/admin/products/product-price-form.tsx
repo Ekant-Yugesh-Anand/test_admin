@@ -382,6 +382,8 @@ export default function ProductPriceForm(props: {
                   name="unit"
                   value={values.unit}
                   onChange={handleChange as any}
+                  onBlur={handleBlur}
+                  error={errors[item.name] && touched[item.name] ? true : false}
                   displayEmpty
                   inputProps={{ "aria-label": "Without label" }}
                 >

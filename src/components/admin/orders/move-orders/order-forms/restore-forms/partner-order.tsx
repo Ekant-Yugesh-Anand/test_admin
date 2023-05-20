@@ -23,6 +23,7 @@ export default function PartnerOrder(props: {
           partner_id: orders.partner_id,
           retailer_id: orders.retailer_id,
           user: "admin",
+          type:"restore"
         }),
       });
       if (res?.status === 200) {

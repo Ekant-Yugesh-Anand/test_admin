@@ -19,6 +19,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { retailerSchema } from "../../../../components/admin/retailers/schemas";
 import { filterPhoneNo, margeObj } from "../../../../components/admin/utils";
 import CircularProgress from "@mui/material/CircularProgress";
+import CommonToolbar from "../../../../components/admin/common-toolbar";
 
 export default function CreateRetailers() {
   const [data, setData] = React.useState(initialValues);
@@ -95,7 +96,7 @@ export default function CreateRetailers() {
   return (
     <MainContainer>
       <Container>
-        <Typography variant="h5">Edit Retailer</Typography>
+      <CommonToolbar title="Edit Retailer" />
         <Card className="lg:col-span-2">
           <CardContent sx={{ pt: 2 }}>
             <form onSubmit={handleSubmit}>
