@@ -25,6 +25,10 @@ export type DatesType = {
 export default function OrdersToolbar(props: {
   onSearch?: (value: string, dates: DatesType) => void;
   children?: React.ReactNode;
+   onAddProps?: {
+    title: string;
+    onClick: () => void;
+  };
   exportProps?: {
     ref?: any;
     headers?: Headers;
@@ -44,7 +48,7 @@ export default function OrdersToolbar(props: {
 
   };
 }) {
-  const { onSearch, children, exportProps, gstProps } = props;
+  const { onSearch, children, exportProps, gstProps,onAddProps } = props;
 
   const [searchText, setSearchText] = React.useState("");
 
@@ -128,6 +132,16 @@ export default function OrdersToolbar(props: {
                 Export
               </Button>
             </>
+          )}
+            {onAddProps && (
+            <Button
+              color="secondary"
+              variant="contained"
+              onClick={onAddProps.onClick}
+              size="small"
+            >
+              {onAddProps.title}
+            </Button>
           )}
           <PageBack/>
 

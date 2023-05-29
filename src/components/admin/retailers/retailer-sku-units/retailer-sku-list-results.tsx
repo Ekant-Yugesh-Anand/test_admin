@@ -45,13 +45,13 @@ function RetailerSkuListResults(props: {
           data: JSON.stringify({ deleted: 1 }),
         });
         if (res?.status === 200) {
-          enqueueSnackbar("Product Un-Assign  successfully!👍😊", {
+          enqueueSnackbar("Product Un-Assign  successfully", {
             variant: "success",
           });
           await refetch();
         }
       } catch (error) {
-        enqueueSnackbar("Product Un-Assign Failed!😢", {
+        enqueueSnackbar("Product Un-Assign Failed", {
           variant: "error",
         });
         console.log(error);
@@ -74,13 +74,13 @@ function RetailerSkuListResults(props: {
           }),
         });
         if (res?.status === 200) {
-          enqueueSnackbar("Product Assign  successfully!👍😊", {
+          enqueueSnackbar("Product Assign  successfully", {
             variant: "success",
           });
           await refetch();
         }
       } catch (error) {
-        enqueueSnackbar("Product Assign Failed!😢", {
+        enqueueSnackbar("Product Assign Failed", {
           variant: "error",
         });
         console.log(error);

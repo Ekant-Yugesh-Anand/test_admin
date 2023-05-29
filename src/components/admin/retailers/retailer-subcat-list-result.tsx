@@ -15,10 +15,9 @@ import { FaRegEdit } from "react-icons/fa";
 import EditMarginFormDialog from "./edit-margin-form";
 import ActiveDeactive from "../active-deactive";
 
-
 export default function RetailerSubCategoryList(props: { searchText: string }) {
   const { page, setPage, size, setSize } = usePaginate();
-  const { retailer_id , category_id} = useParams();
+  const { retailer_id, category_id } = useParams();
   const [deleteData, setDeleteData] = React.useState<{
     id: string;
     open: boolean;
@@ -27,7 +26,7 @@ export default function RetailerSubCategoryList(props: { searchText: string }) {
   }>({
     id: "",
     open: false,
-    validate:false,
+    validate: false,
     cat_id: "",
   });
   const [edit, setEdit] = React.useState<{
@@ -44,18 +43,19 @@ export default function RetailerSubCategoryList(props: { searchText: string }) {
     return searchText
       ? `${searchText}&page=${page}&size=${size}&reatailer_id=${retailer_id}&category_id=${category_id}`
       : `?page=${page}&size=${size}&retailer_id=${retailer_id}&category_id=${category_id}`;
-  }, [searchText, page, size,category_id]);
+  }, [searchText, page, size, category_id]);
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const deleteBoxClose = () => setDeleteData({ open: false, cat_id:"", validate:false, id: "" });
+  const deleteBoxClose = () =>
+    setDeleteData({ open: false, cat_id: "", validate: false, id: "" });
 
   const { isLoading, refetch, data } = useQuery(
     ["retailer-subcategory", postfix],
     () =>
       shopRetailerCategories("get", {
-        params:"subcategories",
-        postfix
+        params: "subcategories",
+        postfix,
       }),
     {
       refetchOnWindowFocus: false,
@@ -69,13 +69,20 @@ export default function RetailerSubCategoryList(props: { searchText: string }) {
       });
       if (res.status === 200) {
         await refetch();
-        enqueueSnackbar("entry success-full deleted 😊", {
-          variant: "success",
-        });
+        setTimeout(
+          () =>
+            enqueueSnackbar("entry successfully deleted ", {
+              variant: "success",
+            }),
+          2000
+        );
       }
     } catch (err: any) {
       console.log(err.response);
-      enqueueSnackbar("entry not delete 😢", { variant: "error" });
+      setTimeout(
+        () => enqueueSnackbar("entry could not delete ", { variant: "error" }),
+        2000
+      );
     }
     deleteBoxClose();
   };
@@ -108,7 +115,7 @@ export default function RetailerSubCategoryList(props: { searchText: string }) {
         accessor: "name",
         Cell: (cell: any) => (
           <Typography fontWeight={"600"} fontSize="small" align="center">
-             {cell.value} 
+            {cell.value}
           </Typography>
         ),
       },
@@ -140,8 +147,8 @@ export default function RetailerSubCategoryList(props: { searchText: string }) {
               >
                 <FaRegEdit />
               </IconButton>
-              </Tooltip>
-             
+            </Tooltip>
+
             <Tooltip title="Delete">
               <IconButton
                 disableRipple={false}
@@ -150,8 +157,8 @@ export default function RetailerSubCategoryList(props: { searchText: string }) {
                 onClick={() =>
                   setDeleteData({
                     open: false,
-                    validate:true,
-                    cat_id:cell.row.original.category_id,
+                    validate: true,
+                    cat_id: cell.row.original.category_id,
                     id: cell.row.original.retailer_category_id,
                   })
                 }
@@ -166,7 +173,6 @@ export default function RetailerSubCategoryList(props: { searchText: string }) {
     [page, size, postfix]
   );
 
-
   const deleteValidation = React.useCallback(async () => {
     try {
       const validataion = await shopRetailerCategories("get", {
@@ -178,7 +184,9 @@ export default function RetailerSubCategoryList(props: { searchText: string }) {
           return { ...prev, validate: false, open: true };
         });
       } else {
-        enqueueSnackbar("This subcategory can not be deleted", { variant: "error" });
+        enqueueSnackbar("This subcategory can not be deleted", {
+          variant: "error",
+        });
         deleteBoxClose();
       }
     } catch (error) {
@@ -229,7 +237,7 @@ export default function RetailerSubCategoryList(props: { searchText: string }) {
           open={edit.open}
           close={() => setEdit({ open: false, value: null })}
           category={edit.value}
-          reload={refetch} 
+          reload={refetch}
           category_id={category_id}
           variant="sub_category"
         />

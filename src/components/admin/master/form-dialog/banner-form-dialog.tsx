@@ -43,7 +43,7 @@ export default function BannerFormDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar("Banner updated successfully!👍😊", {
+            enqueueSnackbar("Banner updated successfully", {
               variant: "success",
             }),
           200
@@ -54,7 +54,7 @@ export default function BannerFormDialog(props: {
       console.log(error);
       setTimeout(
         () =>
-          enqueueSnackbar("Banner update failed!😢", {
+          enqueueSnackbar("Banner update failed", {
             variant: "error",
           }),
         200
@@ -70,7 +70,7 @@ export default function BannerFormDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar("Banner added successfully!👍😊", {
+            enqueueSnackbar("Banner added successfully", {
               variant: "success",
             }),
           200
@@ -79,9 +79,13 @@ export default function BannerFormDialog(props: {
       }
     } catch (error) {
       console.log(error);
-      enqueueSnackbar("Banner add failed!😢", {
-        variant: "error",
-      });
+      setTimeout(
+        () =>
+          enqueueSnackbar("Banner add failed", {
+            variant: "error",
+          }),
+        200
+      );
     }
   };
 

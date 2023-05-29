@@ -70,7 +70,9 @@ export default function InvoiceBody(props: {
   text?: boolean;
 }) {
   const { order, orderId } = props;
-  const [totalAmount, setTotalAmount] = React.useState<number | string | undefined>(0)
+  const [totalAmount, setTotalAmount] = React.useState<
+    number | string | undefined
+  >(0);
 
   const { data } = useQuery(["order-details"], () =>
     shopOrderDetails("get", {
@@ -113,24 +115,36 @@ export default function InvoiceBody(props: {
           </Typography>
         ),
       },
-   
+
       {
-        Header: "Weight",
+        Header: "Weight/Unit",
         accessor: "total_weight",
         width: "5%",
-        Cell: (cell: any) => <TextCenter>{cell.value && cell.value > 0 ? (
-          cell.value < 999 ? (
-            <>{cell.value}gm</>
-          ) : (
-            <>{+cell.value / 1000}Kg</>
-          )
-        ) : cell.row.original?.weight + " (per unit)"}</TextCenter>,
+        Cell: (cell: any) => (
+          <TextCenter>
+            {cell.value && cell.value > 0 ? (
+              +cell.value / +cell.row.original?.quantity < 999 ? (
+                <>{+cell.value / +cell.row.original?.quantity}gm</>
+              ) : (
+                <>{+cell.value / (1000 * +cell.row.original?.quantity)}Kg</>
+              )
+            ) : (
+              cell.row.original?.weight
+            )}
+          </TextCenter>
+        ),
       },
       {
-        Header: "Volume",
+        Header: "Volume/Unit",
         accessor: "dimension",
         width: "5%",
-        Cell: (cell: any) => <TextCenter>{cell.value > 0 ? cell.value +"cm³": ""}</TextCenter>,
+        Cell: (cell: any) => (
+          <TextCenter>
+            {cell.value > 0
+              ? +cell.value / +cell.row.original.quantity + "cm³"
+              : "0"}
+          </TextCenter>
+        ),
       },
       {
         Header: "Price/Unit (Incl.GST)",
@@ -201,18 +215,17 @@ export default function InvoiceBody(props: {
     [bothGst]
   );
 
-
   //getTotalPrice
 
   React.useEffect(() => {
     if (orderDetails) {
-      let totalPrice = 0
+      let totalPrice = 0;
       orderDetails.map((value: any) => {
-        totalPrice += parseInt(value?.total_price)
-      })
-      setTotalAmount(totalPrice.toFixed(2))
+        totalPrice += parseInt(value?.total_price);
+      });
+      setTotalAmount(totalPrice.toFixed(2));
     }
-  }, [orderDetails])
+  }, [orderDetails]);
 
   const { headerGroups, rows, prepareRow } = useTable({
     columns,

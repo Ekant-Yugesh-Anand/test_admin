@@ -700,11 +700,7 @@ export const manipulateGst = (data: Array<Record<string, any>>) =>
             100
           ).toFixed(2);
         }
-        newRow["pos"] = row["shipping_state"];
         row["document_type"] = "Invoice";
-        row["bill_to_state"] = row["billing_state"];
-        row["document_number"] = row["invoice_no"];
-        row["document_date"] = row["accept_date"];
         row["hsn"] = "999999";
         row["supplierGSTIN"] = "29AAACC3269J1ZG";
         row["customerGSTIN"] = "Not Registered";

@@ -83,7 +83,7 @@ function RetailerOrdersTab(props: {
             },
 
             {
-              label: "picked up orders",
+              label: "out for picked up orders",
               order_status: "7",
               return: true,
             },
@@ -95,11 +95,6 @@ function RetailerOrdersTab(props: {
             {
               label: "picked up form (farmer)",
               order_status: "9",
-              return: true,
-            },
-            {
-              label: "out for pickup",
-              order_status: "11",
               return: true,
             },
             {
@@ -247,6 +242,7 @@ function RetailerOrdersTab(props: {
                 <MenuItem
                   key={index}
                   selected={index === selectedIndex}
+                  sx={{ textTransform: "capitalize" }}
                   onClick={() => {
                     option.return ? onSetReturn && onSetReturn(true) : "";
                     setValue(item.order_status);

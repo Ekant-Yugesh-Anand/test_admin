@@ -68,7 +68,7 @@ const retailerLabel = [
 ];
 
 const customerLabel = [
-  { label: "Customer Name", accessor: "customer_name" },
+  { label: "Farmer Name", accessor: "customer_name" },
   { label: "Mobile", accessor: "customer_phone_no" },
   { label: "Email", accessor: "customer_email_id" },
 ];
@@ -89,6 +89,7 @@ const agentLabel = [
 
 const billingLabel = [
   { label: "Name", accessor: "billing_name" },
+  { label: "Mobile Number", accessor: "billing_phoneno" },
   { label: "Village", accessor: "billing_village" },
   { label: "District", accessor: "billing_district" },
   { label: "Sub District", accessor: "billing_subdistrict" },
@@ -98,6 +99,7 @@ const billingLabel = [
 
 const shippingLabel = [
   { label: "Name", accessor: "shipping_name" },
+  { label: "Mobile Number", accessor: "shipping_phoneno" },
   { label: "Village", accessor: "shipping_village" },
   { label: "District", accessor: "shipping_district" },
   { label: "Sub District", accessor: "shipping_subdistrict" },
@@ -204,6 +206,9 @@ const returnAgentLabel = [
   { label: "Agent Name", accessor: "return_agent_name" },
   { label: "Mobile", accessor: "return_agent_phone_no" },
   { label: "Email", accessor: "return_agent_email_id" },
+  { label: "Vehicle", accessor: "vehicle" },
+  { label: "Vehicle Number", accessor: "vehicle_number" },
+  { label: "Remark", accessor: "remark" },
 ];
 
 export default function OrderDetails() {
@@ -337,7 +342,7 @@ export default function OrderDetails() {
     { title: "Retailer", labelObj: retailerLabel },
     { title: "Delivery Partner", labelObj: partnerLabel },
     { title: "Delivery Agent", labelObj: agentLabel },
-    { title: "Customer", labelObj: customerLabel },
+    { title: "Farmer", labelObj: customerLabel },
     { title: "Billing", labelObj: billingLabel },
     { title: "Shipping", labelObj: shippingLabel },
     ...getExtraColumn(),

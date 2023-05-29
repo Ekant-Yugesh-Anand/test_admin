@@ -31,7 +31,7 @@ export default function DeliveryChargeFormDialog(props: {
   ) => {
     if (parseFloat(deliveryFrom) <= parseFloat(deliveryTo)) return true;
     enqueueSnackbar(
-      "delivery charge should be larger and equal delivery to.!😢",
+      "delivery charge should be larger and equal delivery to",
       {
         variant: "error",
       }

@@ -55,7 +55,7 @@ function DeliveryRetailerCard(props: {
       if (res?.status === 200) {
         await refetch();
         enqueueSnackbar(
-          (changeActive === 1 ? "On" : "Off") + " successfully 😊",
+          (changeActive === 1 ? "On" : "Off") + " successfully ",
           {
             variant: "success",
           }

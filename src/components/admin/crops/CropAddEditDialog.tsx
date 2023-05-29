@@ -28,7 +28,6 @@ export default function CropAddEditDialog(props: {
   crop: { [key: string]: any } | null;
   variant: "edit" | "add";
 }) {
-
   const { imgUploader, imgUpdate } = useBucket();
   const { open, close, crop, reload, variant } = props;
   const [file, setFile] = React.useState<File>(crop?.image);
@@ -45,10 +44,10 @@ export default function CropAddEditDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar("Crop updated successfully!👍😊", {
+            enqueueSnackbar("Crop updated successfully", {
               variant: "success",
             }),
-          200
+          2000
         );
         reload();
       }
@@ -56,12 +55,16 @@ export default function CropAddEditDialog(props: {
       console.log(error);
       setTimeout(
         () =>
-          enqueueSnackbar( error.response?.data?.message || "Crop updated failed!😢", {
-            variant: "error",
-          }),
-        200
+          enqueueSnackbar(
+            error.response?.data?.message || "Crop updated failed",
+            {
+              variant: "error",
+            }
+          ),
+        2000
       );
     }
+    setLoading(false)
   };
   const postRequest = async (values: Record<string, any>) => {
     try {
@@ -72,132 +75,130 @@ export default function CropAddEditDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar("Crop added successfully!👍😊", {
+            enqueueSnackbar("Crop added successfully", {
               variant: "success",
             }),
-          200
+          2000
         );
         reload();
       }
-    } catch (error:any) {
+    } catch (error: any) {
       console.log(error);
-        setTimeout(
+      setTimeout(
         () =>
-          enqueueSnackbar(error.response?.data?.message ||"Crop could not added!😢", {
-            variant: "error",
-          }),
-        200
+          enqueueSnackbar(
+            error.response?.data?.message || "Crop could not added",
+            {
+              variant: "error",
+            }
+          ),
+        2000
       );
-     
     }
+    setLoading(false)
   };
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-  useFormik({
-    initialValues: {
-      crop_name: crop?.crop_name || "",
-      image: crop?.image || "",
-    },
-    validationSchema: cropSchema,
-    enableReinitialize: true,
-    async onSubmit(values) {
-      setLoading(true);
-      if (file) {
-        if (variant === "edit") {
-          const metaData = await imgUpdate(values?.image, file);
-          if (metaData.status === "success") {
-            await putRequest({
-              ...values,
-              image: metaData.image,
-            });
+    useFormik({
+      initialValues: {
+        crop_name: crop?.crop_name || "",
+        image: crop?.image || "",
+      },
+      validationSchema: cropSchema,
+      enableReinitialize: true,
+      async onSubmit(values) {
+        setLoading(true);
+        if (file) {
+          if (variant === "edit") {
+            const metaData = await imgUpdate(values?.image, file);
+            if (metaData.status === "success") {
+              await putRequest({
+                ...values,
+                image: metaData.image,
+              });
+            }
+          } else {
+            const metaData = await imgUploader(file);
+            if (metaData.status === "success") {
+              await postRequest({
+                ...values,
+                image: metaData.image,
+              });
+            }
           }
         } else {
-          const metaData = await imgUploader(file);
-          if (metaData.status === "success") {
-            await postRequest({
-              ...values,
-              image: metaData.image,
-            });
-          }
+          setTimeout(
+            () =>
+              enqueueSnackbar(emptyText("crop image"), {
+                variant: "error",
+              }),
+            2000
+          );
         }
-      } else {
-        enqueueSnackbar(emptyText("crop image"), {
-          variant: "error",
-        });
-      }
-      setLoading(false);
-    },
-  });
-
+        setLoading(false);
+      },
+    });
 
   return (
     <Dialog open={open} fullWidth>
       <DialogTitle>Crop {variant}</DialogTitle>
       <DialogContent>
-      <form onSubmit={handleSubmit}>
-        <Box sx={{ my: 1 }}>
-        <TextInput
+        <form onSubmit={handleSubmit}>
+          <Box sx={{ my: 1 }}>
+            <TextInput
               type="text"
               label="Crop Name"
               name="crop_name"
               placeholder="Crop Name"
               value={values.crop_name}
               onChange={handleChange}
-              error={
-                errors.crop_name && touched.crop_name ? true : false
-              }
-              helperText={
-                touched.crop_name
-                  ? (errors.crop_name as string)
-                  : ""
-              }
-            onBlur={handleBlur}
-
+              error={errors.crop_name && touched.crop_name ? true : false}
+              helperText={touched.crop_name ? (errors.crop_name as string) : ""}
+              onBlur={handleBlur}
             />
-          
-          <ShopAvatar
-            src={file}
-            download={!(file instanceof File)}
-            imgRectangle
+
+            <ShopAvatar
+              src={file}
+              download={!(file instanceof File)}
+              imgRectangle
+              sx={{
+                width: "100%",
+                height: 240,
+              }}
+              variant="rounded"
+            />
+            <FileUploader
+              handleChange={(file: React.SetStateAction<File>) => setFile(file)}
+            />
+          </Box>
+          <Divider />
+          <Box
             sx={{
-              width: "100%",
-              height: 240,
+              display: "flex",
+              gap: 2,
+              my: 2,
+              flexFlow: "row-reverse",
             }}
-            variant="rounded"
-          />
-          <FileUploader
-            handleChange={(file: React.SetStateAction<File>) => setFile(file)}
-          />
-        </Box>
-        <Divider/>
-        <Box
-          sx={{
-            display: "flex",
-            gap: 2,
-            my:2,
-            flexFlow: "row-reverse",
-          }}
-        >
-          <Button
-            type="submit"
-            color="secondary"
-            variant="contained"
-            disabled={loading}
-            startIcon={
-              loading ? (
-                <CircularProgress color="inherit" size={20} />
-              ) : undefined
-            }
           >
-            {variant === "add" ? "Save" : "Update"}
-          </Button>
-          <Button color="secondary" variant="outlined" onClick={close}>
-            Close
-          </Button>
-        </Box>
+            <Button
+              type="submit"
+              color="secondary"
+              variant="contained"
+              disabled={loading}
+              startIcon={
+                loading ? (
+                  <CircularProgress color="inherit" size={20} />
+                ) : undefined
+              }
+            >
+              {variant === "add" ? "Save" : "Update"}
+            </Button>
+            <Button color="secondary" variant="outlined" onClick={close}>
+              Close
+            </Button>
+          </Box>
         </form>
       </DialogContent>
-    
     </Dialog>
   );
 }

@@ -43,7 +43,7 @@ export default function IngredientAddEditDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar("Ingredients updated successfully!👍😊", {
+            enqueueSnackbar("Ingredients updated successfully", {
               variant: "success",
             }),
           200
@@ -55,7 +55,7 @@ export default function IngredientAddEditDialog(props: {
       setTimeout(
         () =>
           enqueueSnackbar(
-            error.response?.data?.message || "Ingredients update failed!😢",
+            error.response?.data?.message || "Ingredients update failed",
             {
               variant: "error",
             }

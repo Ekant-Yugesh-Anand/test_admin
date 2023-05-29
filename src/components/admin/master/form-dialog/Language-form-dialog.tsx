@@ -48,16 +48,19 @@ export default function LanguageFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Language Updated  successfully!👍😊", {
+                enqueueSnackbar("Language Updated  successfully", {
                   variant: "success",
                 });
               }, 200);
             }
           } catch (error) {
             console.log(error);
-            enqueueSnackbar("Language Update Failed!😢", {
-              variant: "error",
-            });
+            setTimeout(() => {
+              enqueueSnackbar("Language Update Failed", {
+                variant: "error",
+              });
+            }, 200);
+           
           }
         } else {
           try {
@@ -68,16 +71,19 @@ export default function LanguageFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Language Saved  successfully!👍😊", {
+                enqueueSnackbar("Language Saved  successfully", {
                   variant: "success",
                 });
               }, 200);
             }
           } catch (error) {
             console.log(error);
-            enqueueSnackbar("Language Save Failed!😢", {
-              variant: "error",
-            });
+            setTimeout(() => {
+              enqueueSnackbar("Language Save Failed", {
+                variant: "error",
+              });
+            }, 200);
+          
           }
         }
         setLoading(false);

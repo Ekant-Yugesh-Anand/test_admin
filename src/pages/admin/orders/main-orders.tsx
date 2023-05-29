@@ -25,7 +25,6 @@ import {
 } from "../../../components/admin/utils";
 import useStateWithCallback from "../../../hooks/useStateWithCallback";
 import { ordersFields } from "../../../constants";
-import { getStrOrderStatus } from "../../../constants/messages";
 
 export default function MainOrders(props: {
   orderStatus: string;

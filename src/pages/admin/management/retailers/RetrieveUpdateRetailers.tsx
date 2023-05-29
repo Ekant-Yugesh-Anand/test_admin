@@ -50,7 +50,7 @@ export default function CreateRetailers() {
           if (res?.status === 200) {
             navigate(-1);
             setTimeout(() => {
-              enqueueSnackbar("Retailer Updated successfully!👍😊", {
+              enqueueSnackbar("Retailer Updated successfully", {
                 variant: "success",
               });
             }, 200);
@@ -61,9 +61,15 @@ export default function CreateRetailers() {
             data: { message },
           } = error.response;
           if (status === 400) {
-            enqueueSnackbar(message, { variant: "error" });
+            setTimeout(() => {
+              enqueueSnackbar(message, { variant: "error" });
+            }, 200);
+          
           } else {
-            enqueueSnackbar("Retailer Update Failed!😢", { variant: "error" });
+            setTimeout(() => {
+              enqueueSnackbar("Retailer Update Failed", { variant: "error" });
+            }, 200);
+         
           }
           setLoading(false);
         }

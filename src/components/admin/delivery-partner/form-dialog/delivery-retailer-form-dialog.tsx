@@ -65,16 +65,19 @@ function DeliveryRetailerFormDialog(props: {
         close();
         reload();
         setTimeout(() => {
-          enqueueSnackbar("Delivery Retailer Save successfully!👍😊", {
+          enqueueSnackbar("Delivery Retailer Save successfully", {
             variant: "success",
           });
         }, 200);
       }
     } catch (error) {
       console.log(error);
-      enqueueSnackbar("Delivery Retailer Saved Failed!😢", {
-        variant: "error",
-      });
+      setTimeout(()=>{
+        enqueueSnackbar("Delivery Retailer Saved Failed", {
+          variant: "error",
+        });
+      },200)
+      
     }
   };
 

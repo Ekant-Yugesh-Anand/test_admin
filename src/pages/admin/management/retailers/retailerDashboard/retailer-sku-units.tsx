@@ -88,7 +88,7 @@ export default function RetailerSkuUnits() {
         <Box sx={{ mt: 10 }}>
           {productTab != 0 ? (
             <ProductsListToolbar
-              title={`${retailerName} / Retailer Orders`}
+              title={`${retailerName} / Retailer Sku`}
               onSearch={searchHandler}
               onImport={() => navigate("retailer-sku-import")}
               exportProps={{
@@ -104,7 +104,7 @@ export default function RetailerSkuUnits() {
             />
           ) : (
             <ProductsListToolbar
-              title={`${retailerName} / Retailer Orders`}
+              title={`${retailerName} / Retailer Sku`}
               onSearch={searchHandler}
               exportProps={{
                 ref,

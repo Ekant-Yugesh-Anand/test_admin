@@ -234,10 +234,9 @@ export default function ProductBasicForm(props: {
                 label={item.label}
                 value={values[item.name] ? values[item.name] : ""}
                 onChangeOption={(value) => setFieldValue(item.name, value)}
-                error={errors[item.name]}
+                error={errors[item.name] && touched[item.name] ? true : false}
                 helperText={touched[item.name] ? errors[item.name] : ""}
                 onBlur={handleBlur}
-               
               />
             );
           }

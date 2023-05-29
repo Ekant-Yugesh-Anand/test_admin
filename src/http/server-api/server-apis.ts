@@ -80,6 +80,9 @@ export const shopRefreshToken = baseFunc("shop_tokenrefresh")
 export const shopAdmin = baseFunc("shop_admin")
 // list of all endpoints of chemical 
 export const shopChemical = baseFunc("shop_chemicals")
+// list of all endpoints of chemical 
+export const shopAdvisoryPackage = baseFunc("shop_advisorypackage")
+export const shopAdvisory = baseFunc("shop_advisory")
 
 
 

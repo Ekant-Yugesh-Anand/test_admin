@@ -18,6 +18,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import retailerReport from "./admin/retailer-report";
 import logRouters from "./admin/log-routers";
+import advisoryRouter from "./admin/report-router";
 
 const queryClient = new QueryClient();
 
@@ -50,7 +51,8 @@ export default function AppRouter() {
         ordersRouters,
         retailerReport,
         cartRouters,
-        logRouters
+        logRouters,
+        advisoryRouter
       ],
     },
     {

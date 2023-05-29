@@ -48,7 +48,7 @@ export default function CreateRetailers() {
           if (res?.status === 200) {
             navigate(-1);
             setTimeout(() => {
-              enqueueSnackbar("Delivery Partner Update  successfully!👍😊", {
+              enqueueSnackbar("Delivery Partner Update  successfully", {
                 variant: "success",
               });
             }, 200);
@@ -59,9 +59,14 @@ export default function CreateRetailers() {
             data: { message },
           } = error.response;
           if (status === 400) {
-            enqueueSnackbar(message, { variant: "error" });
+            setTimeout(() => {
+              enqueueSnackbar(message, { variant: "error" });
+            }, 200);
           } else {
-            enqueueSnackbar("Delivery Partner Failed!😢", { variant: "error" });
+            setTimeout(() => {
+              enqueueSnackbar("Delivery Partner Failed", { variant: "error" });
+            }, 200);
+          
           }
           setLoading(false);
         }

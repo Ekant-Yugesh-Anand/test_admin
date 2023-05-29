@@ -47,7 +47,7 @@ export default function AddCategory() {
     } catch (error) {
       console.log(error);
       setTimeout(() => {
-        enqueueSnackbar("Category Data Save Failed!😢", { variant: "error" });
+        enqueueSnackbar("Category Data Save Failed!", { variant: "error" });
       }, 200);
     }
     setLoading(false);
@@ -72,7 +72,7 @@ export default function AddCategory() {
           );
           filterdata
             ? setTimeout(() => {
-                enqueueSnackbar("Already selected!😢", { variant: "error" });
+                enqueueSnackbar("Already selected", { variant: "error" });
               }, 200)
             : tempdata.push({
                 subcategory_id: data.subcategory_id,

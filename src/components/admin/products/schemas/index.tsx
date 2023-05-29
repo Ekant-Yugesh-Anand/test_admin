@@ -13,37 +13,30 @@ export const productSchema = Yup.object({
   category_id: Yup.string().required(emptyText("Category")),
   subcategory_id: Yup.string().required(emptyText("Subcategory")),
   brand_id: Yup.string().required(emptyText("Brand")),
-  crop_id: Yup.string().required(emptyText("Crop id")),
-  ingredient_id: Yup.string().required(emptyText("Ingredient id")),
-  chemical_id: Yup.string().required(emptyText("Chemical")),
-  description: Yup.string().required(emptyText("Description")),
-  ingredients: Yup.string().required(emptyText("Ingredients")),
-  technical_formula: Yup.string().required(emptyText("Technical Formula")),
-  doses: Yup.string().required(emptyText("Doses")),
-  application: Yup.string().required(emptyText("Application")),
-  target_crop: Yup.string().required(emptyText("Target Crop")),
+  crop_id:Yup.string().required(emptyText("Crop id")),
+  ingredient_id:Yup.string().required(emptyText("Ingredient id")),
+  chemical_id:Yup.string().required(emptyText("Chemical")),
+
+
 });
 
 export const productPriceSchema = Yup.object({
   mrp: Yup.number().positive().required(emptyText("Product MRP")),
   gst: Yup.string().required(emptyText("Product GST")),
-  price: Yup.number()
-    .positive()
-    .max(Yup.ref("mrp"), "Price should less than mrp")
-    .required(emptyText("Product price")),
+  price: Yup.number().positive().max(Yup.ref('mrp'), "Price should less than mrp").required(emptyText("Product price")),
 
-  dimension_height: Yup.number().required(emptyText("Height")),
-  dimension_width: Yup.number().required(emptyText("Width")),
-  dimension_length: Yup.number().required(emptyText("Length")),
+  dimension_height:Yup.number().required(emptyText("Height")),
+  dimension_width:Yup.number().required(emptyText("Width")),
+  dimension_length:Yup.number().required(emptyText("Length")),
   package: Yup.string().required(emptyText("Package")),
   weight: Yup.string().required(emptyText("Product weight")),
   // dimension: Yup.number(),
   totalweight: Yup.number().required(emptyText("Actual weight")),
   units_per_case: Yup.string().required(emptyText("Unit per case")),
-  unit: Yup.string(),
+  unit:Yup.string()
 });
 
 export const productLanguageSchema = Yup.object({
   title: Yup.string().required(emptyText("Product title")),
-  description: Yup.string().required(emptyText("Product title")),
-});
+  description: Yup.string().required(emptyText("Product title"))
+})

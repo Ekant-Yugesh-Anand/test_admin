@@ -58,12 +58,8 @@ export default function CategoryForm(porps: {
     ["all-category-retailer", retailer_id],
     () =>
       categoriesHttp("get", {
-        params: "categories",
-        postfix: "?".concat(
-          queryToStr({
-            retailer_id,
-          })
-        ),
+        params: "retailer/categories",
+       
       }),
     {
       onSuccess(data) {
@@ -77,9 +73,9 @@ export default function CategoryForm(porps: {
     ["all-subcategory-retailer", values.category_id],
     () =>
       subCategoriesHttp("get", {
-        params: "subcategories",
+        params: "retailer/subcategories",
         postfix: "?".concat(
-          queryToStr({ category_id: values.category_id || 0, retailer_id })
+          queryToStr({ category_id: values.category_id || 0, })
         ),
       }),
     {
@@ -253,3 +249,5 @@ export const initialValues = {
   margin: "",
   change: "no",
 };
+
+

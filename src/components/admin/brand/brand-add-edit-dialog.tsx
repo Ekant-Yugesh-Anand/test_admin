@@ -45,10 +45,10 @@ export default function BrandAddEditDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar("Brands updated successfully!👍😊", {
+            enqueueSnackbar("Brands updated successfully", {
               variant: "success",
             }),
-          200
+          2000
         );
         reload();
       }
@@ -56,10 +56,13 @@ export default function BrandAddEditDialog(props: {
       console.log(error);
       setTimeout(
         () =>
-          enqueueSnackbar(error.response?.data?.message || "Brands update failed!😢", {
-            variant: "error",
-          }),
-        200
+          enqueueSnackbar(
+            error.response?.data?.message || "Brands update failed",
+            {
+              variant: "error",
+            }
+          ),
+        2000
       );
     }
   };
@@ -72,23 +75,25 @@ export default function BrandAddEditDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar("Brands added successfully!👍😊", {
+            enqueueSnackbar("Brands added successfully", {
               variant: "success",
             }),
-          200
+          2000
         );
         reload();
       }
-    } catch (error:any) {
+    } catch (error: any) {
       console.log(error);
       setTimeout(
         () =>
-          enqueueSnackbar(error.response?.data?.message || "Brands could not added!😢", {
-            variant: "error",
-          }),
-        200
+          enqueueSnackbar(
+            error.response?.data?.message || "Brands could not added",
+            {
+              variant: "error",
+            }
+          ),
+        2000
       );
-      
     }
   };
 
@@ -113,9 +118,13 @@ export default function BrandAddEditDialog(props: {
         }
       }
     } else {
-      enqueueSnackbar(emptyText("brand image"), {
-        variant: "error",
-      });
+      setTimeout(
+        () =>
+          enqueueSnackbar(emptyText("brand image"), {
+            variant: "error",
+          }),
+        2000
+      );
     }
     setLoading(false);
   };

@@ -40,16 +40,19 @@ export default function UnitFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Unit Updated  successfully!👍😊", {
+                enqueueSnackbar("Unit Updated  successfully", {
                   variant: "success",
                 });
               }, 200);
             }
           } catch (error) {
             console.log(error);
-            enqueueSnackbar("Unit Update Failed!😢", {
-              variant: "error",
-            });
+            setTimeout(() => {
+              enqueueSnackbar("Unit Update Failed", {
+                variant: "error",
+              });
+            }, 200);
+            
           }
         } else {
           try {
@@ -60,16 +63,19 @@ export default function UnitFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Unit Saved  successfully!👍😊", {
+                enqueueSnackbar("Unit Saved  successfully", {
                   variant: "success",
                 });
               }, 200);
             }
           } catch (error) {
             console.log(error);
-            enqueueSnackbar("Unit Save Failed!😢", {
-              variant: "error",
-            });
+            setTimeout(() => {
+              enqueueSnackbar("Unit Save Failed", {
+                variant: "error",
+              });
+            }, 200);
+            
           }
         }
       },

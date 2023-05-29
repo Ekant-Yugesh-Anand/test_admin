@@ -57,13 +57,20 @@ export default function RetailerListResults(props: { searchText: string }) {
       });
       if (res.status === 200) {
         await refetch();
-        enqueueSnackbar("entry success-full deleted 😊", {
-          variant: "success",
-        });
+        setTimeout(
+          () =>
+            enqueueSnackbar("entry successfully deleted ", {
+              variant: "success",
+            }),
+          2000
+        );
       }
     } catch (err: any) {
       console.log(err.response);
-      enqueueSnackbar("entry not delete 😢", { variant: "error" });
+      setTimeout(
+        () => enqueueSnackbar("entry could not delete ", { variant: "error" }),
+        2000
+      );
     }
     deleteBoxClose();
   };

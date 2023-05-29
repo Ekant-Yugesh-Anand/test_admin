@@ -78,6 +78,42 @@ export default function AllOrderLogList(props: { searchText: string }) {
         Header: "Order Status",
         accessor: "order_status",
         Cell: (cell: any) => <OrderStatus value={cell.value} />,
+      },{
+        Header: "Farmer Name",
+        accessor: "customer_name",
+        Cell: (cell: any) => (
+          <Typography textAlign="center" fontSize={"small"} >
+            {cell.value} 
+          </Typography>
+        ),
+      },
+      
+      {
+        Header: "Retailer Name",
+        accessor: "retailer_name",
+        Cell: (cell: any) => (
+          <Typography textAlign="center" fontSize={"small"} >
+            {cell.value} ( {cell.row.original.retailer_company_name} )
+          </Typography>
+        ),
+      },
+      {
+        Header: "Partner Name",
+        accessor: "partner_name",
+        Cell: (cell: any) => (
+          <Typography textAlign="center" fontSize={"small"} >
+            {cell.value} 
+          </Typography>
+        ),
+      },
+      {
+        Header: "Agent Name",
+        accessor: "agent_name",
+        Cell: (cell: any) => (
+          <Typography textAlign="center" fontSize={"small"} >
+            {cell.value} 
+          </Typography>
+        ),
       },
       {
         Header: "Date",

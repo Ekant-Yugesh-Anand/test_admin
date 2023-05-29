@@ -39,6 +39,13 @@ export default function MoveOrdersDialog(props: {
     }
     if (orderStatus === "1") {
       return [
+        { title: "Choose Partner", value: "2" },
+        { title: "Cancelled from Farmer", value: "7" },
+        { title: "Cancelled from Retailer", value: "9" },
+      ];
+    }
+    if (orderStatus === "2") {
+      return [
         { title: "In Process", value: "3" },
         { title: "Cancelled from Farmer", value: "7" },
         { title: "Cancelled from Retailer", value: "9" },
@@ -59,7 +66,7 @@ export default function MoveOrdersDialog(props: {
         { title: "Cancelled from Farmer", value: "7" },
         { title: "Cancelled from Delivery partner", value: "10" },
         { title: "Cancelled from Delivery agent", value: "11" },
-        { title: "Re-schedule Order", value: "2" },
+        { title: "Re-schedule Order", value: "13" },
       ];
     }
     if (orderStatus === "5") {
@@ -91,6 +98,14 @@ export default function MoveOrdersDialog(props: {
           refetch={refetch}
         />
       ),
+      "2": (
+        <OrderForms.ChooseManager
+          key={2}
+          onClose={onClose}
+          orders={orders}
+          refetch={refetch}
+        />
+      ),
       "3": (
         <OrderForms.InProcess
           key={3}
@@ -99,9 +114,9 @@ export default function MoveOrdersDialog(props: {
           refetch={refetch}
         />
       ),
-      "2": (
+      "13": (
         <OrderForms.ReScheduleOrder
-          key={2}
+          key={13}
           onClose={onClose}
           orders={orders}
           refetch={refetch}

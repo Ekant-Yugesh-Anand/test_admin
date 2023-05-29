@@ -51,16 +51,19 @@ export default function SkuPricingUpdateDialog(props: {
             close();
             reload();
             setTimeout(() => {
-              enqueueSnackbar("SKU Price Updated successfully!👍😊", {
+              enqueueSnackbar("SKU Price Updated successfully", {
                 variant: "success",
               });
             }, 200);
           }
         } catch (error) {
           console.log(error);
-          enqueueSnackbar("SKU Price Update Failed!😢", {
-            variant: "error",
-          });
+          setTimeout(() => {
+            enqueueSnackbar("SKU Price Update Failed", {
+              variant: "error",
+            });
+          }, 200);
+         
         }
         setLoading(false);
       },

@@ -6,12 +6,18 @@ import { useQuery } from "@tanstack/react-query";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import AsyncAutocomplete from "../../../../form/async-autocomplete";
-import {  shopDeliveryAgent, shopOrdersReturn } from "../../../../../http";
+import { shopDeliveryAgent, shopOrdersReturn } from "../../../../../http";
 import { queryToStr } from "../../../utils";
 import moveOrdersSchemas from "../schemas";
 import { TextInput } from "../../../../form";
 
-
+export const TransportTypes = [
+  { transport_id: 1, transport_name: "Truck" },
+  { transport_id: 2, transport_name: "Tractor" },
+  { transport_id: 3, transport_name: "Auto-Rickshaw" },
+  { transport_id: 4, transport_name: "Bike/Cycle" },
+  { transport_id: 5, transport_name: "Smart Ship" },
+];
 
 export default function InProcess(props: {
   onClose: () => void;
@@ -33,11 +39,21 @@ export default function InProcess(props: {
   } = useFormik({
     initialValues: {
       agent_id: "",
-     
+      vehicle: "",
+      vehicle_number: "",
+      remark: "",
     },
     validationSchema: moveOrdersSchemas[3],
     async onSubmit(values) {
-   
+      const getVehicle = (vehicle_id: string | number) => {
+        let vehicle_name = "";
+        TransportTypes.map((trans) => {
+          if (trans.transport_id == vehicle_id) {
+            vehicle_name = trans.transport_name;
+          }
+        });
+        return vehicle_name;
+      };
       try {
         setLoading(true);
         const res = await shopOrdersReturn("post", {
@@ -47,6 +63,7 @@ export default function InProcess(props: {
             order_id: orders.order_id,
             partner_id: orders.partner_id,
             return_order_status: 5,
+            vehicle: getVehicle(values.vehicle),
             user: "admin",
           }),
         });
@@ -114,7 +131,44 @@ export default function InProcess(props: {
             onBlur: handleBlur,
           }}
         />
-     
+
+        <AsyncAutocomplete
+          id="transport-option"
+          sx={{ my: 2 }}
+          label="Transport"
+          options={TransportTypes}
+          value={values.vehicle}
+          objFilter={{
+            title: "transport_name",
+            value: "transport_id",
+          }}
+          onChangeOption={(value) => setFieldValue("vehicle", value)}
+          TextInputProps={{
+            error: errors["vehicle"] && touched["vehicle"] ? true : false,
+            helperText: touched["vehicle"] ? errors["vehicle"] : "",
+            onBlur: handleBlur,
+          }}
+        />
+        <TextInput
+          id="vehicle_number"
+          name="vehicle_number"
+          placeholder="Vehicle number"
+          value={values.vehicle_number || ""}
+          onChange={handleChange}
+          error={errors.vehicle_number && touched.vehicle_number ? true : false}
+          helperText={touched.vehicle_number ? errors.vehicle_number : ""}
+          onBlur={handleBlur}
+        />
+        <TextInput
+          id="remark"
+          name="remark"
+          placeholder="Remark"
+          value={values.remark || ""}
+          onChange={handleChange}
+          error={errors.remark && touched.remark ? true : false}
+          helperText={touched.remark ? errors.remark : ""}
+          onBlur={handleBlur}
+        />
 
         <Box
           sx={{

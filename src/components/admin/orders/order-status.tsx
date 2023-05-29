@@ -10,8 +10,8 @@ const label: { [key: string]: any } = {
     color: "#e90e69",
   },
   "2": {
-    name: "Waiting for delivery manager (Choose Manger)",
-    color: "#a414dd",
+    name: "Waiting for delivery agent (Choose Agent)",
+    color: "#fde047",
   },
   "3": {
     name: "in-process",
@@ -42,7 +42,7 @@ const label: { [key: string]: any } = {
     color: "#d77b11",
   },
   "10": {
-    name: "cancel from manager/agent",
+    name: "cancel from manager",
     color: "#0ee932",
   },
   "11": {
@@ -61,7 +61,7 @@ const label: { [key: string]: any } = {
 
 const returnLabel: { [key: string]: any } = {
   "1": {
-    name: "return initated",
+    name: "return initiated",
     color: "#120ee9",
   },
   "2": {

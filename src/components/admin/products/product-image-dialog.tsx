@@ -37,41 +37,6 @@ export default function ProductImageDialog(props: {
   const { enqueueSnackbar } = useSnackbar();
 
   const onUpload = async () => {
-    // if (productImageData) {
-    //   try {
-    //     setLoading(true);
-    //     const metadata: any = await imgUploader(file)
-
-    //     if (metadata) {
-    //       // upload data in server
-    //       const res = await shopProductImages("put", {
-    //         params: productImageData?.image_id,
-    //         data: JSON.stringify({
-    //           ...data,
-    //           sku_id: skuId,
-    //           image: metadata.image,
-    //         }),
-    //       });
-    //       // uploading finish return true
-    //       if (res?.status === 200) {
-    //         close();
-    //         setTimeout(
-    //           () =>
-    //             enqueueSnackbar("Product Image Update  successfully!👍😊", {
-    //               variant: "success",
-    //             }),
-    //           2000
-    //         );
-    //         reload();
-    //       }
-    //     }
-    //   } catch (error) {
-    //     enqueueSnackbar("Product Image Update Failed!😢", {
-    //       variant: "error",
-    //     });
-    //   }
-    // } else {
-
     if (uploadType == "single") {
       try {
         setLoading(true);
@@ -90,7 +55,7 @@ export default function ProductImageDialog(props: {
             close();
             setTimeout(
               () =>
-                enqueueSnackbar("Product Image Add  successfully!👍😊", {
+                enqueueSnackbar("Product Image Add  successfully", {
                   variant: "success",
                 }),
               2000
@@ -99,9 +64,14 @@ export default function ProductImageDialog(props: {
           }
         }
       } catch (error) {
-        enqueueSnackbar("Product Image Add Failed!😢", {
-          variant: "error",
-        });
+      setLoading(false);
+        setTimeout(
+          () =>
+            enqueueSnackbar("Product Images could not added", {
+              variant: "error",
+            }),
+          2000
+        );
       }
     } else {
       setLoading(true);
@@ -120,7 +90,7 @@ export default function ProductImageDialog(props: {
             if (res?.status === 200) {
               setTimeout(
                 () =>
-                  enqueueSnackbar("Product Image Add  successfully!👍😊", {
+                  enqueueSnackbar("Product Images Added  successfully", {
                     variant: "success",
                   }),
                 2000
@@ -134,12 +104,17 @@ export default function ProductImageDialog(props: {
         });
       } catch (error) {
         setLoading(false);
-        enqueueSnackbar("Product Images could not added", {
-          variant: "error",
-        });
+        setTimeout(
+          () =>
+            enqueueSnackbar("Product Images could not added", {
+              variant: "error",
+            }),
+          2000
+        );
+        
       }
     }
-    // }
+    
   };
 
   const handleMultiple = (file: any) => {

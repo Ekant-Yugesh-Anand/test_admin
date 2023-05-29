@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Tab, Tabs, Box } from "@mui/material";
+import PageBack from "../layout/page-back";
 
 
 const LanguageTab = (props: {
@@ -14,9 +15,9 @@ const LanguageTab = (props: {
   };
 
   return (
-    <Box className="lg:col-span-2">
+    <Box className="grid grid-cols-12 ">
       {languages && (
-        <Box sx={{ width: "100%", padding: 1 }}>
+        <Box className="col-span-10" sx={{ width: "100%", padding: 1 }}>
           <Tabs
             value={lang}
             onChange={handleChange}
@@ -36,6 +37,7 @@ const LanguageTab = (props: {
           </Tabs>
         </Box>
       )}
+      <PageBack />
     </Box>
   );
 };

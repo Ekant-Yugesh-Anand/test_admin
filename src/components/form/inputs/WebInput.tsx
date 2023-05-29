@@ -4,7 +4,6 @@ import { ContentState, convertFromHTML, EditorState } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToHTML } from "draft-convert";
-import { emptyText } from "../../../constants/messages";
 const Label = styled("label")(() => ({
   display: "block",
   color: "#6b7280",
@@ -30,7 +29,7 @@ export default function WebInput(props: IProps) {
     ...inputProps
   } = props;
 
-  const [showError, setShowError] = React.useState(false);
+  
 
   const idStr = React.useMemo(() => {
     const random = Math.random().toString(36).substring(7);
@@ -69,14 +68,19 @@ export default function WebInput(props: IProps) {
     }
   }, [value, loadFirst]);
 
+ 
+
   React.useEffect(() => {
     let html = convertToHTML(editorState.getCurrentContent());
     onChangeOption(html);
   }, [editorState]);
 
+
   React.useEffect(() => {
     actualValue ? updateState(actualValue) : updateState("");
-  }, [actualValue]);
+  }, [actualValue ]);
+
+
 
   return (
     <Box sx={{ my: 1, width: "100%" }}>
@@ -91,7 +95,6 @@ export default function WebInput(props: IProps) {
           editorState={editorState}
           onEditorStateChange={setEditorState}
           editorStyle={{ height: 300 }}
-          onBlur={() => setShowError(true)}
           toolbar={{
             options: [
               "inline",
@@ -116,23 +119,7 @@ export default function WebInput(props: IProps) {
         />
       </Box>
 
-      {showError ? (
-        <>
-          {value == "<p></p>" ? (
-            <FormHelperText sx={{ color: "red" }} error={error}>
-              {label ? emptyText(label) : "Field required"}
-            </FormHelperText>
-          ) : (
-            <FormHelperText sx={{ color: "red" }} error={error}>
-              {error}
-            </FormHelperText>
-          )}
-        </>
-      ) : (
-        <FormHelperText sx={{ color: "red" }} error={error}>
-          Field is required
-        </FormHelperText>
-      )}
+      <FormHelperText error={error}>{helperText}</FormHelperText>
     </Box>
   );
 }

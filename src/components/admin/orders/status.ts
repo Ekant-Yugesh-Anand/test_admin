@@ -30,7 +30,7 @@ export const orderLabel= [
     },
     {
         id:10,
-        label:"cancel from manager/agent"
+        label:"cancel from manager"
     },
  
    

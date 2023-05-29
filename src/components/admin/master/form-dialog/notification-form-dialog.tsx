@@ -70,16 +70,19 @@ export default function NotificationFormDialog(props: {
             close();
             reload();
             setTimeout(() => {
-              enqueueSnackbar("Notification Updated  successfully!👍😊", {
+              enqueueSnackbar("Notification Updated  successfully", {
                 variant: "success",
               });
             }, 200);
           }
         } catch (error) {
           console.log(error);
-          enqueueSnackbar("Notification Update Failed!😢", {
-            variant: "error",
-          });
+          setTimeout(() => {
+            enqueueSnackbar("Notification Update Failed", {
+              variant: "error",
+            });
+          }, 200);
+          
         }
       } else {
         try {
@@ -90,16 +93,19 @@ export default function NotificationFormDialog(props: {
             close();
             reload();
             setTimeout(() => {
-              enqueueSnackbar("Notification Saved  successfully!👍😊", {
+              enqueueSnackbar("Notification Saved  successfully", {
                 variant: "success",
               });
             }, 200);
           }
         } catch (error) {
           console.log(error);
-          enqueueSnackbar("Notification Save Failed!😢", {
-            variant: "error",
-          });
+          setTimeout(() => {
+            enqueueSnackbar("Notification Save Failed", {
+              variant: "error",
+            });
+          }, 200);
+         
         }
       }
       setLoading(false);

@@ -68,20 +68,26 @@ export default function OrderDetailsList(props: {
         accessor: "dimension",
         width: "5%",
         Cell: (cell: any) => (
-          <TextCenter>{cell.value > 0 ? cell.value + "cm³" : "0"}</TextCenter>
+          <TextCenter>{cell.value > 0 ? +cell.value/+cell.row.original.quantity + "cm³" : "0"}</TextCenter>
         ),
       },
       {
         Header: "Weight",
         accessor: "total_weight",
         width: "5%",
-        Cell: (cell: any) => <TextCenter>{cell.value && cell.value > 0 ? (
-          cell.value < 999 ? (
-            <>{cell.value}gm</>
-          ) : (
-            <>{+cell.value / 1000}Kg</>
-          )
-        ) : cell.row.original?.weight + " (per unit)"}</TextCenter>,
+        Cell: (cell: any) => (
+          <TextCenter>
+           {cell.value && cell.value > 0 ? (
+              +cell.value / +cell.row.original?.quantity < 999 ? (
+                <>{+cell.value / +cell.row.original?.quantity}gm</>
+              ) : (
+                <>{+cell.value / (1000 * +cell.row.original?.quantity)}Kg</>
+              )
+            ) : (
+              cell.row.original?.weight
+            )}
+          </TextCenter>
+        ),
       },
       {
         Header: "Fragile",
@@ -95,9 +101,7 @@ export default function OrderDetailsList(props: {
         Header: "Package",
         accessor: "package",
         width: "5%",
-        Cell: (cell: any) => (
-          <TextCenter>{cell.value}</TextCenter>
-        ),
+        Cell: (cell: any) => <TextCenter>{cell.value}</TextCenter>,
       },
       {
         Header: "Cargill Margin",
@@ -109,7 +113,12 @@ export default function OrderDetailsList(props: {
         Header: "Cargill Margin Amt.",
         accessor: "cargill_margin_amount",
         width: "5%",
-        Cell: (cell: any) => <TextCenter> {cell.value ? `₹${(+cell.value).toFixed(2)}` :""}</TextCenter>,
+        Cell: (cell: any) => (
+          <TextCenter>
+            {" "}
+            {cell.value ? `₹${(+cell.value).toFixed(2)}` : "00.00"}
+          </TextCenter>
+        ),
       },
       {
         Header: "Price",

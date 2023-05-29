@@ -40,16 +40,19 @@ import { shopMaterialPackage } from "../../../../http/server-api/server-apis";
                 close();
                 reload();
                 setTimeout(() => {
-                  enqueueSnackbar("Material Updated  successfully!👍😊", {
+                  enqueueSnackbar("Material Updated  successfully", {
                     variant: "success",
                   });
                 }, 200);
               }
             } catch (error) {
               console.log(error);
-              enqueueSnackbar("Material Update Failed!😢", {
-                variant: "error",
-              });
+              setTimeout(() => {
+                enqueueSnackbar("Material Update Failed!", {
+                  variant: "error",
+                });
+              }, 200);
+              
             }
           } else {
             try {
@@ -60,16 +63,18 @@ import { shopMaterialPackage } from "../../../../http/server-api/server-apis";
                 close();
                 reload();
                 setTimeout(() => {
-                  enqueueSnackbar("Material Saved  successfully!👍😊", {
+                  enqueueSnackbar("Material Saved  successfully", {
                     variant: "success",
                   });
                 }, 200);
               }
             } catch (error) {
               console.log(error);
-              enqueueSnackbar("Materail Save Failed!😢", {
-                variant: "error",
-              });
+              setTimeout(() => {
+                enqueueSnackbar("Material save Failed!", {
+                  variant: "error",
+                });
+              }, 200);
             }
           }
         },

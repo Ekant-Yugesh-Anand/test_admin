@@ -1,5 +1,6 @@
 import {
   TbBrandSublimeText,
+  TbCurrencyRupee,
   TbDiscount2,
   // TbCurrencyRupee,
   // TbReportAnalytics,
@@ -21,6 +22,7 @@ import {
   FaShoppingCart,
   FaAlignCenter,
   FaMapMarkedAlt,
+  FaFileInvoice,
 } from "react-icons/fa";
 import {
   BsBookmarkCheckFill,
@@ -34,25 +36,28 @@ import {
 } from "react-icons/bs";
 import {
   MdAddShoppingCart,
+  MdDeliveryDining,
   MdFreeCancellation,
   MdMargin,
   MdOutlineAccountTree,
   MdOutlineCardGiftcard,
   MdOutlineDoNotDisturb,
+  MdOutlinePending,
   MdOutlineShoppingCart,
   MdProductionQuantityLimits,
   MdRemoveShoppingCart,
   // MdSave,
 } from "react-icons/md";
 import { RiShoppingBag3Fill } from "react-icons/ri";
-import { VscNewFile, VscReferences } from "react-icons/vsc";
+import { VscNewFile, VscReferences, VscReport } from "react-icons/vsc";
 import { TiTicket } from "react-icons/ti";
 import { FcProcess } from "react-icons/fc";
-import { GiChemicalTank, GiStorkDelivery, GiWheat } from "react-icons/gi";
+import { GiChemicalTank, GiDiscussion, GiStorkDelivery, GiWheat } from "react-icons/gi";
 import { HiChartPie } from "react-icons/hi";
 import { SiReason } from "react-icons/si";
 import { IoLanguage, IoNotificationsSharp } from "react-icons/io5";
 import { AiTwotoneNotification } from "react-icons/ai";
+import { BiPackage } from "react-icons/bi";
 
 const sideBarMainList = [
   {
@@ -287,10 +292,16 @@ const sideBarMainList = [
         href: "/orders/new-orders",
         icon: <VscNewFile />,
       },
+      
       {
         title: "Accepted",
         href: "/orders/orders-accepted",
         icon: <TiTicket />,
+      },
+      {
+        title: "Waiting For Agent",
+        href: "/orders/waiting-order",
+        icon: <MdOutlinePending />,
       },
       {
         title: "In-Process",
@@ -341,6 +352,32 @@ const sideBarMainList = [
      
     ],
   },
+  {
+    title:"Report",
+    icon:< VscReport/>,
+    child:[
+      {
+        title: "Advisory Pacakge",
+        href:"/report/package",
+        icon: <GiDiscussion/>,
+      },
+      {
+        title: "Advisory Invoice",
+        href:"/report/invoice",
+        icon: < FaFileInvoice/>,
+      },
+      {
+        title: "Delivery GST Report",
+        href:"/report/delivery",
+        icon: <MdDeliveryDining />,
+      },
+      {
+        title: "GST Report",
+        href:"/report/gst-report",
+        icon:<TbCurrencyRupee />,
+      },
+    ]
+  }
 ];
 
 export default sideBarMainList;

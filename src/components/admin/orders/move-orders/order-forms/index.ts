@@ -9,3 +9,4 @@ export { default as CancelledFromAgent } from "./cancelled-from-delivery-agent";
 export { default as CancelledFromPartner } from "./cancelled-from-delivery-partner";
 export { default as ReScheduleOrder } from "./reshedule";
 export { default as RestoreOrder } from "./restore-order";
+export {default as ChooseManager} from "./choosse-manager"

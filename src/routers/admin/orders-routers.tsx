@@ -10,6 +10,7 @@ import OrderDetails from "../../pages/admin/orders/OrderDetails";
 import AllOrders from "../../pages/admin/orders/all-orders";
 import FailedOrders from "../../pages/admin/orders/failed";
 import OrderLog from "../../pages/admin/orders/log";
+import WaitingOrder from "../../pages/admin/orders/waiting-orders";
 
 export default {
   path: "/orders",
@@ -33,6 +34,10 @@ export default {
     {
       path: "orders-accepted",
       element: <AcceptedOrders />,
+    },
+    {
+      path: "waiting-order",
+      element: <WaitingOrder />,
     },
     {
       path: "orders-in-progress",

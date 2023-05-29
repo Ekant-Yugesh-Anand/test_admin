@@ -40,16 +40,20 @@ export default function PackageFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Package updated  successfully!👍😊", {
+                enqueueSnackbar("Package updated  successfully", {
                   variant: "success",
                 });
               }, 200);
             }
           } catch (error:any) {
             console.log(error);
-            enqueueSnackbar(error.response?.data?.message || "Package Update Failed!😢", {
-              variant: "error",
-            });
+
+            setTimeout(() => {
+              enqueueSnackbar(error.response?.data?.message || "Package Update Failed", {
+                variant: "error",
+              });
+            }, 200);
+            
           }
         } else {
           try {
@@ -60,7 +64,7 @@ export default function PackageFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar( "Package Saved  successfully!👍😊", {
+                enqueueSnackbar( "Package Saved  successfully", {
                   variant: "success",
                 });
               }, 200);

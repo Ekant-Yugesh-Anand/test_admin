@@ -44,7 +44,7 @@ export default function LanguageContainer(props: {
         if (res?.status === 200) {
           navigate(-1);
           setTimeout(() => {
-            enqueueSnackbar("Save successfully!👍😊", {
+            enqueueSnackbar("Save successfully", {
               variant: "success",
             });
           }, 200);
@@ -56,7 +56,7 @@ export default function LanguageContainer(props: {
         if (res?.status === 200) {
           navigate(-1);
           setTimeout(() => {
-            enqueueSnackbar("Save successfully!👍😊", {
+            enqueueSnackbar("Save successfully", {
               variant: "success",
             });
           }, 200);
@@ -65,7 +65,7 @@ export default function LanguageContainer(props: {
     } catch (error) {
       console.log(error);
       setTimeout(() => {
-        enqueueSnackbar("Save Failed!😢", { variant: "error" });
+        enqueueSnackbar("Save Failed", { variant: "error" });
       }, 200);
     }
   };

@@ -41,7 +41,7 @@ export default function ActiveDeactive(props: {
     try {
       let res = await axiosFunction("put", {
         params: id,
-        data: JSON.stringify({ ...getPayload(original, payload), active }),
+        data: JSON.stringify({ ...getPayload(original, payload), active:`${active}` }),
       });
 
       if (res.status === 200) {

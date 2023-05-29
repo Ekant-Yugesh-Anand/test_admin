@@ -55,10 +55,10 @@ export default function CategoryAddEditDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar(cateLabel + " updated successfully!👍😊", {
+            enqueueSnackbar(cateLabel + " updated successfully", {
               variant: "success",
             }),
-          200
+          2000
         );
         reload();
       }
@@ -66,10 +66,10 @@ export default function CategoryAddEditDialog(props: {
       console.log(error);
       setTimeout(
         () =>
-          enqueueSnackbar(error.response.data.message ? error.response.data.message : cateLabel + " update failed!😢", {
+          enqueueSnackbar(error.response.data.message ? error.response.data.message : cateLabel + " update failed", {
             variant: "error",
           }),
-        200
+        2000
       );
     }
   };
@@ -85,10 +85,10 @@ export default function CategoryAddEditDialog(props: {
         close();
         setTimeout(
           () =>
-            enqueueSnackbar(cateLabel + " added successfully!👍😊", {
+            enqueueSnackbar(cateLabel + " added successfully", {
               variant: "success",
             }),
-          200
+          2000
         );
         reload();
       }
@@ -96,10 +96,10 @@ export default function CategoryAddEditDialog(props: {
       console.log(error);
       setTimeout(
         () =>
-          enqueueSnackbar(error.response.data.message ? error.response.data.message : cateLabel + " update failed!😢", {
+          enqueueSnackbar(error.response.data.message ? error.response.data.message : cateLabel + " update failed", {
             variant: "error",
           }),
-        200
+        2000
       );
       
     }

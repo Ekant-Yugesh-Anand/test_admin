@@ -38,13 +38,15 @@ export default function CreateRetailers() {
             data: JSON.stringify({
               ...values,
               phone_no: filterPhoneNo(values.phone_no),
-              margin: values.margin.includes("%") ? values.margin : values.margin+"%"
+              margin: values.margin.includes("%")
+                ? values.margin
+                : values.margin + "%",
             }),
           });
           if (res?.status === 200) {
             navigate(-1);
             setTimeout(() => {
-              enqueueSnackbar("Retailer Save successfully!👍😊", {
+              enqueueSnackbar("Retailer Save successfully", {
                 variant: "success",
               });
             }, 200);
@@ -55,9 +57,13 @@ export default function CreateRetailers() {
             data: { message },
           } = error.response;
           if (status === 400) {
-            enqueueSnackbar(message, { variant: "error" });
+            setTimeout(() => {
+              enqueueSnackbar(message, { variant: "error" });
+            }, 200);
           } else {
-            enqueueSnackbar("Retailer Save Failed!😢", { variant: "error" });
+            setTimeout(() => {
+              enqueueSnackbar("Retailer Save Failed", { variant: "error" });
+            }, 200);
           }
           setLoading(false);
         }
@@ -67,7 +73,7 @@ export default function CreateRetailers() {
   return (
     <MainContainer>
       <Container>
-      <CommonToolbar title="Add New Retailer" />
+        <CommonToolbar title="Add New Retailer" />
         <Card className="lg:col-span-2">
           <CardContent sx={{ pt: 2 }}>
             <form onSubmit={handleSubmit}>

@@ -43,7 +43,7 @@ export default function CreateRetailers() {
           if (res?.status === 200) {
             navigate(-1);
             setTimeout(() => {
-              enqueueSnackbar("Delivery Partner Save  successfully!👍😊", {
+              enqueueSnackbar("Delivery Partner Save  successfully", {
                 variant: "success",
               });
             }, 200);
@@ -56,7 +56,7 @@ export default function CreateRetailers() {
           if (status === 400) {
             enqueueSnackbar(message, { variant: "error" });
           } else {
-            enqueueSnackbar("Delivery Partner Save Failed!😢", {
+            enqueueSnackbar("Delivery Partner Save Failed", {
               variant: "error",
             });
           }

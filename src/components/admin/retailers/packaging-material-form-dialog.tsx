@@ -83,16 +83,19 @@ export default function RetailerPackagingMaterialFormDialog(props: {
             close();
             reload();
             setTimeout(() => {
-              enqueueSnackbar("Material Updated  successfully!👍😊", {
+              enqueueSnackbar("Material Updated  successfully", {
                 variant: "success",
               });
             }, 200);
           }
         } catch (error) {
           console.log(error);
-          enqueueSnackbar("Material Update Failed!😢", {
-            variant: "error",
-          });
+          setTimeout(() => {
+            enqueueSnackbar("Material Update Failed", {
+              variant: "error",
+            });
+          }, 200);
+          
         }
       } else {
         try {
@@ -107,16 +110,19 @@ export default function RetailerPackagingMaterialFormDialog(props: {
             close();
             reload();
             setTimeout(() => {
-              enqueueSnackbar("Material Save  successfully!👍😊", {
+              enqueueSnackbar("Material Save  successfully", {
                 variant: "success",
               });
             }, 200);
           }
         } catch (error) {
           console.log(error);
-          enqueueSnackbar("Materail Save Failed!😢", {
-            variant: "error",
-          });
+          setTimeout(() => {
+            enqueueSnackbar("Materail Save Failed", {
+              variant: "error",
+            });
+          }, 200);
+        
         }
       }
     },

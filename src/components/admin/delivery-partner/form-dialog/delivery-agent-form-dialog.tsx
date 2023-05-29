@@ -52,10 +52,10 @@ export default function deliveryAgentFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Delivery Agent Updated successfully!👍😊", {
+                enqueueSnackbar("Delivery Agent Updated successfully!", {
                   variant: "success",
                 });
-              }, 200);
+              }, 2000);
             }
           } catch (error: any) {
             const {
@@ -63,11 +63,15 @@ export default function deliveryAgentFormDialog(props: {
               data: { message },
             } = error.response;
             if (status === 400) {
-              enqueueSnackbar(message, { variant: "error" });
+              setTimeout(() => {
+                enqueueSnackbar(message, { variant: "error" });
+              }, 200);
             } else {
-              enqueueSnackbar("Delivery Agent Update Failed!😢", {
-                variant: "error",
-              });
+              setTimeout(() => {
+                enqueueSnackbar("Delivery Agent Update Failed", {
+                  variant: "error",
+                });
+              }, 2000);
             }
           }
         } else {
@@ -83,10 +87,10 @@ export default function deliveryAgentFormDialog(props: {
               close();
               reload();
               setTimeout(() => {
-                enqueueSnackbar("Delivery Agent Saved successfully!👍😊", {
+                enqueueSnackbar("Delivery Agent Saved successfully", {
                   variant: "success",
                 });
-              }, 200);
+              }, 2000);
             }
           } catch (error: any) {
             const {
@@ -94,11 +98,15 @@ export default function deliveryAgentFormDialog(props: {
               data: { message },
             } = error.response;
             if (status === 400) {
-              enqueueSnackbar(message, { variant: "error" });
+              setTimeout(() => {
+                enqueueSnackbar(message, { variant: "error" });
+              }, 2000);
             } else {
-              enqueueSnackbar("Delivery Agent Save Failed!😢", {
-                variant: "error",
-              });
+              setTimeout(() => {
+                enqueueSnackbar("Delivery Agent Save Failed", {
+                  variant: "error",
+                });
+              }, 2000);
             }
           }
         }

@@ -70,13 +70,20 @@ function BrandsListResults(props: {
       });
       if (res.status === 200) {
         refetch();
-        enqueueSnackbar("entry success-full deleted ", {
-          variant: "success",
-        });
+        setTimeout(
+          () =>
+            enqueueSnackbar("entry successfully deleted ", {
+              variant: "success",
+            }),
+          2000
+        );
       }
     } catch (err: any) {
       console.log(err.response);
-      enqueueSnackbar("entry not delete ", { variant: "error" });
+      setTimeout(
+        () => enqueueSnackbar("entry could not delete ", { variant: "error" }),
+        2000
+      );
     }
     deleteBoxClose();
   };
@@ -92,9 +99,9 @@ function BrandsListResults(props: {
         width: "5%",
       },
       {
-        Header:"Brand ID",
+        Header: "Brand ID",
         accessor: "brand_id",
-        width:"8%"
+        width: "8%",
       },
       {
         Header: "Status",
@@ -107,10 +114,10 @@ function BrandsListResults(props: {
             axiosFunction={brands}
             postfix={postfix}
             refetch={refetch}
-             validation={ {
+            validation={{
               params: "checkbrand",
               postfix: `?brand_id=`,
-              message:"Brand"
+              message: "Brand",
             }}
           />
         ),

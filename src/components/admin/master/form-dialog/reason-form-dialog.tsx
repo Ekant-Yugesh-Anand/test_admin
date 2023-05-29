@@ -96,16 +96,19 @@ export default function ReasonFormDialog(props: {
             close();
             reload();
             setTimeout(() => {
-              enqueueSnackbar("Reason Updated successfully!👍😊", {
+              enqueueSnackbar("Reason Updated successfully", {
                 variant: "success",
               });
             }, 200);
           }
         } catch (error) {
           console.log(error);
-          enqueueSnackbar("Reason Update Failed!😢", {
-            variant: "error",
-          });
+          setTimeout(() => {
+            enqueueSnackbar("Reason Update Failed", {
+              variant: "error",
+            });
+          }, 200);
+          
         }
       } else {
         try {
@@ -116,16 +119,19 @@ export default function ReasonFormDialog(props: {
             close();
             reload();
             setTimeout(() => {
-              enqueueSnackbar("Reason Saved successfully!👍😊", {
+              enqueueSnackbar("Reason Saved successfully", {
                 variant: "success",
               });
             }, 200);
           }
         } catch (error) {
           console.log(error);
-          enqueueSnackbar("Reason Save Failed!😢", {
-            variant: "error",
-          });
+          setTimeout(() => {
+            enqueueSnackbar("Reason Save Failed", {
+              variant: "error",
+            });
+          }, 200);
+         
         }
       }
       setLoading(false);

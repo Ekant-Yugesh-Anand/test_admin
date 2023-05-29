@@ -60,7 +60,7 @@ export default function Auth0EditDialog(props: {
             onClose();
             setTimeout(
               () =>
-                enqueueSnackbar("Auth0 user update successfully!👍😊", {
+                enqueueSnackbar("Auth0 user update successfully", {
                   variant: "success",
                 }),
               200
@@ -69,7 +69,7 @@ export default function Auth0EditDialog(props: {
           }
         }
       } catch (error) {
-        enqueueSnackbar("Auth0 user update failed!😢", {
+        enqueueSnackbar("Auth0 user update failed", {
           variant: "error",
         });
       }

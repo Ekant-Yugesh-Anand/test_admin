@@ -77,7 +77,7 @@ export default function EditMarginFormDialog(props: {
           }
         } catch (error) {
           console.log(error);
-          enqueueSnackbar("Margin Update Failed!😢", {
+          enqueueSnackbar("Margin Update Failed", {
             variant: "error",
           });
         }

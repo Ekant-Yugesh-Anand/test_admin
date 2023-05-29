@@ -12,7 +12,7 @@ export function getStrOrderStatus(status: string, returnOrderStatus?: string) {
   const value: Record<string | number, string> = {
     0: "New",
     1: "Accepted",
-    2: "Waiting for delivery manager",
+    2: "Waiting for delivery agent",
     3: "In Process",
     4: "Out For Delivery",
     5: "Delivered",

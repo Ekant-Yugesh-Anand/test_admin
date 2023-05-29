@@ -65,9 +65,9 @@ export default function Delivered(props: {
         },
         {
           type: "text",
-          label: "Payment Recived From",
+          label: "Payment Received From",
           name: "payment_to",
-          placeholder: "Payment recived from",
+          placeholder: "Payment received from",
         },
       ],
       upi: [

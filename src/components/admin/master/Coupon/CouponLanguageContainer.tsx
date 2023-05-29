@@ -16,10 +16,6 @@ import CouponLanguageForm from "./CouponLanguageForm";
 import { coupon_languge_schema } from "../form-dialog/schemas";
 import { shopCoupontranslation } from "../../../../http/server-api/server-apis";
 
-
-
-
-
 export default function CoponLanguageContainer(props: {
   language: any | object;
   CouponData: any | object;
@@ -34,51 +30,45 @@ export default function CoponLanguageContainer(props: {
   const onSave = async (value: Record<string, any>) => {
     try {
       let constant = {
-        coupon_batch_name:batch_name,
+        coupon_batch_name: batch_name,
         lang: language.lang_code,
       };
       value = { ...value, ...constant };
 
-
-      if(CouponData?.coupon_trans_id){
+      if (CouponData?.coupon_trans_id) {
         const res = await shopCoupontranslation("put", {
           data: JSON.stringify(value),
-          params:CouponData?.coupon_trans_id
+          params: CouponData?.coupon_trans_id,
         });
         if (res?.status === 200) {
           navigate(-1);
           setTimeout(() => {
-            enqueueSnackbar("Save successfully!👍😊", {
+            enqueueSnackbar("Save successfully", {
               variant: "success",
             });
           }, 200);
         }
-      }else{
+      } else {
         const res = await shopCoupontranslation("post", {
           data: JSON.stringify(value),
         });
         if (res?.status === 200) {
           navigate(-1);
           setTimeout(() => {
-            enqueueSnackbar("Save successfully!👍😊", {
+            enqueueSnackbar("Save successfully", {
               variant: "success",
             });
           }, 200);
         }
-
-
       }
-    
-
-   
     } catch (error) {
       console.log(error);
       setTimeout(() => {
-        enqueueSnackbar("Save Failed!😢", { variant: "error" });
+        enqueueSnackbar("Save Failed", { variant: "error" });
       }, 200);
     }
   };
-  
+
   const {
     values,
     errors,
