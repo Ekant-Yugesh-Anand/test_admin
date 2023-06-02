@@ -1,11 +1,12 @@
 import React from "react";
 import { Typography, Box, Button, CircularProgress } from "@mui/material";
 import { useSnackbar } from "notistack";
-import { shopAreas,  shopOrders } from "../../../../../http";
+import { shopAreas, shopOrders } from "../../../../../http";
 import { useQuery } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import moveOrdersSchemas from "../schemas";
 import AsyncAutocomplete from "../../../../form/async-autocomplete";
+import { shopCustomerAddress } from "../../../../../http/server-api/server-apis";
 // import dayjs from "dayjs";
 
 export default function ChooseManager(props: {
@@ -17,11 +18,13 @@ export default function ChooseManager(props: {
   const [loading, setLoading] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
-  const { isLoading, data } = useQuery(["pincode-found"], () =>
-    shopAreas("get", {
-      params: "partners",
-      postfix: `?pincode=${orders?.shipping_pincode}`,
-    })
+  const { isLoading, data } = useQuery(
+    ["partner-list", orders.shipping_village, orders.shipping_district],
+    () =>
+      shopCustomerAddress("get", {
+        params: "partner",
+        postfix: `?shipping_village=${orders?.shipping_village}&shipping_district=${orders?.shipping_district}`,
+      })
   );
 
   const { values, errors, touched, handleBlur, handleSubmit, setFieldValue } =
@@ -63,8 +66,6 @@ export default function ChooseManager(props: {
       },
     });
 
-
-
   const partnerOptions = React.useMemo(() => {
     if (data?.status === 200) return data.data.partners;
     return [];
@@ -78,7 +79,6 @@ export default function ChooseManager(props: {
       <form onSubmit={handleSubmit}>
         <AsyncAutocomplete
           id="partner-option"
-          label="Partner"
           loading={isLoading}
           options={partnerOptions}
           value={values.partner_id}
@@ -93,24 +93,28 @@ export default function ChooseManager(props: {
             onBlur: handleBlur,
           }}
         />
-        {/* <AsyncAutocomplete
-          id="partner-agent-option"
-          sx={{ my: 2 }}
-          label="Agent"
-          loading={partnerAgentLoading}
-          options={partnerAgent}
-          value={values.agent_id}
-          objFilter={{
-            title: "agent_name",
-            value: "agent_id",
-          }}
-          onChangeOption={(value) => setFieldValue("agent_id", value)}
-          TextInputProps={{
-            error: errors["agent_id"] && touched["agent_id"] ? true : false,
-            helperText: touched["agent_id"] ? errors["agent_id"] : "",
-            onBlur: handleBlur,
-          }}
-        /> */}
+        {values.partner_id ? (
+          <div className="p-2 grid md:grid-cols-2 rounded-md  bg-[#f1f5f9] my-2">
+            <p>
+              <span className="font-bold"> Distance :</span>{" "}
+              {
+                partnerOptions.filter(
+                  (partner: { partner_id: string }) =>
+                    partner.partner_id == values.partner_id
+                )[0]?.distance
+              }
+            </p>
+            <p>
+              <span className="font-bold"> Duration :</span>
+              {
+                partnerOptions.filter(
+                  (partner: { partner_id: string }) =>
+                    partner.partner_id == values.partner_id
+                )[0]?.duration
+              }
+            </p>
+          </div>
+        ) : null}
         <Box
           sx={{
             display: "flex",

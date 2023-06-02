@@ -27,48 +27,58 @@ export default function CreateRetailers() {
 
   const [loading, setLoading] = React.useState(false);
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema: retailerSchema,
-      async onSubmit(values) {
-        try {
-          setLoading(true);
-          const res = await retailer("post", {
-            data: JSON.stringify({
-              ...values,
-              phone_no: filterPhoneNo(values.phone_no),
-              margin: values.margin.includes("%")
-                ? values.margin
-                : values.margin + "%",
-            }),
-          });
-          if (res?.status === 200) {
-            navigate(-1);
-            setTimeout(() => {
-              enqueueSnackbar("Retailer Save successfully", {
-                variant: "success",
-              });
-            }, 200);
-          }
-        } catch (error: any) {
-          const {
-            status,
-            data: { message },
-          } = error.response;
-          if (status === 400) {
-            setTimeout(() => {
-              enqueueSnackbar(message, { variant: "error" });
-            }, 200);
-          } else {
-            setTimeout(() => {
-              enqueueSnackbar("Retailer Save Failed", { variant: "error" });
-            }, 200);
-          }
-          setLoading(false);
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    setFieldValue,
+    handleSubmit,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema: retailerSchema,
+    async onSubmit(values) {
+      try {
+        setLoading(true);
+        const res = await retailer("post", {
+          data: JSON.stringify({
+            ...values,
+            radius: `${values?.radius.split(" ")[0] || ""}`,
+            longitude: `${values.longitude}`,
+            latitude: `${values.latitude}`,
+            phone_no: filterPhoneNo(values.phone_no),
+            margin: values.margin.includes("%")
+              ? values.margin
+              : values.margin + "%",
+          }),
+        });
+        if (res?.status === 200) {
+          navigate(-1);
+          setTimeout(() => {
+            enqueueSnackbar("Retailer Save successfully", {
+              variant: "success",
+            });
+          }, 200);
         }
-      },
-    });
+      } catch (error: any) {
+        const {
+          status,
+          data: { message },
+        } = error.response;
+        if (status === 400) {
+          setTimeout(() => {
+            enqueueSnackbar(message, { variant: "error" });
+          }, 200);
+        } else {
+          setTimeout(() => {
+            enqueueSnackbar("Retailer Save Failed", { variant: "error" });
+          }, 200);
+        }
+        setLoading(false);
+      }
+    },
+  });
 
   return (
     <MainContainer>
@@ -80,6 +90,7 @@ export default function CreateRetailers() {
               <RetailerForm
                 values={values}
                 handleChange={handleChange}
+                setFieldValue={setFieldValue}
                 errors={errors}
                 handleBlur={handleBlur}
                 touched={touched}

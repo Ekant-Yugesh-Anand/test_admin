@@ -30,7 +30,7 @@ export default function CreateRetailers() {
 
   const [loading, setLoading] = React.useState(false);
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+  const { values, errors, touched, handleBlur, handleChange, setFieldValue, handleSubmit } =
     useFormik({
       initialValues: data,
       validationSchema: deliveryPartnerSchema,
@@ -42,6 +42,9 @@ export default function CreateRetailers() {
             params: partner_id,
             data: JSON.stringify({
               ...values,
+              radius: `${values?.radius.split(" ")[0] || ""}`,
+              longitude: `${values.longitude}`,
+              latitude: `${values.latitude}`,
               phone_no: filterPhoneNo(values.phone_no),
             }),
           });
@@ -109,6 +112,8 @@ export default function CreateRetailers() {
                 errors={errors}
                 handleBlur={handleBlur}
                 touched={touched}
+                setFieldValue={setFieldValue}
+
               />
               <Box
                 sx={{

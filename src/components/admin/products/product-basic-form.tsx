@@ -139,7 +139,7 @@ export default function ProductBasicForm(props: {
     ["get-all-brands"],
     () =>
       brandsHttp("get", {
-        params: "brands",
+        params: "retailer/brands",
       }),
     {
       onSuccess(data) {
@@ -192,7 +192,7 @@ export default function ProductBasicForm(props: {
   );
   const { isLoading: categoryLoading } = useQuery(
     ["get-all-categories"],
-    () => categoriesHttp("get", { params: "categories" }),
+    () => categoriesHttp("get", { params: "retailer/categories" }),
     {
       onSuccess(data) {
         if (data?.status === 200)
@@ -204,7 +204,7 @@ export default function ProductBasicForm(props: {
     ["get-all-subcategories", values.category_id],
     () =>
       subCategoriesHttp("get", {
-        params: "subcategories",
+        params: "retailer/subcategories",
         postfix: "?".concat(
           queryToStr({ category_id: values.category_id || 0 })
         ),

@@ -208,7 +208,6 @@ export default function ProductPriceForm(props: {
           </Typography>
           <AsyncAutocomplete
             id="package-option"
-            label="Packages"
             loading={packageLoading}
             options={packages || []}
             value={values?.package}

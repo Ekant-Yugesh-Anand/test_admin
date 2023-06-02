@@ -67,7 +67,7 @@ export default function ProductsListToolbar(props: {
             params: "categories",
             postfix: `?retailer_id=${retailer_id}&active=1`,
           })
-        : categoriesHttp("get", { params: "categories" }),
+        : categoriesHttp("get", { params: "retailer/categories" }),
     {
       onSuccess(data) {
         if (data?.status === 200)
@@ -90,7 +90,7 @@ export default function ProductsListToolbar(props: {
             ),
           })
         : subCategoriesHttp("get", {
-            params: "subcategories",
+            params: "retailer/subcategories",
             postfix: "?".concat(queryToStr({ category_id: categoryId || 0 })),
           }),
     {

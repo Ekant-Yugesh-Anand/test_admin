@@ -83,6 +83,13 @@ export const shopChemical = baseFunc("shop_chemicals")
 // list of all endpoints of chemical 
 export const shopAdvisoryPackage = baseFunc("shop_advisorypackage")
 export const shopAdvisory = baseFunc("shop_advisory")
+// list of all endpoints of address
+export const shopCustomerAddress = baseFunc("shop_customeraddress")
+export const shopStates = baseFunc("shop_states")
+export const shopDistricts = baseFunc("shop_districts")
+export const  shopSubDistricts = baseFunc("shop_subdistricts")
+export const shopVillages = baseFunc("shop_villages")
+export const shopSelectAddress = baseFunc ("shop_selectaddress")
 
 
 

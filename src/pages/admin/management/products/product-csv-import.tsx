@@ -175,9 +175,6 @@ export default function ProductCsvImport() {
       {
         Header: "Chemicals",
         accessor: "chemical_id",
-        Cell: (cell: any) => (
-          <CheckDataCell cell={cell} dtype="both"  />
-        ),
       },
       {
         Header: "Hsn Code",

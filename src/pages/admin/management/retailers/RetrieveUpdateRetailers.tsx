@@ -30,51 +30,61 @@ export default function CreateRetailers() {
 
   const [loading, setLoading] = React.useState(false);
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-    useFormik({
-      initialValues: data,
-      validationSchema: retailerSchema,
-      enableReinitialize: true,
-      async onSubmit(values) {
-        try {
-          setLoading(true);
-          
-          const res = await retailer("put", {
-            params: retailer_id,
-            data: JSON.stringify({
-              ...values,
-              phone_no: filterPhoneNo(values.phone_no),
-              margin: values.margin.includes("%") ? values.margin : values.margin+"%"
-            }),
-          });
-          if (res?.status === 200) {
-            navigate(-1);
-            setTimeout(() => {
-              enqueueSnackbar("Retailer Updated successfully", {
-                variant: "success",
-              });
-            }, 200);
-          }
-        } catch (error: any) {
-          const {
-            status,
-            data: { message },
-          } = error.response;
-          if (status === 400) {
-            setTimeout(() => {
-              enqueueSnackbar(message, { variant: "error" });
-            }, 200);
-          
-          } else {
-            setTimeout(() => {
-              enqueueSnackbar("Retailer Update Failed", { variant: "error" });
-            }, 200);
-         
-          }
-          setLoading(false);
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    setFieldValue,
+    handleSubmit,
+  } = useFormik({
+    initialValues: data,
+    validationSchema: retailerSchema,
+    enableReinitialize: true,
+    async onSubmit(values) {
+      try {
+        setLoading(true);
+
+        const res = await retailer("put", {
+          params: retailer_id,
+          data: JSON.stringify({
+            ...values,
+            radius: `${values?.radius.split(" ")[0] || ""}`,
+            longitude: `${values.longitude}`,
+            latitude: `${values.latitude}`,
+            phone_no: filterPhoneNo(values.phone_no),
+            margin: values.margin.includes("%")
+              ? values.margin
+              : values.margin + "%",
+          }),
+        });
+        if (res?.status === 200) {
+          navigate(-1);
+          setTimeout(() => {
+            enqueueSnackbar("Retailer Updated successfully", {
+              variant: "success",
+            });
+          }, 200);
         }
-      },
-    });
+      } catch (error: any) {
+        const {
+          status,
+          data: { message },
+        } = error.response;
+        if (status === 400) {
+          setTimeout(() => {
+            enqueueSnackbar(message, { variant: "error" });
+          }, 200);
+        } else {
+          setTimeout(() => {
+            enqueueSnackbar("Retailer Update Failed", { variant: "error" });
+          }, 200);
+        }
+        setLoading(false);
+      }
+    },
+  });
 
   const onRetrieve = async () => {
     try {
@@ -86,6 +96,7 @@ export default function CreateRetailers() {
         setData(
           margeObj(initialValues, {
             ...res.data,
+
             phone_no: filterPhoneNo(data?.phone_no, true),
           }) as typeof data
         );
@@ -102,7 +113,7 @@ export default function CreateRetailers() {
   return (
     <MainContainer>
       <Container>
-      <CommonToolbar title="Edit Retailer" />
+        <CommonToolbar title="Edit Retailer" />
         <Card className="lg:col-span-2">
           <CardContent sx={{ pt: 2 }}>
             <form onSubmit={handleSubmit}>
@@ -113,6 +124,7 @@ export default function CreateRetailers() {
                 errors={errors}
                 handleBlur={handleBlur}
                 touched={touched}
+                setFieldValue={setFieldValue}
               />
               <Box
                 sx={{

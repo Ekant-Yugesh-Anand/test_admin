@@ -15,7 +15,7 @@ export const productSchema = Yup.object({
   brand_id: Yup.string().required(emptyText("Brand")),
   crop_id:Yup.string().required(emptyText("Crop id")),
   ingredient_id:Yup.string().required(emptyText("Ingredient id")),
-  chemical_id:Yup.string().required(emptyText("Chemical")),
+  chemical_id:Yup.string(),
 
 
 });

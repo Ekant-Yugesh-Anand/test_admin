@@ -38,8 +38,18 @@ export default function ProductPriceDialog(props: {
     validationSchema: productPriceSchema,
 
     async onSubmit(values) {
-
-      let { weight, unit, gst, dimension, dimension_height, dimension_width, dimension_length, totalweight, ...others }: any = values;
+      let {
+        weight,
+        mrp,
+        unit,
+        gst,
+        dimension,
+        dimension_height,
+        dimension_width,
+        dimension_length,
+        totalweight,
+        ...others
+      }: any = values;
       dimension = `${dimension_height * dimension_width * dimension_length}`;
       gst = gst ? parseFloat(gst) : 0;
       const [igst, cgst, sgst] = [`${gst}%`, `${gst / 2}%`, `${gst / 2}%`];
@@ -53,12 +63,13 @@ export default function ProductPriceDialog(props: {
               cgst,
               sgst,
               weight: `${weight}${unit}`,
-              dimension,
-              dimension_height,
-              dimension_length,
-              dimension_width,
-              totalweight:`${totalweight}`,
-              package_weight:values?.package_weight || "0"
+              dimension: `${dimension}`,
+              dimension_height: `${dimension_height}`,
+              dimension_length: `${dimension_length}`,
+              dimension_width: `${dimension_width}`,
+              mrp: `${mrp}`,
+              totalweight: `${totalweight}`,
+              package_weight: values?.package_weight || "0",
             }),
           });
           if (res?.status === 200) {
@@ -92,13 +103,13 @@ export default function ProductPriceDialog(props: {
               cgst,
               sgst,
               weight: `${weight}${unit}`,
-              dimension,
-              dimension_height,
-              dimension_length,
-              dimension_width,
-              totalweight:`${totalweight}`,
-              package_weight:values?.package_weight || "0"
-              
+              dimension: `${dimension}`,
+              dimension_height: `${dimension_height}`,
+              dimension_length: `${dimension_length}`,
+              dimension_width: `${dimension_width}`,
+              mrp: `${mrp}`,
+              totalweight: `${totalweight}`,
+              package_weight: values?.package_weight || "0",
             }),
           });
           if (res?.status === 200) {

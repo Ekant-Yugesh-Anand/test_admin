@@ -17,16 +17,20 @@ export default function AdminProtectedRoute({
   const dispatch = useDispatch();
 
   const getSmsToken = React.useCallback(async () => {
-    const res = await shopAdmin("get");
-    if (res?.status == 200) {
-      let decoded: any = jwt_decode(res.data.access_token);
-      dispatch(
-        UpdateMsgToken({
-          token: `Bearer ` + res.data.access_token,
-          refreshToken: res.data.refresh_token,
-          expiry: decoded?.exp,
-        })
-      );
+    try {
+      const res = await shopAdmin("get");
+      if (res?.status == 200) {
+        let decoded: any = jwt_decode(res.data.access_token);
+        dispatch(
+          UpdateMsgToken({
+            token: `Bearer ` + res.data.access_token,
+            refreshToken: res.data.refresh_token,
+            expiry: decoded?.exp,
+          })
+        );
+      }
+    } catch (error) {
+      console.log(error);
     }
   }, [msg]);
 

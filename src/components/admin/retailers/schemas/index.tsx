@@ -18,9 +18,14 @@ export const retailerSchema = Yup.object({
       excludeEmptyString: false,
     }
   ),
+  
   pincode: Yup.string()
     .max(6, "Invalid pincode")
     .required(emptyText("Pincode")),
+  state:Yup.string().required(emptyText("state")),
+  district:Yup.string().required(emptyText("district")),
+  city:Yup.string().required(emptyText("city"))
+
   // margin: Yup.number(),
 });
 

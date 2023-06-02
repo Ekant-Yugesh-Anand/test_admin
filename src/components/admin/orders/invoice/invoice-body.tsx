@@ -118,11 +118,11 @@ export default function InvoiceBody(props: {
 
       {
         Header: "Weight/Unit",
-        accessor: "total_weight",
+        accessor: "weight",
         width: "5%",
         Cell: (cell: any) => (
           <TextCenter>
-            {cell.value && cell.value > 0 ? (
+            {/* {cell.value && cell.value > 0 ? (
               +cell.value / +cell.row.original?.quantity < 999 ? (
                 <>{+cell.value / +cell.row.original?.quantity}gm</>
               ) : (
@@ -130,7 +130,8 @@ export default function InvoiceBody(props: {
               )
             ) : (
               cell.row.original?.weight
-            )}
+            )} */}
+            {cell.value}
           </TextCenter>
         ),
       },

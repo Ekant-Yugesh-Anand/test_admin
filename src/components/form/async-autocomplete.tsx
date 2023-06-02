@@ -21,7 +21,7 @@ export default function AsyncAutocomplete(props: {
     title: string;
     value: string;
   };
-  label: string;
+  label?: string;
   value?: any;
   id: string;
   onChangeOption: (value: any, values?: Record<string, any>) => void;
@@ -32,6 +32,7 @@ export default function AsyncAutocomplete(props: {
   };
   sx?: SxProps<Theme>;
   multiple?: boolean;
+  size?:"small" | "medium"
 }) {
   const {
     value: valueOption,
@@ -44,6 +45,7 @@ export default function AsyncAutocomplete(props: {
     id,
     sx,
     multiple,
+    size
   } = props;
 
   const [value, setValue] = React.useState<Array<{ [key: string]: any }>>([]);
@@ -154,7 +156,7 @@ export default function AsyncAutocomplete(props: {
       getOptionLabel={(option) => option[objFilter.title]}
       options={options}
       loading={loading}
-      size="small"
+      size= {size ? size :"small"}
       fullWidth
       sx={sx}
       renderInput={(params) => (
