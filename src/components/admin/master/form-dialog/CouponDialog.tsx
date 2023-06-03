@@ -42,14 +42,14 @@ export default function CuponDialog(props: {
       batch_name: coupon?.batch_name || "",
       coupon_type: coupon?.coupon_type || "static",
       coupon_code: coupon?.coupon_code || "",
-      coupon_quantity: coupon?.coupon_quantity || "",
+      coupon_quantity: coupon?.coupon_quantity || "1",
       valid_from: coupon?.valid_from || "",
       valid_till: coupon?.valid_till || "",
       price: coupon?.price || "",
       order_value: coupon?.order_value || "",
-      user_qty: coupon?.user_qty || "",
+      user_qty: coupon?.user_qty || "1",
       description: coupon?.description || "",
-      variant:variant
+      variant: variant,
     },
     validationSchema: couponSchema,
     enableReinitialize: true,
@@ -60,10 +60,12 @@ export default function CuponDialog(props: {
         ...values,
         valid_from: dayjs(values.valid_from).format("YYYY-MM-DD"),
         valid_till: dayjs(values.valid_till).format("YYYY-MM-DD"),
+        user_qty: values.coupon_type == "static" ? "1" : `${values.user_qty}`,
+        price: `${values.price}`,
       };
 
       if (variant === "edit" && coupon) {
-        values.coupon_type === "static" && delete newFormat.coupon_code;
+        values.coupon_type === "static" && delete newFormat?.coupon_code;
 
         try {
           const res = await shopCoupons("put", {
@@ -72,7 +74,6 @@ export default function CuponDialog(props: {
               ...newFormat,
               batch_name: coupon?.batch_name,
               change_batch_name: values.batch_name,
-              user_qty: values.coupon_type == "static" ? "1" : values.user_qty
             }),
           });
           if (res?.status === 200) {

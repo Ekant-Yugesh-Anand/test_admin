@@ -94,21 +94,29 @@ export default function OrdersListResults(props: {
       {
         Header: "Order ID",
         accessor: "main_order_no",
+        width: "10%",
         Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center" fontSize="small">
-            {cell.value}
-          </Typography>
+          <>
+            <Typography
+              fontWeight={"600"}
+              textAlign="center"
+              fontSize={"small"}
+            >
+              {cell.value}
+            </Typography>
+
+            <Typography
+              className="p-2"
+              fontWeight={"400"}
+              textAlign="center"
+              fontSize={"small"}
+            >
+              {cell.row.original?.suborder_no}
+            </Typography>
+          </>
         ),
       },
-      {
-        Header: "Suborder No",
-        accessor: "suborder_no",
-        Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center" fontSize={"small"}>
-            {cell.value}
-          </Typography>
-        ),
-      },
+     
       {
         Header: "Order Status",
         accessor: "order_status",
@@ -156,34 +164,42 @@ export default function OrdersListResults(props: {
           </Typography>
         ),
       },
+     
       {
-        Header: "Volume",
-        accessor: "grand_dimension",
-        width: "8%",
-        Cell: (cell: any) => (
-          <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
-            {cell.value && cell.value > 0 ? (
-              <>
-                {cell.value} cm<sup>3</sup>
-              </>
-            ) : null}
-          </Typography>
-        ),
-      },
-      {
-        Header: "Weight",
+        Header: "Weight / Vol",
         accessor: "grand_weight",
         width: "8%",
         Cell: (cell: any) => (
-          <Typography fontSize={"small"} fontWeight={"600"} textAlign="center">
-            {cell.value && cell.value > 0 ? (
-              cell.value < 999 ? (
-                <>{cell.value} gm</>
-              ) : (
-                <>{+cell.value / 1000} Kg</>
-              )
-            ) : null}
-          </Typography>
+          <>
+            <Typography
+              fontSize={"small"}
+              fontWeight={"600"}
+              textAlign="center"
+            >
+            
+
+              {cell.value && cell.value > 0 ? (
+                cell.value < 999 ? (
+                  <> {cell.value} gm</>
+                ) : (
+                  <>{+cell.value / 1000} Kg</>
+                )
+              ) : null}
+            </Typography>
+            <Typography
+              className="p-2"
+              fontSize={"small"}
+              fontWeight={"600"}
+              textAlign="center"
+            >
+              {cell.row.original?.grand_dimension &&
+              cell.row.original?.grand_dimension > 0 ? (
+                <>
+                  {cell.value} cm<sup>3</sup>
+                </>
+              ) : null}
+            </Typography>
+          </>
         ),
       },
       {
@@ -228,11 +244,32 @@ export default function OrdersListResults(props: {
       {
         Header: "Retailer Name",
         accessor: "retailer_name",
-        width: "15%",
+        width: "10%",
         Cell: (cell: any) => (
           <Typography fontWeight={"600"} fontSize="small" textAlign="center">
             {cell.row.original.retailer_company_name} ( {cell.value} )
           </Typography>
+        ),
+      },
+      {
+        Header: "Shipping Address",
+        accessor: "shipping_village",
+        width: "15%",
+        Cell: (cell: any) => (
+          <>
+         <Typography fontWeight={"600"} textAlign="center" fontSize="small">
+             {cell.row.original.shipping_name}, {cell.row.original.shipping_phoneno}
+            </Typography>
+            <Typography fontWeight={"600"} textAlign="center" fontSize="small">
+              {cell.value},{cell.row.original.shipping_subdistrict}
+            </Typography>
+            <Typography fontWeight={"600"} textAlign="center" fontSize="small">
+              {cell.row.original.shipping_district},  {cell.row.original.shipping_state}
+            </Typography>
+            <Typography fontWeight={"600"} textAlign="center" fontSize="small">
+              {cell.row.original.shipping_pincode},  
+            </Typography>
+          </>
         ),
       },
       {

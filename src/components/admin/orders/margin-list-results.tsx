@@ -77,21 +77,26 @@ export default function MarginListResults(props: {
       {
         Header: "Order ID",
         accessor: "main_order_no",
-        width: "8%",
+        width: "10%",
         Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center" fontSize="small">
-            {cell.value}
-          </Typography>
-        ),
-      },
-      {
-        Header: "Suborder No",
-        accessor: "suborder_no",
-        width: "8%",
-        Cell: (cell: any) => (
-          <Typography fontWeight={"600"} textAlign="center" fontSize={"small"}>
-            {cell.value}
-          </Typography>
+          <>
+            <Typography
+              fontWeight={"600"}
+              textAlign="center"
+              fontSize={"small"}
+            >
+              {cell.value}
+            </Typography>
+
+            <Typography
+              className="p-2"
+              fontWeight={"400"}
+              textAlign="center"
+              fontSize={"small"}
+            >
+              {cell.row.original?.suborder_no}
+            </Typography>
+          </>
         ),
       },
       

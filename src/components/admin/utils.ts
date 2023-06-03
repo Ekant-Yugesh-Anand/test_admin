@@ -426,7 +426,7 @@ export function wieghtValidation(value: any) {
     "Kg",
     "Ml",
   ];
-  if (value.slice(-5) === "liter" || value.slice(-5) === "Liter") {
+  if (value.slice(-5) == "liter" || value.slice(-5) == "Liter" || value.slice(-5) == "litre" || value.slice(-5) == "Litre") {
     return { error: false, message: "" };
   }
   if (!weight_parameter.includes(value.slice(-2))) {

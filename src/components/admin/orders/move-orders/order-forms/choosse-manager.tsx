@@ -74,7 +74,7 @@ export default function ChooseManager(props: {
   return (
     <Box mt={2}>
       <Typography my={1} variant={"h6"}>
-        Choose Manager
+        Choose Partner
       </Typography>
       <form onSubmit={handleSubmit}>
         <AsyncAutocomplete
