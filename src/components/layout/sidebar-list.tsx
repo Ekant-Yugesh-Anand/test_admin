@@ -46,6 +46,7 @@ import {
   MdOutlineShoppingCart,
   MdProductionQuantityLimits,
   MdRemoveShoppingCart,
+  MdUpdate,
   // MdSave,
 } from "react-icons/md";
 import { RiShoppingBag3Fill } from "react-icons/ri";
@@ -286,6 +287,11 @@ const sideBarMainList = [
         title: "All Orders",
         href: "/orders/all-orders",
         icon: <FaBorderAll />,
+      },
+      {
+        title: "All Updated Orders",
+        href: "/orders/updated-orders",
+        icon: < MdUpdate/>,
       },
       {
         title: "New",

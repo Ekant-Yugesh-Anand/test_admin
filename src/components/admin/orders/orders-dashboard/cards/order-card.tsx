@@ -129,11 +129,14 @@ const label4 = [
   { title: "Return Agent Name", accessor: "return_agent_name" },
   { title: "Return Agent Mobile", accessor: "return_agent_phone_no" },
   { title: "Return Agent Email", accessor: "return_agent_email_id" },
-
 ];
 
-function OrderCard(props: { order?: { [key: string]: any } }) {
-  const { order } = props;
+function OrderCard(props: {
+  order?: { [key: string]: any };
+  variant?: "return" | "normal";
+}) {
+  const { order , variant } = props;
+
 
   const navigate = useNavigate();
 
@@ -186,7 +189,11 @@ function OrderCard(props: { order?: { [key: string]: any } }) {
               <Grid item lg={12}>
                 <Box sx={{ display: "flex", gap: 1 }}>
                   <LabelText>Order status:</LabelText>
-                  <OrderStatus retailer={true} returnValue={order?.return_order_status} value={order?.order_status} />
+                  <OrderStatus
+                    retailer={true}
+                    returnValue={ variant == "return" && order?.return_order_status || undefined}
+                    value={order?.order_status}
+                  />
                 </Box>
               </Grid>
 

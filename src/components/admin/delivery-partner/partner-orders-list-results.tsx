@@ -100,7 +100,7 @@ function PartnerOrdersListResults(props: {
             (
               item: { [key: string]: any } | undefined,
               index: React.Key | null | undefined
-            ) => <OrderCard key={index} order={item} />
+            ) => <OrderCard variant="return" key={index}  order={item} />
           )
         ) : (
           getData.orders.map(

@@ -27,7 +27,7 @@ import { allOrdersFields, gstFields } from "../../../constants";
 import useStateWithCallback from "../../../hooks/useStateWithCallback";
 import { orderLabel2 } from "../../../components/admin/orders/status";
 
-export default function AllOrders() {
+export default function UpdatedOrders() {
   const [searchText, setSearchText] = React.useState("");
   const { state: csvData, updateState: setCsvData } = useStateWithCallback<
     Array<Record<string, any>>
@@ -71,9 +71,7 @@ export default function AllOrders() {
     } else {
       if (filter?.toString() && (filter == 0 || Number(filter) > 0)) {
         const getOrderStatus = () => {
-          let result = orderLabel2.filter(
-            (value) => value.id === filter
-          );
+          let result = orderLabel2.filter((value) => value.id === filter);
           return result["0"]?.id;
         };
 
@@ -94,18 +92,9 @@ export default function AllOrders() {
   const exportHandle = async (gst?: boolean) => {
     try {
       dispatch(setPageLoading(true));
-
-      const getParams = () => {
-        if (gst === true) {
-          return {
-            params: "invoicecsv",
-          };
-        }
-        return { params: "allcsv" };
-      };
       const res = await shopOrders("get", {
         postfix: searchText ? `${searchText}` : ``,
-        ...getParams(),
+        params: "allupdatecsv",
       });
       if (res?.status === 200) {
         let csvData = (res.data.orders as Array<Record<string, any>>) || [];
@@ -179,19 +168,10 @@ export default function AllOrders() {
         // remove esc
         csvData = removeEsc(csvData);
 
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        gst == true ? (csvData = manipulateGst(csvData)) : null;
-
-        gst == true
-          ? setCsvData(csvData, () => {
-              gstRef.current.link.click();
-              igstRef.current.link.click();
-              dispatch(setPageLoading(false));
-            })
-          : setCsvData(csvData, () => {
-              ref.current.link.click();
-              dispatch(setPageLoading(false));
-            });
+        setCsvData(csvData, () => {
+          ref.current.link.click();
+          dispatch(setPageLoading(false));
+        });
       }
     } catch (error) {
       console.log(error);
@@ -207,22 +187,12 @@ export default function AllOrders() {
           ref,
           data: csvData,
           headers: allOrdersFields,
-          filename: `all-orders-csv`,
+          filename: `updated-orders-csv`,
           onClick: exportHandle,
-        }}
-        gstProps={{
-          ref: gstRef,
-          igstRef: igstRef,
-          data: csvData,
-          headers: gstFields("gst"),
-          iHeaders: gstFields("igst"),
-          filename: `Delivery GST report`,
-          iFilename: `Delivery IGST report`,
-          onClick: () => exportHandle(true),
         }}
         filter={true}
       >
-        All Orders
+       All Updated Orders
       </OrdersToolbar>
       <Box sx={{ mt: 3 }}>
         <AllOrdersListResults searchText={searchText} />

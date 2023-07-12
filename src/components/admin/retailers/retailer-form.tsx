@@ -213,16 +213,17 @@ function RetailerForm(props: {
       },
       {
         type: "numeric",
-        label: "Longitude",
-        name: "longitude",
-        placeholder: "longitude",
-      },
-      {
-        type: "numeric",
         label: "Latitude",
         name: "latitude",
         placeholder: "latitude",
       },
+      {
+        type: "numeric",
+        label: "Longitude",
+        name: "longitude",
+        placeholder: "longitude",
+      }
+      
     ],
     [currentLocation]
   );
@@ -303,7 +304,7 @@ function RetailerForm(props: {
                 position.coords.latitude > 0 &&
                 position.coords.longitude > 0
               ) {
-                setFieldValue("longitude", position.coords.latitude);
+                setFieldValue("longitude", position.coords.longitude);
                 setFieldValue("latitude", position.coords.latitude);
                 getLocationFromCordinate(
                   position.coords.latitude,

@@ -11,6 +11,7 @@ import AllOrders from "../../pages/admin/orders/all-orders";
 import FailedOrders from "../../pages/admin/orders/failed";
 import OrderLog from "../../pages/admin/orders/log";
 import WaitingOrder from "../../pages/admin/orders/waiting-orders";
+import UpdatedOrders from "../../pages/admin/orders/updated-orders";
 
 export default {
   path: "/orders",
@@ -18,6 +19,10 @@ export default {
     {
       path: "all-orders",
       element: <AllOrders />,
+    },
+    {
+      path: "updated-orders",
+      element: <UpdatedOrders />,
     },
     {
       path: "new-orders",

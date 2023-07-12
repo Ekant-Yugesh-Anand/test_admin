@@ -2,6 +2,7 @@ import React from "react";
 import {
   Box,
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -23,6 +24,7 @@ export default function ProductPriceDialog(props: {
   const [data, setData] = React.useState(initialValues);
   const [priceId, setPriceId] = React.useState("");
   const { enqueueSnackbar } = useSnackbar();
+  const [loading, setLoading] = React.useState(false);
 
   const {
     values,
@@ -38,6 +40,7 @@ export default function ProductPriceDialog(props: {
     validationSchema: productPriceSchema,
 
     async onSubmit(values) {
+      setLoading(true);
       let {
         weight,
         mrp,
@@ -134,6 +137,7 @@ export default function ProductPriceDialog(props: {
           }
         }
       }
+      setLoading(false);
     },
   });
 
@@ -187,7 +191,17 @@ export default function ProductPriceDialog(props: {
               flexFlow: "row-reverse",
             }}
           >
-            <Button type="submit" color="secondary" variant="contained">
+            <Button
+              type="submit"
+              color="secondary"
+              variant="contained"
+              disabled={loading}
+              startIcon={
+                loading ? (
+                  <CircularProgress color="inherit" size={20} />
+                ) : undefined
+              }
+            >
               Update
             </Button>
             <Button color="secondary" variant="outlined" onClick={close}>

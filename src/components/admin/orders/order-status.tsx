@@ -121,7 +121,6 @@ export default function OrderStatus(props: {
 }) {
   const { value, retailer, returnValue } = props;
 
-  // console.log(returnValue)
 
   return (
     <Box textAlign={"center"}>

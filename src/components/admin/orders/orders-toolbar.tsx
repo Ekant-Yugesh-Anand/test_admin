@@ -16,16 +16,22 @@ import { Data, Headers } from "react-csv/components/CommonPropTypes";
 import { CSVLink } from "react-csv";
 import { TbReceiptTax } from "react-icons/tb";
 import PageBack from "../../layout/page-back";
-
+import AsyncAutocomplete from "../../form/async-autocomplete";
+import { orderLabel2 } from "../orders/status";
 export type DatesType = {
   from: Dayjs | null;
   to: Dayjs | null;
 };
 
 export default function OrdersToolbar(props: {
-  onSearch?: (value: string, dates: DatesType) => void;
+  onSearch?: (
+    value: string,
+    dates: DatesType,
+    filter?: string | number
+  ) => void;
+  filter?: boolean;
   children?: React.ReactNode;
-   onAddProps?: {
+  onAddProps?: {
     title: string;
     onClick: () => void;
   };
@@ -38,19 +44,22 @@ export default function OrdersToolbar(props: {
   };
   gstProps?: {
     ref?: any;
-    igstRef?:any;
+    igstRef?: any;
     headers?: Headers;
-    iHeaders?:Headers
+    iHeaders?: Headers;
     onClick?: () => void;
     data: string | Data | (() => string | Data);
     filename?: string;
     iFilename?: string;
-
   };
 }) {
-  const { onSearch, children, exportProps, gstProps,onAddProps } = props;
+  const { onSearch, children, exportProps, gstProps, onAddProps, filter } =
+    props;
+
+
 
   const [searchText, setSearchText] = React.useState("");
+  const [statusId, setStatusId] = React.useState("");
 
   const [dates, setDates] = React.useState<DatesType>({
     from: null,
@@ -68,8 +77,10 @@ export default function OrdersToolbar(props: {
   const onReset = () => {
     setSearchText("");
     onSearch && onSearch("", { from: null, to: null });
+    setStatusId("");
     setDates({ from: null, to: null });
   };
+
 
   return (
     <Box>
@@ -103,7 +114,7 @@ export default function OrdersToolbar(props: {
                 target="_blank"
                 ref={gstProps.igstRef}
               />
-              
+
               <Button
                 sx={{ mr: 1 }}
                 color="secondary"
@@ -133,7 +144,7 @@ export default function OrdersToolbar(props: {
               </Button>
             </>
           )}
-            {onAddProps && (
+          {onAddProps && (
             <Button
               color="secondary"
               variant="contained"
@@ -143,9 +154,7 @@ export default function OrdersToolbar(props: {
               {onAddProps.title}
             </Button>
           )}
-          <PageBack/>
-
-          
+          <PageBack />
         </Box>
       </Box>
       {onSearch && (
@@ -164,6 +173,27 @@ export default function OrdersToolbar(props: {
                     placeholder="Search"
                   />
                 </Grid>
+
+                {filter ? (
+                  <Grid item>
+                    <Box sx={{ minWidth: 220 }}>
+                      <AsyncAutocomplete
+                        id="status-option"
+                        label="Status"
+                        // options={[{ label: "All", id: 0 }, ...orderLabel2]}
+                        options={orderLabel2}
+                        objFilter={{
+                          title: "label",
+                          value: "id",
+                        }}
+                        value={statusId}
+                        onChangeOption={(value) => {
+                          setStatusId(value);
+                        }}
+                      />
+                    </Box>
+                  </Grid>
+                ) : null}
                 <Grid item>
                   <DatePicker
                     label="Start Date"
@@ -207,7 +237,7 @@ export default function OrdersToolbar(props: {
                 </Grid>
               </Grid>
               <Grid
-                 sx={{
+                sx={{
                   display: "flex",
                   gap: 3,
                   alignItems: "center",
@@ -217,7 +247,9 @@ export default function OrdersToolbar(props: {
                   color="secondary"
                   variant="contained"
                   size="small"
-                  onClick={() => onSearch && onSearch(searchText, dates)}
+                  onClick={() =>
+                    onSearch && onSearch(searchText, dates, statusId)
+                  }
                 >
                   Search
                 </Button>

@@ -102,7 +102,7 @@ function RetailerOrdersListResults(props: {
             (
               item: { [key: string]: any } | undefined,
               index: React.Key | null | undefined
-            ) => <OrderCard key={index} order={item} />
+            ) => <OrderCard key={index} variant="return" order={item} />
           )
         ) : (
           getData.orders?.map(

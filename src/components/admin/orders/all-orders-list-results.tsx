@@ -176,7 +176,7 @@ export default function AllOrdersListResults(props: { searchText: string }) {
               </Typography>
 
               {cell.value === "Razorpay" ? (
-                cell.row.values.payment_status != 20 ? (
+                cell.row.values.order_status != 20 ? (
                   <Typography
                     color="secondary"
                     fontSize={"small"}

@@ -116,7 +116,7 @@ export default function OrdersListResults(props: {
           </>
         ),
       },
-     
+
       {
         Header: "Order Status",
         accessor: "order_status",
@@ -124,7 +124,10 @@ export default function OrdersListResults(props: {
         Cell: (cell: any) => (
           <OrderStatus
             value={cell.value}
-            returnValue={cell.row.original?.return_order_status || undefined}
+            returnValue={
+              (variant == "return" && cell.row.original?.return_order_status) ||
+              undefined
+            }
           />
         ),
       },
@@ -164,7 +167,7 @@ export default function OrdersListResults(props: {
           </Typography>
         ),
       },
-     
+
       {
         Header: "Weight / Vol",
         accessor: "grand_weight",
@@ -176,8 +179,6 @@ export default function OrdersListResults(props: {
               fontWeight={"600"}
               textAlign="center"
             >
-            
-
               {cell.value && cell.value > 0 ? (
                 cell.value < 999 ? (
                   <> {cell.value} gm</>
@@ -214,7 +215,7 @@ export default function OrdersListResults(props: {
               </Typography>
 
               {cell.value === "Razorpay" ? (
-                cell.row.values.payment_status != 20 ? (
+                cell.row.values.order_status != 20 ? (
                   <Typography
                     fontSize={"small"}
                     color="secondary"
@@ -257,17 +258,19 @@ export default function OrdersListResults(props: {
         width: "15%",
         Cell: (cell: any) => (
           <>
-         <Typography fontWeight={"600"} textAlign="center" fontSize="small">
-             {cell.row.original.shipping_name}, {cell.row.original.shipping_phoneno}
+            <Typography fontWeight={"600"} textAlign="center" fontSize="small">
+              {cell.row.original.shipping_name},{" "}
+              {cell.row.original.shipping_phoneno}
             </Typography>
             <Typography fontWeight={"600"} textAlign="center" fontSize="small">
               {cell.value},{cell.row.original.shipping_subdistrict}
             </Typography>
             <Typography fontWeight={"600"} textAlign="center" fontSize="small">
-              {cell.row.original.shipping_district},  {cell.row.original.shipping_state}
+              {cell.row.original.shipping_district},{" "}
+              {cell.row.original.shipping_state}
             </Typography>
             <Typography fontWeight={"600"} textAlign="center" fontSize="small">
-              {cell.row.original.shipping_pincode},  
+              {cell.row.original.shipping_pincode},
             </Typography>
           </>
         ),

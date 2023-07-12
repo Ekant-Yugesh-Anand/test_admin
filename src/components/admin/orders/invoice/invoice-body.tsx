@@ -213,7 +213,7 @@ export default function InvoiceBody(props: {
         ),
       },
     ],
-    [bothGst]
+    [bothGst , orderDetails]
   );
 
   //getTotalPrice

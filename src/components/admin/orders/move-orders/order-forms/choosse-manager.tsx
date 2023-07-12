@@ -23,7 +23,7 @@ export default function ChooseManager(props: {
     () =>
       shopCustomerAddress("get", {
         params: "partner",
-        postfix: `?shipping_village=${orders?.shipping_village}&shipping_district=${orders?.shipping_district}`,
+        postfix: `?shipping_village=${orders?.shipping_village}&shipping_subdistrict=${orders?.shipping_subdistrict}&shipping_district=${orders?.shipping_district}`,
       })
   );
 
